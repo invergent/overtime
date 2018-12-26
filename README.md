@@ -1,1 +1,1 @@
-An application for submitting overtime
+An application for submitting overtime.
