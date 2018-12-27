@@ -2,11 +2,18 @@
   "name": "overtime",
   "version": "1.0.0",
   "description": "overtime recorder",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon --exec babel-node src/app.js",
-    "heroku-postbuild": "babel src --out-dir dist",
-    "start": "node dist/app.js"
+    "build": "babel src --out-dir dist --copy-files",
+    "clean": "rm -rf dist && mkdir dist",
+    "heroku-postbuild": "yarn run clean && yarn run build",
+    "start": "NODE_ENV=production node dist/index.js",
+    "start:dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
+    "test": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",
+    "db:seed": "node_modules/.bin/sequelize db:seed:all",
+    "db:migrate": "node_modules/.bin/sequelize db:migrate",
+    "db:rollback": "node_modules/.bin/sequelize db:migrate:undo:all",
+    "db:rollmigrate": "yarn db:rollback && yarn db:migrate && yarn db:seed"
   },
   "repository": {
     "type": "git",
@@ -29,10 +36,33 @@
     "@babel/node": "^7.2.2",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
+    "babel-core": "^7.0.0-0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "eslint": "^5.11.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "nodemon": "^1.18.7"
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.7",
+    "supertest": "^3.3.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!**/__tests__/**/*.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/?(*.)(spec|test)js",
+      "<rootDir>/src/**/?(*.)(spec|test).js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/database/migrations",
+      "<rootDir>/src/database/seeders",
+      "<rootDir>/src/database/models/index.js",
+      "<rootDir>/src/middlewares/index.js"
+    ],
+    "testEnvironment": "node"
   }
 }
