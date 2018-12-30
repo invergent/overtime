@@ -1,4 +1,7 @@
+import { config } from 'dotenv';
 import app from './app';
+
+config();
 
 const port = parseInt(process.env.PORT, 10) || 7000;
 
