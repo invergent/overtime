@@ -6,6 +6,11 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
+    staffId: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
     firstname: {
       type: Sequelize.STRING,
       allowNull: false

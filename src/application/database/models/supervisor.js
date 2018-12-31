@@ -25,7 +25,7 @@ const supervisor = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     }
-  });
+  }, { freezeTableName: true });
 
   Supervisor.associate = (models) => {
     Supervisor.hasMany(models.Staff, { foreignKey: 'id' });
