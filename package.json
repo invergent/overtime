@@ -9,7 +9,7 @@
     "heroku-postbuild": "yarn run clean && yarn run build",
     "start": "NODE_ENV=production node dist/index.js",
     "start:dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
-    "pretest": "npm run test-unmigrate && npm run test-migrate",
+    "pretest": "npm run test-unmigrate && npm run test-migrate && npm run test-seed",
     "test-seed": "sequelize db:seed:all --url $VLA_TEST_DB_URL",
     "test-migrate": "sequelize db:migrate --url $VLA_TEST_DB_URL",
     "test-unmigrate": "sequelize db:migrate:undo:all --url $VLA_TEST_DB_URL",
@@ -31,11 +31,14 @@
   },
   "homepage": "https://github.com/jamesenejo/overtime#readme",
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/polyfill": "^7.2.5",
     "bcrypt": "^3.0.3",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-subdomain": "^1.0.5",
+    "jsonwebtoken": "^8.4.0",
     "pg": "^7.7.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.42.0"
@@ -44,7 +47,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
-    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/plugin-transform-regenerator": "^7.0.0",
     "@babel/preset-env": "^7.2.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
@@ -68,7 +71,7 @@
       "<rootDir>/src/**/?(*.)(spec|test).js"
     ],
     "coveragePathIgnorePatterns": [
-      "<rootDir>/src/database",
+      "<rootDir>/src/application/database",
       "<rootDir>/src/middlewares/index.js"
     ],
     "testEnvironment": "node"
