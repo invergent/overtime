@@ -9,7 +9,7 @@ const branch = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  });
+  }, { freezeTableName: true });
 
   Branch.associate = (models) => {
     Branch.hasMany(models.Staff, { foreignKey: 'id' });

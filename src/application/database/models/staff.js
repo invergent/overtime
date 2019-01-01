@@ -28,17 +28,16 @@ const staff = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: 'initial'
     },
-    imageUrl: {
+    image: {
       type: DataTypes.STRING
     }
-  });
+  }, { freezeTableName: true });
 
   Staff.associate = (models) => {
     Staff.belongsTo(models.Supervisor, { foreignKey: 'id' });
     Staff.belongsTo(models.Branch, { foreignKey: 'id' });
   };
-  /* eslint no-param-reassign:
-    ["error", { "props": true, "ignorePropertyModificationsFor": ["user"] }] */
+  
   Staff.beforeValidate((user) => {
     user.password = user.password ? bcrypt.hashSync(user.password, 8) : null;
   });

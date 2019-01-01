@@ -7,7 +7,9 @@ export default (dbConfig) => {
   const basename = path.basename(module.filename);
   const config = dbConfig[process.env.NODE_ENV];
 
-  const sequelize = new Sequelize(process.env[config.use_env_variable], { logging: false });
+  const sequelize = new Sequelize(process.env[config.use_env_variable], {
+    define: { raw: true }, logging: false
+  });
 
   fs
     .readdirSync(__dirname)
