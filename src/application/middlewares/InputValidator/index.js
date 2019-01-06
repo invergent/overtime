@@ -14,7 +14,9 @@ class InputValidator {
   }
 
   static checkEntries(req, res, next) {
-    const errors = Validator.checkSignInEntries(req.body);
+    const path = req.path.slice(1);
+    const validatorMethod = path === 'signin' ? 'checkSignInEntries' : 'checkSupervisorFormEntries';
+    const errors = Validator[validatorMethod](req.body);
 
     if (errors.length) {
       return res.status(400).json({ message: 'validationErrors', errors });
