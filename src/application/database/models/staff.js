@@ -30,6 +30,14 @@ const staff = (sequelize, DataTypes) => {
     },
     image: {
       type: DataTypes.STRING
+    },
+    branchId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    supervisorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, { freezeTableName: true });
 
@@ -37,7 +45,7 @@ const staff = (sequelize, DataTypes) => {
     Staff.belongsTo(models.Supervisor, { foreignKey: 'id' });
     Staff.belongsTo(models.Branch, { foreignKey: 'id' });
   };
-  
+
   Staff.beforeValidate((user) => {
     user.password = user.password ? bcrypt.hashSync(user.password, 8) : null;
   });

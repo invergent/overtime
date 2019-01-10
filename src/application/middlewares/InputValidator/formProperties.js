@@ -9,5 +9,8 @@ export default {
     lastname: 'lastname',
     designation: 'designation',
     email: 'email'
+  },
+  branch: {
+    branchId: 'branchId'
   }
 };
