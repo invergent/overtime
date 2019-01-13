@@ -65,7 +65,7 @@ describe('VLA tests', () => {
         .send({ staffId: 'TN012345', password: 'passwordddd' })
         .set('Accept', 'application/json');
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(401);
       expect(response.body.message).toEqual('Credentials do not match');
     });
 

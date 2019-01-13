@@ -1,4 +1,4 @@
-export default async (req, res, models) => {
+export default async (req, models) => {
   const { Staff, Supervisor } = models;
   const { currentStaffId, body } = req;
   const supervisorsDetails = body;
@@ -11,11 +11,12 @@ export default async (req, res, models) => {
 
     await Staff.update({ supervisorId: supervisor.id }, { where: { staffId: currentStaffId } });
 
-    return res.status(created ? 201 : 200).json({
-      message: `Supervisor ${created ? 'added' : 'updated'} successfully.`,
-      data: supervisor
-    });
+    return [
+      created ? 201 : 200,
+      `Supervisor ${created ? 'added' : 'updated'} successfully.`,
+      supervisor
+    ];
   } catch (e) {
-    return res.status(500).json({ message: 'An error occured ERR500CNGSUP' });
+    return [500, 'An error occured ERR500CNGSUP'];
   }
 };
