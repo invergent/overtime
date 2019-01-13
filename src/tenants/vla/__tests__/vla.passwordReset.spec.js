@@ -17,6 +17,15 @@ describe('VLA tests', () => {
   });
 
   describe('Forgot password test', () => {
+    it('should fail if staffId is incorrect', async () => {
+      const response = await request
+        .post('/forgotPassword')
+        .send({ staffId: 'TN0123' });
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('staffId is invalid');
+    });
+
     it('should send a password reset email', async () => {
       const response = await request
         .post('/forgotPassword')
@@ -24,6 +33,32 @@ describe('VLA tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('We just sent an email to john.doe@viclawrence.com');
+    });
+  });
+
+  describe('resetPassword tests', () => {
+    let token;
+
+    beforeAll(async () => {
+      // signin a user
+      const response = await request
+        .post('/signin')
+        .send({ staffId: 'TN012345', password: 'password' })
+        .set('Accept', 'application/json');
+
+      token = response.header['set-cookie'];
+    });
+
+    it('should fail if passwords do not match', async () => {
+      const response = await request
+        .post('/reset')
+        .set('cookie', token)
+        .set('Accept', 'application/json')
+        .send({ password: 'password', confirmPassword: 'passwor' });
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('validationErrors');
+      expect(response.body.errors[0]).toEqual('Passwords do not match');
     });
   });
 });

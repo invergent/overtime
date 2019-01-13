@@ -18,7 +18,7 @@ const supervisorsIncorrectDetails = {
   supervisorId: 'TN234563678',
   firstname: '   ',
   lastname: '   ',
-  designation: '    ',
+  designation: '     ',
   email: 'email'
 };
 

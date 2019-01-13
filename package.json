@@ -71,6 +71,7 @@
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/index.js",
+      "!**/index.js",
       "!**/__tests__/**/*.js"
     ],
     "testMatch": [
