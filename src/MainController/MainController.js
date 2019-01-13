@@ -41,8 +41,8 @@ class MainController {
     return res.status(statusCode).json({ message });
   }
 
-  static async resetPassword(req, res) {
-    const [statusCode, message] = await PasswordReset.resetPassword(req);
+  static async resetPassword(req, res, models) {
+    const [statusCode, message] = await PasswordReset.resetPassword(req, models);
     return res.status(statusCode).json({ message });
   }
 }

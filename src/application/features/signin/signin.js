@@ -12,7 +12,6 @@ export default async (loginCredentials, models) => {
       return [404, 'Staff not found'];
     }
 
-
     if (staff.password === 'password') {
       data.firstSignin = true;
     } else {
