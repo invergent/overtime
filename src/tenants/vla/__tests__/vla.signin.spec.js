@@ -45,8 +45,8 @@ describe('VLA tests', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors[0]).toEqual('Staff ID is invalid');
-      expect(response.body.errors[1]).toEqual('Enter a value for password');
+      expect(response.body.errors[0]).toEqual('Enter a value for password');
+      expect(response.body.errors[1]).toEqual('Staff ID is invalid');
     });
 
     it('should fail if staff does not exist', async () => {
@@ -65,7 +65,7 @@ describe('VLA tests', () => {
         .send({ staffId: 'TN012345', password: 'passwordddd' })
         .set('Accept', 'application/json');
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(401);
       expect(response.body.message).toEqual('Credentials do not match');
     });
 

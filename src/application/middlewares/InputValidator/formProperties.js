@@ -12,5 +12,12 @@ export default {
   },
   branch: {
     branchId: 'branchId'
+  },
+  forgotPassword: {
+    staffId: 'staffId'
+  },
+  reset: {
+    password: 'password',
+    confirmPassword: 'confirmPassword'
   }
 };

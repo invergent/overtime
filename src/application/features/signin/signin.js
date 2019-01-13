@@ -1,31 +1,31 @@
 import bcrypt from 'bcrypt';
-import Cryptr from 'cryptr';
-import jwt from 'jsonwebtoken';
+import krypter from '../../helpers/krypter';
 
-const cryptr = new Cryptr(process.env.SECRET);
-
-export default async (req, res, models) => {
+export default async (loginCredentials, models) => {
   const { Staff } = models;
-  const { staffId, password } = req.body;
+  const { staffId, password } = loginCredentials;
+  const data = {};
 
   try {
-    const staff = await Staff.findOne({ where: { staffId } });
-
+    const staff = await Staff.findOne({ where: { staffId }, raw: true });
     if (!staff) {
-      return res.status(404).json({ message: 'Staff not found' });
+      return [404, 'Staff not found'];
     }
 
-    const match = await bcrypt.compare(password, staff.password);
+    if (staff.password === 'password') {
+      data.firstSignin = true;
+    } else {
+      const match = bcrypt.compareSync(password, staff.password);
 
-    if (!match) {
-      return res.status(400).json({ message: 'Credentials do not match' });
+      if (!match) {
+        return [401, 'Credentials do not match'];
+      }
     }
 
-    const token = jwt.sign({ staffId }, process.env.SECRET);
-    const hashedToken = cryptr.encrypt(token);
-    res.cookie('token', hashedToken, { expires: new Date(Date.now() + 3600000), httpOnly: true });
-    return res.status(200).json({ message: 'Login successful!' });
+    const hashedToken = krypter.authenticationEncryption('staffId', staffId);
+    data.hashedToken = hashedToken;
+    return [200, 'Login successful!', data];
   } catch (e) {
-    return res.status(500).json({ message: 'An error occured ERR500LOGIN' });
+    return [500, 'An error occured ERR500LOGIN'];
   }
 };
