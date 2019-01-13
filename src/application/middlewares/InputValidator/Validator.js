@@ -1,5 +1,5 @@
 import formProperties from './formProperties';
-import checkForEmptyFields from './checkForEmptyFields';
+import { checkStaffId, checkForEmptyFields } from './validatorHelpers';
 
 class Validator {
   static checkProps(reqObject, path) {
@@ -14,40 +14,47 @@ class Validator {
     }, '');
   }
 
-  static checkSignInEntries(reqObject) {
+  static signin(reqObject) {
     const { staffId, password } = reqObject;
-    const staffIdRegex = /^[T][N][0-9]{6}$/;
     const errors = [];
-
-    if (!staffIdRegex.test(staffId)) {
-      errors.push('Staff ID is invalid');
-    }
 
     if (!password.trim()) {
       errors.push('Enter a value for password');
     }
 
+    errors.push(...checkStaffId(staffId));
+
     return errors;
   }
 
-  static checkSupervisorFormEntries(reqObject) {
+  static supervisor(reqObject) {
     const {
       supervisorId, firstname, lastname, designation, email
     } = reqObject;
-    const staffIdRegex = /^[T][N][0-9]{6}$/;
     const emailRegex = /\S+@\S+\.\S+/;
     const errors = [];
 
-    if (!staffIdRegex.test(supervisorId)) {
-      errors.push('Staff ID is invalid');
-    }
     if (!emailRegex.test(email)) {
       errors.push('email is invalid');
     }
-
+    errors.push(...checkStaffId(supervisorId));
     errors.push(...checkForEmptyFields(firstname));
     errors.push(...checkForEmptyFields(lastname));
     errors.push(...checkForEmptyFields(designation));
+
+    return errors;
+  }
+
+  static reset(reqObject) {
+    const { password, confirmPassword } = reqObject;
+    const errors = [];
+  
+    errors.push(...checkForEmptyFields(password));
+    errors.push(...checkForEmptyFields(confirmPassword));
+
+    if (password.trim() !== confirmPassword.trim()) {
+      errors.push('Passwords do not match');
+    }
 
     return errors;
   }
