@@ -1,5 +1,6 @@
 import Cryptr from 'cryptr';
 import jwt from 'jsonwebtoken';
+import krypter from '../../helpers/krypter';
 
 const cryptr = new Cryptr(process.env.SECRET);
 
@@ -9,8 +10,7 @@ export default (req, res, next) => {
     return res.status(401).json({ message: 'Please login first.' });
   }
   try {
-    const dehashedToken = cryptr.decrypt(token);
-    const decoded = jwt.verify(dehashedToken, process.env.SECRET);
+    const decoded = krypter.authenticationDecryption(token);
     req.currentStaffId = decoded.staffId;
     return next();
   } catch (e) {

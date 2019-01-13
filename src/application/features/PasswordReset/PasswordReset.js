@@ -43,7 +43,7 @@ class PasswordReset {
     const { Staff, PasswordResetRequest } = model;
 
     try {
-      let [statusCode, message] = PasswordResetHelper
+      let [statusCode, message] = await PasswordResetHelper
         .findAndValidateResetRequest(currentStaffId, hash, PasswordResetRequest);
 
       if (message !== 'valid') {

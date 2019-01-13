@@ -48,7 +48,7 @@ class Validator {
   static reset(reqObject) {
     const { password, confirmPassword } = reqObject;
     const errors = [];
-  
+
     errors.push(...checkForEmptyFields(password));
     errors.push(...checkForEmptyFields(confirmPassword));
 
