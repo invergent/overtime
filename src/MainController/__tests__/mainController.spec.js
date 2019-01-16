@@ -27,7 +27,8 @@ describe('MainController tests', () => {
   });
 
   it('confirmPasswordResetRequest should send a 200 response', async () => {
-    PasswordReset.confirmPasswordResetRequest = jest.fn(() => Promise.resolve([200, 'some message']));
+    const data = { hashedToken: 'hashedToken' };
+    PasswordReset.confirmPasswordResetRequest = jest.fn(() => Promise.resolve([200, 'some message', data]));
     const result = await MainController.confirmPasswordResetRequest(req, res);
 
     expect(result.message).toEqual('some message');

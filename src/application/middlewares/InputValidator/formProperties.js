@@ -19,5 +19,10 @@ export default {
   reset: {
     password: 'password',
     confirmPassword: 'confirmPassword'
+  },
+  changePassword: {
+    currentPassword: 'currentPassword',
+    newPassword: 'newPassword',
+    confirmPassword: 'confirmPassword'
   }
 };
