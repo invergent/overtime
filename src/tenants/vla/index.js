@@ -6,19 +6,25 @@ import authenticator from '../../application/middlewares/authenticator';
 
 const router = express.Router();
 const {
-  signin, addOrChangeSupervisor, updateBranch, forgotPassword, confirmPasswordResetRequest,
-  resetPassword
+  forgotPassword, signin, changePassword, updateBranch,
+  confirmPasswordResetRequest, resetPassword, addOrChangeSupervisor
 } = controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId
 } = InputValidator;
 
 router.post('/signin', checkProps, checkEntries, signin);
-router.post('/supervisor', authenticator, checkProps, checkEntries, addOrChangeSupervisor);
-router.put('/branch', authenticator, checkProps, checkBranchId, updateBranch);
-router.post('/forgotPassword', checkProps, checkStaffId, forgotPassword);
+
+router.post('/forgot-password', checkProps, checkStaffId, forgotPassword);
 router.get('/confirm-reset-request', confirmPasswordResetRequest);
-router.post('/reset', authenticator, checkEntries, resetPassword);
+
+
+router.post('/users/profile/change-password',
+  authenticator, checkProps, checkEntries, changePassword);
+router.post('/users/profile/supervisor',
+  authenticator, checkProps, checkEntries, addOrChangeSupervisor);
+router.put('/users/profile/branch', authenticator, checkProps, checkBranchId, updateBranch);
+router.post('/users/profile/reset', authenticator, checkEntries, resetPassword);
 
 router.get('/', (req, res) => res.status(200).json({ message: 'VLA boarded' }));
 

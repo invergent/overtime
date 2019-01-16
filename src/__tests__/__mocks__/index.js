@@ -1,4 +1,4 @@
-export const req = {
+export const mockReq = {
   body: {
     staffId: 'someId',
     password: 'password',
@@ -14,7 +14,13 @@ export const mockStaff = {
   password: 'password'
 };
 
-export const mockLoginCredentials = {
-  staffId: 'someId',
+export const models = {
   password: 'password'
+};
+
+export const mockLoginCredentials = {
+  body: {
+    staffId: 'someId',
+    password: 'password'
+  }
 };

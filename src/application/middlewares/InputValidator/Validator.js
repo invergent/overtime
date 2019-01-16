@@ -1,9 +1,9 @@
 import formProperties from './formProperties';
-import { checkStaffId, checkForEmptyFields } from './validatorHelpers';
+import ValidatorHelpers from './ValidatorHelpers';
 
 class Validator {
-  static checkProps(reqObject, path) {
-    const expectedProps = Object.keys(formProperties[path]);
+  static checkProps(reqObject, methodName) {
+    const expectedProps = Object.keys(formProperties[methodName]);
     const receivedProps = Object.keys(reqObject);
 
     return expectedProps.reduce((acc, item) => {
@@ -22,7 +22,7 @@ class Validator {
       errors.push('Enter a value for password');
     }
 
-    errors.push(...checkStaffId(staffId));
+    errors.push(...ValidatorHelpers.checkStaffId(staffId));
 
     return errors;
   }
@@ -37,24 +37,36 @@ class Validator {
     if (!emailRegex.test(email)) {
       errors.push('email is invalid');
     }
-    errors.push(...checkStaffId(supervisorId));
-    errors.push(...checkForEmptyFields(firstname));
-    errors.push(...checkForEmptyFields(lastname));
-    errors.push(...checkForEmptyFields(designation));
+    errors.push(...ValidatorHelpers.checkStaffId(supervisorId));
+    errors.push(...ValidatorHelpers.checkForEmptyFields(firstname));
+    errors.push(...ValidatorHelpers.checkForEmptyFields(lastname));
+    errors.push(...ValidatorHelpers.checkForEmptyFields(designation));
 
     return errors;
   }
 
   static reset(reqObject) {
-    const { password, confirmPassword } = reqObject;
+    const { password, newPassword, confirmPassword } = reqObject;
+    const truthyPassword = password || newPassword;
+
     const errors = [];
 
-    errors.push(...checkForEmptyFields(password));
-    errors.push(...checkForEmptyFields(confirmPassword));
+    errors.push(...ValidatorHelpers.checkForEmptyFields(truthyPassword));
+    errors.push(...ValidatorHelpers.checkForEmptyFields(confirmPassword));
 
-    if (password.trim() !== confirmPassword.trim()) {
+    if (truthyPassword.trim() !== confirmPassword.trim()) {
       errors.push('Passwords do not match');
     }
+
+    return errors;
+  }
+
+  static changePassword(reqObject) {
+    const { currentPassword } = reqObject;
+    const errors = [];
+
+    errors.push(...ValidatorHelpers.checkForEmptyFields(currentPassword));
+    errors.push(...this.reset(reqObject));
 
     return errors;
   }

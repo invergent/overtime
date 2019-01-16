@@ -1,10 +1,10 @@
 import Validator from './Validator';
-import { checkStaffId } from './validatorHelpers';
+import ValidatorHelpers from './ValidatorHelpers';
 
 class InputValidator {
   static checkProps(req, res, next) {
-    const path = req.path.slice(1);
-    const missingProps = Validator.checkProps(req.body, path);
+    const methodName = ValidatorHelpers.getMethodName(req.path);
+    const missingProps = Validator.checkProps(req.body, methodName);
 
     if (missingProps.length) {
       return res.status(400).json({
@@ -15,8 +15,8 @@ class InputValidator {
   }
 
   static checkEntries(req, res, next) {
-    const path = req.path.slice(1);
-    const errors = Validator[path](req.body);
+    const methodName = ValidatorHelpers.getMethodName(req.path);
+    const errors = Validator[methodName](req.body);
 
     if (errors.length) {
       return res.status(400).json({ message: 'validationErrors', errors });
@@ -35,7 +35,7 @@ class InputValidator {
 
   static checkStaffId(req, res, next) {
     const { staffId } = req.body;
-    const error = checkStaffId(staffId);
+    const error = ValidatorHelpers.checkStaffId(staffId);
 
     if (error.length) {
       return res.status(400).json({ message: 'staffId is invalid' });
