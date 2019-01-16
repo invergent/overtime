@@ -1,49 +1,38 @@
 import features from '../application/features';
+import Responder from './Responder';
 
 const {
-  signin, updateBranch, addOrChangeSupervisor, PasswordReset
+  signin, updateBranch, addOrChangeSupervisor, PasswordReset, ChangePassword
 } = features;
 
 class MainController {
   static async signin(req, res, models) {
-    const [statusCode, message, data] = await signin(req.body, models);
-    if (statusCode !== 200) {
-      return res.status(statusCode).json({ message });
-    }
-    res.cookie('token', data.hashedToken,
-      { expires: new Date(Date.now() + 3600000), httpOnly: true });
-    return res.status(statusCode).json({ message, data });
+    return Responder.respondWithCookie(req, res, models, signin);
   }
 
   static async updateBranch(req, res, models) {
-    const [statusCode, message] = await updateBranch(req, models);
-    return res.status(statusCode).json({ message });
+    return Responder.respond(req, res, models, updateBranch);
   }
 
   static async addOrChangeSupervisor(req, res, models) {
-    const [statusCode, message] = await addOrChangeSupervisor(req, models);
-    return res.status(statusCode).json({ message });
+    return Responder.respond(req, res, models, addOrChangeSupervisor);
   }
 
   static async forgotPassword(req, res, models, client) {
-    const [statusCode, message] = await PasswordReset.forgotPassword(req, models, client);
-    return res.status(statusCode).json({ message });
+    return Responder.respond(req, res, models, PasswordReset.forgotPassword, client);
   }
 
   static async confirmPasswordResetRequest(req, res) {
-    const [statusCode, message, hashedToken] = await PasswordReset.confirmPasswordResetRequest(req);
-
-    if (statusCode !== 200) {
-      return res.status(statusCode).json({ message });
-    }
-
-    res.cookie('token', hashedToken, { expires: new Date(Date.now() + 3600000), httpOnly: true });
-    return res.status(statusCode).json({ message });
+    return Responder
+      .respondWithCookie(req, res, undefined, PasswordReset.confirmPasswordResetRequest);
   }
 
   static async resetPassword(req, res, models) {
-    const [statusCode, message] = await PasswordReset.resetPassword(req, models);
-    return res.status(statusCode).json({ message });
+    return Responder.respond(req, res, models, PasswordReset.resetPassword);
+  }
+
+  static async changePassword(req, res, models) {
+    return Responder.respond(req, res, models, ChangePassword.processPasswordUpdate);
   }
 }
 

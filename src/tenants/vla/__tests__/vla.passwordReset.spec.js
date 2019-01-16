@@ -19,7 +19,7 @@ describe('VLA tests', () => {
   describe('Forgot password test', () => {
     it('should fail if staffId is incorrect', async () => {
       const response = await request
-        .post('/forgotPassword')
+        .post('/forgot-password')
         .send({ staffId: 'TN0123' });
 
       expect(response.status).toBe(400);
@@ -28,7 +28,7 @@ describe('VLA tests', () => {
 
     it('should send a password reset email', async () => {
       const response = await request
-        .post('/forgotPassword')
+        .post('/forgot-password')
         .send({ staffId: 'TN012345' });
 
       expect(response.status).toBe(200);
@@ -51,7 +51,7 @@ describe('VLA tests', () => {
 
     it('should fail if passwords do not match', async () => {
       const response = await request
-        .post('/reset')
+        .post('/users/profile/reset')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ password: 'password', confirmPassword: 'passwor' });

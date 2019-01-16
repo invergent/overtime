@@ -2,17 +2,13 @@ import '@babel/polyfill';
 import features from '../../../MainController';
 import models from '../models';
 
-const {
-  signin, addOrChangeSupervisor, updateBranch, forgotPassword, confirmPasswordResetRequest,
-  resetPassword
-} = features;
-
 export default {
-  signin: (req, res) => signin(req, res, models),
-  addOrChangeSupervisor: (req, res) => addOrChangeSupervisor(req, res, models),
-  updateBranch: (req, res) => updateBranch(req, res, models),
-  forgotPassword: (req, res) => forgotPassword(req, res, models, 'VLA'),
+  signin: (req, res) => features.signin(req, res, models),
+  addOrChangeSupervisor: (req, res) => features.addOrChangeSupervisor(req, res, models),
+  updateBranch: (req, res) => features.updateBranch(req, res, models),
+  forgotPassword: (req, res) => features.forgotPassword(req, res, models, 'VLA'),
   confirmPasswordResetRequest:
-    (req, res) => confirmPasswordResetRequest(req, res),
-  resetPassword: (req, res) => resetPassword(req, res, models)
+    (req, res) => features.confirmPasswordResetRequest(req, res),
+  resetPassword: (req, res) => features.resetPassword(req, res, models),
+  changePassword: (req, res) => features.changePassword(req, res, models)
 };

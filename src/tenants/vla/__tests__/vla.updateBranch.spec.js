@@ -39,7 +39,7 @@ describe('VLA: Update branch', () => {
 
     it('should fail if staff is not logged in', async () => {
       const response = await request
-        .put('/branch')
+        .put('/users/profile/branch')
         .set('Accept', 'application/json')
         .send(branchDetails);
 
@@ -51,7 +51,7 @@ describe('VLA: Update branch', () => {
       const incorrectBranchDetails = { ...branchDetails };
       incorrectBranchDetails.branchId = NaN;
       const response = await request
-        .put('/branch')
+        .put('/users/profile/branch')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(incorrectBranchDetails);
@@ -62,7 +62,7 @@ describe('VLA: Update branch', () => {
 
     it('should fail if fields are missing', async () => {
       const response = await request
-        .put('/branch')
+        .put('/users/profile/branch')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({});
@@ -77,7 +77,7 @@ describe('VLA: Update branch', () => {
       const incorrectBranchDetails = { ...branchDetails };
       incorrectBranchDetails.branchId = 109899;
       const response = await request
-        .put('/branch')
+        .put('/users/profile/branch')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(incorrectBranchDetails);
@@ -88,7 +88,7 @@ describe('VLA: Update branch', () => {
 
     it('should update Staff\'s branch', async () => {
       const response = await request
-        .put('/branch')
+        .put('/users/profile/branch')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(branchDetails);
@@ -101,7 +101,7 @@ describe('VLA: Update branch', () => {
       const err = new Error('Not working');
       Staff.update = jest.fn(() => Promise.reject(err));
       const response = await request
-        .put('/branch')
+        .put('/users/profile/branch')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(branchDetails);
