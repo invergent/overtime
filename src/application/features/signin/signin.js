@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import krypter from '../../helpers/krypter';
 
-export default async (loginCredentials, models) => {
+export default async (loginRequest, models) => {
   const { Staff } = models;
-  const { staffId, password } = loginCredentials;
+  const { body: { staffId, password } } = loginRequest;
   const data = {};
 
   try {

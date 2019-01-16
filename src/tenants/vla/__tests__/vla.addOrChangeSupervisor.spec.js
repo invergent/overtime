@@ -55,7 +55,7 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should fail if staff is not logged in', async () => {
       const response = await request
-        .post('/supervisor')
+        .post('/users/profile/supervisor')
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
 
@@ -65,7 +65,7 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should fail if field entries are incorrect', async () => {
       const response = await request
-        .post('/supervisor')
+        .post('/users/profile/supervisor')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsIncorrectDetails);
@@ -79,7 +79,7 @@ describe('VLA: Add or Change Supervisor', () => {
       const supervisor = { ...supervisorsDetails };
       delete supervisor.email;
       const response = await request
-        .post('/supervisor')
+        .post('/users/profile/supervisor')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisor);
@@ -92,7 +92,7 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should add supervisor if supervisor does not already exist', async () => {
       const response = await request
-        .post('/supervisor')
+        .post('/users/profile/supervisor')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
@@ -103,7 +103,7 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should update supervisor if supervisor already exists', async () => {
       const response = await request
-        .post('/supervisor')
+        .post('/users/profile/supervisor')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
@@ -116,7 +116,7 @@ describe('VLA: Add or Change Supervisor', () => {
       const err = new Error('Not working');
       Supervisor.findOrCreate = jest.fn(() => Promise.reject(err));
       const response = await request
-        .post('/supervisor')
+        .post('/users/profile/supervisor')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
@@ -129,7 +129,7 @@ describe('VLA: Add or Change Supervisor', () => {
       jwt.verify = jest.fn(() => { throw new Error(); });
 
       const response = await request
-        .post('/supervisor')
+        .post('/users/profile/supervisor')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);

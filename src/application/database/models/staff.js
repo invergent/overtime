@@ -49,7 +49,6 @@ const staff = (sequelize, DataTypes) => {
   Staff.beforeValidate((user) => {
     user.password = user.password ? bcrypt.hashSync(user.password, 8) : null;
   });
-  Staff.checkPassword = (password, user) => bcrypt.compareSync(password, user);
   return Staff;
 };
 

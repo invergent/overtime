@@ -22,6 +22,7 @@ class PasswordReset {
 
   static confirmPasswordResetRequest(req) {
     const { hash } = req.query;
+    const data = {};
 
     if (!hash) {
       return [403, 'Invalid reset link'];
@@ -35,7 +36,8 @@ class PasswordReset {
     }
 
     const hashedToken = krypter.authenticationEncryption('staffId', staffId);
-    return [200, 'Decryption successful!', hashedToken];
+    data.hashedToken = hashedToken;
+    return [200, 'Decryption successful!', data];
   }
 
   static async resetPassword(req, model) {
