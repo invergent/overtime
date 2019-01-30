@@ -2,7 +2,8 @@ import features from '../application/features';
 import Responder from './Responder';
 
 const {
-  signin, updateBranch, addOrChangeSupervisor, PasswordReset, ChangePassword
+  signin, updateBranch, addOrChangeSupervisor, PasswordReset, ChangePassword,
+  submitOvertimeRequest
 } = features;
 
 class MainController {
@@ -33,6 +34,10 @@ class MainController {
 
   static async changePassword(req, res, models) {
     return Responder.respond(req, res, models, ChangePassword.processPasswordUpdate);
+  }
+
+  static async submitOvertimeRequest(req, res, models) {
+    return Responder.respond(req, res, models, submitOvertimeRequest);
   }
 }
 

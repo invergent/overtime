@@ -1,10 +1,10 @@
 export default async (req, models) => {
-  const { Staff, Supervisor } = models;
+  const { Staff, Supervisors } = models;
   const { currentStaffId, body } = req;
   const supervisorsDetails = body;
 
   try {
-    const [supervisor, created] = await Supervisor.findOrCreate({
+    const [supervisor, created] = await Supervisors.findOrCreate({
       where: { email: supervisorsDetails.email },
       defaults: supervisorsDetails
     });

@@ -41,19 +41,19 @@ class PasswordReset {
   }
 
   static async resetPassword(req, model) {
-    const { currentStaffId, query: { hash }, body: { password } } = req;
+    const { currentStaff, query: { hash }, body: { password } } = req;
     const { Staff, PasswordResetRequest } = model;
 
     try {
       let [statusCode, message] = await PasswordResetHelper
-        .findAndValidateResetRequest(currentStaffId, hash, PasswordResetRequest);
+        .findAndValidateResetRequest(currentStaff, hash, PasswordResetRequest);
 
       if (message !== 'valid') {
         return [statusCode, message];
       }
 
       [statusCode, message] = PasswordResetHelper
-        .processPasswordReset(currentStaffId, password, Staff);
+        .processPasswordReset(currentStaff, password, Staff);
       return [statusCode, message];
     } catch (e) {
       return [500, 'An error occured ERR500PSWRST'];

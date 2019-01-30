@@ -3,18 +3,18 @@ import bcrypt from 'bcrypt';
 class ChangePassword {
   static async processPasswordUpdate(req, models) {
     const {
-      currentStaffId, body: { currentPassword, newPassword }
+      currentStaff, body: { currentPassword, newPassword }
     } = req;
 
     try {
-      const staff = await ChangePassword.findStaffByStaffId(currentStaffId, models);
+      const staff = await ChangePassword.findStaffByStaffId(currentStaff.staffId, models);
       const isCorrect = await ChangePassword
         .currentPasswordIsCorrect(currentPassword, staff.password);
       if (!isCorrect) {
         return [401, 'Password is incorrect'];
       }
 
-      await ChangePassword.updatePassword(currentStaffId, newPassword, models);
+      await ChangePassword.updatePassword(currentStaff.staffId, newPassword, models);
       return [200, 'Password changed'];
     } catch (e) {
       return [500, 'An error occurred ERR500CHGPSW'];
