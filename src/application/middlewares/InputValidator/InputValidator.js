@@ -1,5 +1,7 @@
 import Validator from './Validator';
 import ValidatorHelpers from './ValidatorHelpers';
+import OvertimeRequestValidator from './OvertimeRequestValidator';
+import Dates from '../../helpers/Dates';
 
 class InputValidator {
   static checkProps(req, res, next) {
@@ -39,6 +41,27 @@ class InputValidator {
 
     if (error.length) {
       return res.status(400).json({ message: 'staffId is invalid' });
+    }
+    return next();
+  }
+
+  static checkOvertimeProps(req, res, next) {
+    const { currentStaff: { staffRole }, body } = req;
+    const [statusCode, errors] = OvertimeRequestValidator.checkOvertimeProps(body, staffRole);
+
+    if (statusCode === 400) {
+      return res.status(statusCode).json({ message: 'validationErrors', errors });
+    }
+    return next();
+  }
+
+  static checkOvertimeValues(req, res, next) {
+    const { body } = req;
+    const daysInAMonth = Dates.countWeekdaysAndWeekendsOfAMonth();
+    const [statusCode, errors] = OvertimeRequestValidator.checkOvertimeEntries(body, daysInAMonth);
+
+    if (statusCode === 400) {
+      return res.status(statusCode).json({ message: 'validationErrors', errors });
     }
     return next();
   }

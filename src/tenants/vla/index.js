@@ -7,16 +7,20 @@ import authenticator from '../../application/middlewares/authenticator';
 const router = express.Router();
 const {
   forgotPassword, signin, changePassword, updateBranch,
-  confirmPasswordResetRequest, resetPassword, addOrChangeSupervisor
+  confirmPasswordResetRequest, resetPassword, addOrChangeSupervisor, submitOvertimeRequest
 } = controller;
 const {
-  checkProps, checkEntries, checkBranchId, checkStaffId
+  checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
+  checkOvertimeValues
 } = InputValidator;
 
 router.post('/signin', checkProps, checkEntries, signin);
 
 router.post('/forgot-password', checkProps, checkStaffId, forgotPassword);
 router.get('/confirm-reset-request', confirmPasswordResetRequest);
+
+router.post('/overtime',
+  authenticator, checkOvertimeProps, checkOvertimeValues, submitOvertimeRequest);
 
 
 router.post('/users/profile/change-password',
