@@ -38,12 +38,19 @@ const staff = (sequelize, DataTypes) => {
     supervisorId: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    role: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, { freezeTableName: true });
 
   Staff.associate = (models) => {
-    Staff.belongsTo(models.Supervisor, { foreignKey: 'id' });
+    Staff.belongsTo(models.Supervisors, { foreignKey: 'id' });
+    Staff.belongsTo(models.BSMs, { foreignKey: 'id' });
     Staff.belongsTo(models.Branch, { foreignKey: 'id' });
+    Staff.belongsTo(models.Roles, { foreignKey: 'id' });
+    Staff.hasMany(models.OvertimeRequests, { foreignKey: 'id' });
   };
 
   Staff.beforeValidate((user) => {

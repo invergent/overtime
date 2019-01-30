@@ -24,5 +24,10 @@ export default {
     currentPassword: 'currentPassword',
     newPassword: 'newPassword',
     confirmPassword: 'confirmPassword'
+  },
+  rpcOvertimeRequest: {
+    weekday: 'weekday',
+    weekend: 'weekend',
+    atm: 'atm'
   }
 };

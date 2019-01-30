@@ -1,5 +1,5 @@
-const supervisor = (sequelize, DataTypes) => {
-  const Supervisor = sequelize.define('Supervisor', {
+const supervisors = (sequelize, DataTypes) => {
+  const Supervisors = sequelize.define('Supervisors', {
     supervisorId: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -25,12 +25,12 @@ const supervisor = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     }
-  }, { freezeTableName: true });
+  });
 
-  Supervisor.associate = (models) => {
-    Supervisor.hasMany(models.Staff, { foreignKey: 'id' });
+  Supervisors.associate = (models) => {
+    Supervisors.hasMany(models.Staff, { foreignKey: 'id' });
   };
-  return Supervisor;
+  return Supervisors;
 };
 
-export default supervisor;
+export default supervisors;

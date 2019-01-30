@@ -49,9 +49,27 @@ module.exports = {
       type: Sequelize.INTEGER,
       onDelete: 'SET NULL',
       references: {
-        model: 'Supervisor',
+        model: 'Supervisors',
         key: 'id',
         as: 'supervisor'
+      }
+    },
+    bsmId: {
+      type: Sequelize.INTEGER,
+      onDelete: 'SET NULL',
+      references: {
+        model: 'BSMs',
+        key: 'id',
+        as: 'bsm'
+      }
+    },
+    role: {
+      type: Sequelize.INTEGER,
+      onDelete: 'SET NULL',
+      references: {
+        model: 'Roles',
+        key: 'id',
+        as: 'role'
       }
     },
     createdAt: {

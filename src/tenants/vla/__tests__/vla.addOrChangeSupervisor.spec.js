@@ -4,7 +4,7 @@ import supertest from 'supertest';
 import app from '../../../app';
 import models from '../models';
 
-const { Supervisor } = models;
+const { Supervisors } = models;
 
 const supervisorsDetails = {
   supervisorId: 'TN234563',
@@ -114,7 +114,7 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should respond with an error message if an error occurs', async () => {
       const err = new Error('Not working');
-      Supervisor.findOrCreate = jest.fn(() => Promise.reject(err));
+      Supervisors.findOrCreate = jest.fn(() => Promise.reject(err));
       const response = await request
         .post('/users/profile/supervisor')
         .set('cookie', token)
