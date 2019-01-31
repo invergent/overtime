@@ -1,21 +1,21 @@
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('Roles', [{
-    roles: 'RPC',
+    name: 'RPC',
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
   },
   {
-    roles: 'Trade Developer',
+    name: 'Trade Developer',
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
   },
   {
-    roles: 'Service Executive (Financial)',
+    name: 'Service Executive (Financial)',
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
   },
   {
-    roles: 'Service Executive (Non-Financial)',
+    name: 'Service Executive (Non-Financial)',
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
   }]),

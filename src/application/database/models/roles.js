@@ -1,6 +1,6 @@
 const roles = (sequelize, DataTypes) => {
   const Roles = sequelize.define('Roles', {
-    roles: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true

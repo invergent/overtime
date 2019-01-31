@@ -36,8 +36,10 @@ const staff = (sequelize, DataTypes) => {
       allowNull: false
     },
     supervisorId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
+    },
+    bsmId: {
+      type: DataTypes.INTEGER
     },
     role: {
       type: DataTypes.INTEGER,
@@ -46,8 +48,8 @@ const staff = (sequelize, DataTypes) => {
   }, { freezeTableName: true });
 
   Staff.associate = (models) => {
-    Staff.belongsTo(models.Supervisors, { foreignKey: 'id' });
-    Staff.belongsTo(models.BSMs, { foreignKey: 'id' });
+    Staff.belongsTo(models.LineManagers, { as: 'supervisor', foreignKey: 'id' });
+    Staff.belongsTo(models.LineManagers, { as: 'BSM', foreignKey: 'id' });
     Staff.belongsTo(models.Branch, { foreignKey: 'id' });
     Staff.belongsTo(models.Roles, { foreignKey: 'id' });
     Staff.hasMany(models.OvertimeRequests, { foreignKey: 'id' });

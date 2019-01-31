@@ -3,8 +3,9 @@ export default {
     staffId: 'staffId',
     password: 'password'
   },
-  supervisor: {
-    supervisorId: 'supervisorId',
+  lineManager: {
+    lineManagerRole: 'lineManagerRole',
+    lineManagerId: 'lineManagerId',
     firstname: 'firstname',
     lastname: 'lastname',
     designation: 'designation',

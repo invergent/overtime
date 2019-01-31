@@ -27,9 +27,9 @@ class Validator {
     return errors;
   }
 
-  static supervisor(reqObject) {
+  static lineManager(reqObject) {
     const {
-      supervisorId, firstname, lastname, designation, email
+      lineManagerRole, lineManagerId, firstname, lastname, designation, email
     } = reqObject;
     const emailRegex = /\S+@\S+\.\S+/;
     const errors = [];
@@ -37,7 +37,8 @@ class Validator {
     if (!emailRegex.test(email)) {
       errors.push('email is invalid');
     }
-    errors.push(...ValidatorHelpers.checkStaffId(supervisorId));
+    errors.push(...ValidatorHelpers.checkLineManagerRole(lineManagerRole));
+    errors.push(...ValidatorHelpers.checkStaffId(lineManagerId));
     errors.push(...ValidatorHelpers.checkForEmptyFields(firstname));
     errors.push(...ValidatorHelpers.checkForEmptyFields(lastname));
     errors.push(...ValidatorHelpers.checkForEmptyFields(designation));

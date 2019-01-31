@@ -1,15 +1,19 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Supervisors', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('LineManagers', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    supervisorId: {
+    lineManagerId: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true
+    },
+    lineManagerRole: {
+      type: Sequelize.ENUM('Supervisor', 'BSM'),
+      allowNull: false
     },
     firstname: {
       type: Sequelize.STRING,
@@ -18,9 +22,6 @@ module.exports = {
     lastname: {
       type: Sequelize.STRING,
       allowNull: false
-    },
-    middleName: {
-      type: Sequelize.STRING
     },
     designation: {
       type: Sequelize.STRING,
@@ -40,5 +41,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: queryInterface => queryInterface.dropTable('Supervisors')
+  down: queryInterface => queryInterface.dropTable('LineManagers')
 };

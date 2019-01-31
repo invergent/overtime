@@ -15,6 +15,15 @@ class ValidatorHelpers {
     return [];
   }
 
+  static checkLineManagerRole(lineManagerRole) {
+    const lineManagerRoles = ['Supervisor', 'BSM'];
+
+    if (!lineManagerRoles.includes(lineManagerRole)) {
+      return ['Line Manager role can only be Supervisor or BSM'];
+    }
+    return [];
+  }
+
   static getMethodName(path) {
     let methodName;
     if (path.indexOf('users') !== -1) {

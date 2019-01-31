@@ -1,9 +1,6 @@
 class OvertimeRequestValidator {
   static checkOvertimeProps(overtimeRequest, staffRole) {
     const overtimeTypes = Object.keys(overtimeRequest);
-    if (overtimeTypes.length) {
-
-    }
     if (this.canApplyForShifts(staffRole)) {
       return this.checkRPCRequest(overtimeTypes);
     }

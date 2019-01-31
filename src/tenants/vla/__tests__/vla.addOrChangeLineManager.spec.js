@@ -4,10 +4,11 @@ import supertest from 'supertest';
 import app from '../../../app';
 import models from '../models';
 
-const { Supervisors } = models;
+const { LineManagers } = models;
 
 const supervisorsDetails = {
-  supervisorId: 'TN234563',
+  lineManagerId: 'TN234563',
+  lineManagerRole: 'Supervisor',
   firstname: 'firstname',
   lastname: 'lastname',
   designation: 'designation',
@@ -15,14 +16,15 @@ const supervisorsDetails = {
 };
 
 const supervisorsIncorrectDetails = {
-  supervisorId: 'TN234563678',
+  lineManagerId: 'TN234563678',
+  lineManagerRole: 'Super',
   firstname: '   ',
   lastname: '   ',
   designation: '     ',
   email: 'email'
 };
 
-describe('VLA: Add or Change Supervisor', () => {
+describe('VLA: Add or Change Line Manager', () => {
   let server;
   let request;
 
@@ -55,7 +57,7 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should fail if staff is not logged in', async () => {
       const response = await request
-        .post('/users/profile/supervisor')
+        .post('/users/profile/line-manager')
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
 
@@ -65,21 +67,21 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should fail if field entries are incorrect', async () => {
       const response = await request
-        .post('/users/profile/supervisor')
+        .post('/users/profile/line-manager')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsIncorrectDetails);
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors.length).toEqual(5);
+      expect(response.body.errors.length).toEqual(6);
     });
 
     it('should fail if fields are missing', async () => {
       const supervisor = { ...supervisorsDetails };
       delete supervisor.email;
       const response = await request
-        .post('/users/profile/supervisor')
+        .post('/users/profile/line-manager')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisor);
@@ -92,7 +94,7 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should add supervisor if supervisor does not already exist', async () => {
       const response = await request
-        .post('/users/profile/supervisor')
+        .post('/users/profile/line-manager')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
@@ -101,9 +103,26 @@ describe('VLA: Add or Change Supervisor', () => {
       expect(response.body.message).toEqual('Supervisor added successfully.');
     });
 
+    it('should add BSM if BSM does not already exist', async () => {
+      const bsm = {
+        ...supervisorsDetails,
+        email: 'newEmail@email.com',
+        lineManagerRole: 'BSM',
+        lineManagerId: 'TN054321'
+      };
+      const response = await request
+        .post('/users/profile/line-manager')
+        .set('cookie', token)
+        .set('Accept', 'application/json')
+        .send(bsm);
+
+      expect(response.status).toBe(201);
+      expect(response.body.message).toEqual('BSM added successfully.');
+    });
+
     it('should update supervisor if supervisor already exists', async () => {
       const response = await request
-        .post('/users/profile/supervisor')
+        .post('/users/profile/line-manager')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
@@ -114,22 +133,22 @@ describe('VLA: Add or Change Supervisor', () => {
 
     it('should respond with an error message if an error occurs', async () => {
       const err = new Error('Not working');
-      Supervisors.findOrCreate = jest.fn(() => Promise.reject(err));
+      jest.spyOn(LineManagers, 'findOrCreate').mockRejectedValue(err);
       const response = await request
-        .post('/users/profile/supervisor')
+        .post('/users/profile/line-manager')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);
 
       expect(response.status).toBe(500);
-      expect(response.body.message).toEqual('An error occured ERR500CNGSUP');
+      expect(response.body.message).toEqual('An error occured ERR500CNGLNM');
     });
 
     it('should respond with an error message if authentication fails', async () => {
       jwt.verify = jest.fn(() => { throw new Error(); });
 
       const response = await request
-        .post('/users/profile/supervisor')
+        .post('/users/profile/line-manager')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(supervisorsDetails);

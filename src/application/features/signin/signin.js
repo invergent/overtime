@@ -22,7 +22,7 @@ export default async (loginRequest, models) => {
       }
     }
 
-    const payload = { staffId, staffRole: staff['Role.roles'] };
+    const payload = { staffId, staffRole: staff['Role.name'] };
 
     const hashedToken = krypter.authenticationEncryption('staff', payload);
     data.hashedToken = hashedToken;
