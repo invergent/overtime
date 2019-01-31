@@ -7,7 +7,7 @@ import authenticator from '../../application/middlewares/authenticator';
 const router = express.Router();
 const {
   forgotPassword, signin, changePassword, updateBranch,
-  confirmPasswordResetRequest, resetPassword, addOrChangeSupervisor, submitOvertimeRequest
+  confirmPasswordResetRequest, resetPassword, addOrChangeLineManager, submitOvertimeRequest
 } = controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
@@ -25,8 +25,8 @@ router.post('/overtime',
 
 router.post('/users/profile/change-password',
   authenticator, checkProps, checkEntries, changePassword);
-router.post('/users/profile/supervisor',
-  authenticator, checkProps, checkEntries, addOrChangeSupervisor);
+router.post('/users/profile/line-manager',
+  authenticator, checkProps, checkEntries, addOrChangeLineManager);
 router.put('/users/profile/branch', authenticator, checkProps, checkBranchId, updateBranch);
 router.post('/users/profile/reset', authenticator, checkEntries, resetPassword);
 

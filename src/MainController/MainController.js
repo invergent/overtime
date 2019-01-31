@@ -2,7 +2,7 @@ import features from '../application/features';
 import Responder from './Responder';
 
 const {
-  signin, updateBranch, addOrChangeSupervisor, PasswordReset, ChangePassword,
+  signin, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword,
   submitOvertimeRequest
 } = features;
 
@@ -15,8 +15,8 @@ class MainController {
     return Responder.respond(req, res, models, updateBranch);
   }
 
-  static async addOrChangeSupervisor(req, res, models) {
-    return Responder.respond(req, res, models, addOrChangeSupervisor);
+  static async addOrChangeLineManager(req, res, models) {
+    return Responder.respond(req, res, models, addOrChangeLineManager);
   }
 
   static async forgotPassword(req, res, models, client) {

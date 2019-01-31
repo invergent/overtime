@@ -4,6 +4,6 @@ describe('Copied Db tests', () => {
   it('should return the DBs copied', () => {
     expect(Object.keys(db).includes('Branch')).toEqual(true);
     expect(Object.keys(db).includes('Staff')).toEqual(true);
-    expect(Object.keys(db).includes('Supervisors')).toEqual(true);
+    expect(Object.keys(db).includes('LineManagers')).toEqual(true);
   });
 });

@@ -1,9 +1,13 @@
-const supervisors = (sequelize, DataTypes) => {
-  const Supervisors = sequelize.define('Supervisors', {
-    supervisorId: {
+const lineManagers = (sequelize, DataTypes) => {
+  const LineManagers = sequelize.define('LineManagers', {
+    lineManagerId: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
+    },
+    lineManagerRole: {
+      type: DataTypes.ENUM('Supervisor', 'BSM'),
+      allowNull: false
     },
     firstname: {
       type: DataTypes.STRING,
@@ -12,9 +16,6 @@ const supervisors = (sequelize, DataTypes) => {
     lastname: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    middleName: {
-      type: DataTypes.STRING
     },
     designation: {
       type: DataTypes.STRING,
@@ -27,10 +28,10 @@ const supervisors = (sequelize, DataTypes) => {
     }
   });
 
-  Supervisors.associate = (models) => {
-    Supervisors.hasMany(models.Staff, { foreignKey: 'id' });
+  LineManagers.associate = (models) => {
+    LineManagers.hasMany(models.Staff, { foreignKey: 'id' });
   };
-  return Supervisors;
+  return LineManagers;
 };
 
-export default supervisors;
+export default lineManagers;

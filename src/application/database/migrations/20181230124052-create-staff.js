@@ -49,7 +49,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       onDelete: 'SET NULL',
       references: {
-        model: 'Supervisors',
+        model: 'LineManagers',
         key: 'id',
         as: 'supervisor'
       }
@@ -58,9 +58,9 @@ module.exports = {
       type: Sequelize.INTEGER,
       onDelete: 'SET NULL',
       references: {
-        model: 'BSMs',
+        model: 'LineManagers',
         key: 'id',
-        as: 'bsm'
+        as: 'BSM'
       }
     },
     role: {
