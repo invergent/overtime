@@ -9,7 +9,7 @@ describe('INIT tests', () => {
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(7000, done);
-    request = supertest('http://init.overtime.com:7000');
+    request = supertest('http://init.overtime-api.invergent-technologies.com:7000');
   });
 
   afterAll((done) => {
