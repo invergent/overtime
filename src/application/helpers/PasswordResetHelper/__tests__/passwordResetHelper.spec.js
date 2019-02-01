@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import PasswordResetHelper from '../PasswordResetHelper';
 import EmailConstructor from '../../EmailConstructor';
-import models from '../../../../tenants/vla/models';
+import models from '../../../../tenants/init/models';
 import {
   mockReq, mockStaff
 } from '../../../../__tests__/__mocks__';

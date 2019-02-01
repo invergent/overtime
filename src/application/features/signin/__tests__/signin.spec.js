@@ -1,5 +1,5 @@
 import signin from '../signin';
-import models from '../../../../tenants/vla/models';
+import models from '../../../../tenants/init/models';
 import {
   mockLoginCredentials, mockStaff
 } from '../../../../__tests__/__mocks__';

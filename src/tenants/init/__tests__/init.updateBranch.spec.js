@@ -6,14 +6,14 @@ import models from '../models';
 const { Staff } = models;
 const branchDetails = { branchId: 2 };
 
-describe('VLA: Update branch', () => {
+describe('INIT: Update branch', () => {
   let server;
   let request;
 
   beforeAll(async () => {
     server = http.createServer(app);
     await server.listen(7000);
-    request = supertest('http://vla.overtime.com:7000');
+    request = supertest('http://init.overtime.com:7000');
   });
 
   afterAll((done) => {

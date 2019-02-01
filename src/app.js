@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import subdomain from 'express-subdomain';
-import vlaRouter from './tenants/vla';
+import initRouter from './tenants/init';
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Subdomain definitions
-app.use(subdomain('vla', vlaRouter));
+app.use(subdomain('init', initRouter));
 
 app.get('*', (req, res) => res.status(200).json({ message: 'Project started' }));
 

@@ -30,6 +30,6 @@ router.post('/users/profile/line-manager',
 router.put('/users/profile/branch', authenticator, checkProps, checkBranchId, updateBranch);
 router.post('/users/profile/reset', authenticator, checkEntries, resetPassword);
 
-router.get('/', (req, res) => res.status(200).json({ message: 'VLA boarded' }));
+router.get('/', (req, res) => res.status(200).json({ message: 'INIT boarded' }));
 
 export default router;
