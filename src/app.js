@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Subdomain definitions
-app.use(subdomain('init', initRouter));
+app.use(subdomain('init.overtime-api', initRouter));
 
 app.get('*', (req, res) => res.status(200).json({ message: 'Project started' }));
 

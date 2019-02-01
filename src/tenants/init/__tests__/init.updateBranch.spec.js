@@ -13,7 +13,7 @@ describe('INIT: Update branch', () => {
   beforeAll(async () => {
     server = http.createServer(app);
     await server.listen(7000);
-    request = supertest('http://init.overtime.com:7000');
+    request = supertest('http://init.overtime-api.invergent-technologies.com:7000');
   });
 
   afterAll((done) => {

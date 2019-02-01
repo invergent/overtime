@@ -59,7 +59,7 @@ module.exports = {
           <div class="wrapper">
             <h2>Aaaah! You forgot your password!</h2>
             <p>Not a problem, {{name}}. Click the button below to reset it</p>
-            <a href="http://init.overtime.com:7000/confirm-reset-request?hash={{hash}}" target="_blank">
+            <a href="http://init.overtime-api.invergent-technologies.com:7000/confirm-reset-request?hash={{hash}}" target="_blank">
               <button>Reset password</button>
             </a>
           </div>
