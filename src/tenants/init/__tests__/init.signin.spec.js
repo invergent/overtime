@@ -2,27 +2,27 @@ import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
 
-describe('VLA tests', () => {
+describe('INIT tests', () => {
   let server;
   let request;
 
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(7000, done);
-    request = supertest('http://vla.overtime.com:7000');
+    request = supertest('http://init.overtime.com:7000');
   });
 
   afterAll((done) => {
     server.close(done);
   });
 
-  describe('VLA home', () => {
-    it('should return "VLA boarded"', async () => {
+  describe('INIT home', () => {
+    it('should return "INIT boarded"', async () => {
       const response = await request
         .get('/');
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('VLA boarded');
+      expect(response.body.message).toEqual('INIT boarded');
     });
   });
 

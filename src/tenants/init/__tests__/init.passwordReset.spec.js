@@ -2,14 +2,14 @@ import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
 
-describe('VLA tests', () => {
+describe('INIT tests', () => {
   let server;
   let request;
 
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(7000, done);
-    request = supertest('http://vla.overtime.com:7000');
+    request = supertest('http://init.overtime.com:7000');
   });
 
   afterAll((done) => {

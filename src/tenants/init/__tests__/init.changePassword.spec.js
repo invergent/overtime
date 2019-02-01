@@ -10,14 +10,14 @@ const changePasswordCredentials = {
   confirmPassword: 'newPassword'
 };
 
-describe('VLA: Change Password Tests', () => {
+describe('INIT: Change Password Tests', () => {
   let server;
   let request;
 
   beforeAll(async () => {
     server = http.createServer(app);
     await server.listen(7000);
-    request = supertest('http://vla.overtime.com:7000');
+    request = supertest('http://init.overtime.com:7000');
   });
 
   afterAll((done) => {

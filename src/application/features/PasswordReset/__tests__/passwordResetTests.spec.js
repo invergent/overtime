@@ -1,7 +1,7 @@
 import PasswordReset from '../index';
 import PasswordResetHelper from '../../../helpers/PasswordResetHelper';
 import { mockReq } from '../../../../__tests__/__mocks__';
-import models from '../../../../tenants/vla/models';
+import models from '../../../../tenants/init/models';
 import krypter from '../../../helpers/krypter';
 
 const { Staff } = models;

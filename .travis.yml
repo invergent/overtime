@@ -1,16 +1,16 @@
 addons:
   hosts:
-    - vla.overtime.com
+    - init.overtime.com
     - overtime.com
 env:
   global:
-    - CC_TEST_REPORTER_ID=4b2c30f2d00a404d3cf8157a77ffad7722266c553ef1113fa7f34987b9d3b25b
+    - CC_TEST_REPORTER_ID=dbf26fbb9835bb9744b5be2d9df17de476f36c5c7aa738cd53a45abc625168f5
 language: node_js
 node_js:
   - 'stable'
 before_script:
   - npm install sequelize-cli -g
-  - psql -c 'create database vla_overtime;' -U postgres
+  - psql -c 'create database init_overtime;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build

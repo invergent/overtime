@@ -9,7 +9,7 @@ class Mailer {
     const { to, subject, html } = email;
     return {
       from: this.from,
-      to: 'arcensiontechnologies@gmail.com',
+      to: 'invergenttechnologies@gmail.com',
       subject,
       html
     };
