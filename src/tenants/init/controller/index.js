@@ -11,5 +11,5 @@ export default {
     (req, res) => features.confirmPasswordResetRequest(req, res),
   resetPassword: (req, res) => features.resetPassword(req, res, models),
   changePassword: (req, res) => features.changePassword(req, res, models),
-  submitOvertimeRequest: (req, res) => features.submitOvertimeRequest(req, res, models)
+  createOvertimeClaim: (req, res) => features.createOvertimeClaim(req, res, models)
 };

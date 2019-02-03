@@ -1,5 +1,5 @@
-const overtimeRequests = (sequelize, DataTypes) => {
-  const OvertimeRequests = sequelize.define('OvertimeRequests', {
+const claims = (sequelize, DataTypes) => {
+  const Claims = sequelize.define('Claims', {
     monthOfClaim: {
       type: DataTypes.STRING
     },
@@ -26,11 +26,11 @@ const overtimeRequests = (sequelize, DataTypes) => {
     }
   }, { freezeTableName: true });
 
-  OvertimeRequests.associate = (models) => {
-    OvertimeRequests.belongsTo(models.Staff, { foreignKey: 'id' });
+  Claims.associate = (models) => {
+    Claims.belongsTo(models.Staff, { foreignKey: 'id' });
   };
 
-  return OvertimeRequests;
+  return Claims;
 };
 
-export default overtimeRequests;
+export default claims;

@@ -3,7 +3,7 @@ import addOrChangeLineManager from './addOrChangeLineManager';
 import updateBranch from './updateBranch';
 import PasswordReset from './PasswordReset';
 import ChangePassword from './ChangePassword';
-import submitOvertimeRequest from './submitOvertimeRequest';
+import ProcessOvertimeClaim from './ProcessOvertimeClaim';
 
 export default {
   signin,
@@ -11,5 +11,5 @@ export default {
   updateBranch,
   PasswordReset,
   ChangePassword,
-  submitOvertimeRequest
+  ProcessOvertimeClaim
 };

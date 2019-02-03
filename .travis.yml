@@ -1,7 +1,7 @@
 addons:
   hosts:
-    - init.overtime-api.invergent-technologies.com
-    - invergent-technologies.com
+    - init.overtime-api.example.com
+    - example.com
 env:
   global:
     - CC_TEST_REPORTER_ID=dbf26fbb9835bb9744b5be2d9df17de476f36c5c7aa738cd53a45abc625168f5

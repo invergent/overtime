@@ -3,7 +3,7 @@ import Responder from './Responder';
 
 const {
   signin, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword,
-  submitOvertimeRequest
+  ProcessOvertimeClaim
 } = features;
 
 class MainController {
@@ -36,8 +36,8 @@ class MainController {
     return Responder.respond(req, res, models, ChangePassword.processPasswordUpdate);
   }
 
-  static async submitOvertimeRequest(req, res, models) {
-    return Responder.respond(req, res, models, submitOvertimeRequest);
+  static async createOvertimeClaim(req, res, models) {
+    return Responder.respond(req, res, models, ProcessOvertimeClaim.create);
   }
 }
 

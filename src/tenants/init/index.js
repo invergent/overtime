@@ -7,7 +7,7 @@ import authenticator from '../../application/middlewares/authenticator';
 const router = express.Router();
 const {
   forgotPassword, signin, changePassword, updateBranch,
-  confirmPasswordResetRequest, resetPassword, addOrChangeLineManager, submitOvertimeRequest
+  confirmPasswordResetRequest, resetPassword, addOrChangeLineManager, createOvertimeClaim
 } = controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
@@ -20,7 +20,11 @@ router.post('/forgot-password', checkProps, checkStaffId, forgotPassword);
 router.get('/confirm-reset-request', confirmPasswordResetRequest);
 
 router.post('/overtime',
-  authenticator, checkOvertimeProps, checkOvertimeValues, submitOvertimeRequest);
+  authenticator, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
+// router.put(
+//   '/overtime/:claimId', authenticator, validateParams, checkClaimsApprovalStatus,
+//   checkOvertimeValues, processOvertimeClaim
+// );
 
 
 router.post('/users/profile/change-password',
