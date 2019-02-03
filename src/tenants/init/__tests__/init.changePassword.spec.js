@@ -17,7 +17,7 @@ describe('INIT: Change Password Tests', () => {
   beforeAll(async () => {
     server = http.createServer(app);
     await server.listen(7000);
-    request = supertest('http://init.overtime-api.invergent-technologies.com:7000');
+    request = supertest('http://init.overtime-api.example.com:7000');
   });
 
   afterAll((done) => {

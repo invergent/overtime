@@ -12,7 +12,7 @@ describe('Overtime Submission Tests', () => {
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(7000, done);
-    request = supertest('http://init.overtime-api.invergent-technologies.com:7000');
+    request = supertest('http://init.overtime-api.example.com:7000');
   });
 
   afterAll((done) => {
@@ -148,7 +148,7 @@ describe('Overtime Submission Tests', () => {
         .send({ weekday: 20, weekend: 8 });
 
       expect(response.status).toBe(201);
-      expect(response.body.message).toEqual('Overtime request submitted successfully');
+      expect(response.body.message).toEqual('Claim successfully.');
     });
 
     it('should send an error message if an error occurs', async () => {
