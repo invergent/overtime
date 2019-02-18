@@ -39,6 +39,10 @@ class MainController {
   static async createOvertimeClaim(req, res, models) {
     return Responder.respond(req, res, models, ProcessOvertimeClaim.create);
   }
+
+  static async updateOvertimeClaim(req, res, models) {
+    return Responder.respond(req, res, models, ProcessOvertimeClaim.update);
+  }
 }
 
 export default MainController;

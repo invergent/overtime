@@ -1,7 +1,11 @@
 class Responder {
   static async respond(req, res, models, method, client) {
-    const [statusCode, message] = await method(req, models, client);
-    return res.status(statusCode).json({ message });
+    const [statusCode, message, data] = await method(req, models, client);
+    const jsonResponse = { message };
+    if (data) {
+      jsonResponse.data = data;
+    }
+    return res.status(statusCode).json(jsonResponse);
   }
 
   static async respondWithCookie(req, res, models, method) {

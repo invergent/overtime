@@ -8,7 +8,7 @@ class InputValidator {
     const methodName = ValidatorHelpers.getMethodName(req.path);
     const missingProps = Validator.checkProps(req.body, methodName);
 
-    if (missingProps.length) {
+    if (missingProps.trim().length) {
       return res.status(400).json({
         message: `The following fields are missing: ${missingProps.slice(2)}`
       });
@@ -20,10 +20,7 @@ class InputValidator {
     const methodName = ValidatorHelpers.getMethodName(req.path);
     const errors = Validator[methodName](req.body);
 
-    if (errors.length) {
-      return res.status(400).json({ message: 'validationErrors', errors });
-    }
-    return next();
+    return ValidatorHelpers.validatorResponder(res, errors, next);
   }
 
   static checkBranchId(req, res, next) {
@@ -39,31 +36,29 @@ class InputValidator {
     const { staffId } = req.body;
     const error = ValidatorHelpers.checkStaffId(staffId);
 
-    if (error.length) {
-      return res.status(400).json({ message: 'staffId is invalid' });
-    }
-    return next();
+    return ValidatorHelpers.validatorResponder(res, error, next);
   }
 
   static checkOvertimeProps(req, res, next) {
     const { currentStaff: { staffRole }, body } = req;
-    const [statusCode, errors] = OvertimeRequestValidator.checkOvertimeProps(body, staffRole);
+    const errors = OvertimeRequestValidator.checkOvertimeProps(body, staffRole);
 
-    if (statusCode === 400) {
-      return res.status(statusCode).json({ message: 'validationErrors', errors });
-    }
-    return next();
+    return ValidatorHelpers.validatorResponder(res, errors, next);
   }
 
   static checkOvertimeValues(req, res, next) {
     const { body } = req;
     const daysInAMonth = Dates.countWeekdaysAndWeekendsOfAMonth();
-    const [statusCode, errors] = OvertimeRequestValidator.checkOvertimeEntries(body, daysInAMonth);
+    const errors = OvertimeRequestValidator.checkOvertimeEntries(body, daysInAMonth);
 
-    if (statusCode === 400) {
-      return res.status(statusCode).json({ message: 'validationErrors', errors });
-    }
-    return next();
+    return ValidatorHelpers.validatorResponder(res, errors, next);
+  }
+
+  static checkParams(req, res, next) {
+    const { claimId } = req.params;
+
+    const error = ValidatorHelpers.validateNumberParam(claimId, 'claimId');
+    return ValidatorHelpers.validatorResponder(res, error, next);
   }
 }
 

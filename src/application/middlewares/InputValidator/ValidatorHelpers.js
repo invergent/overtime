@@ -15,6 +15,14 @@ class ValidatorHelpers {
     return [];
   }
 
+  static validateNumberParam(param, claimId) {
+    const isInter = Number.isInteger(parseInt(param, 10));
+    const isGreaterThanZero = parseInt(param, 10) > 0;
+
+    if (isInter && isGreaterThanZero) return [];
+    return [`${claimId} must be an integer.`];
+  }
+
   static checkLineManagerRole(lineManagerRole) {
     const lineManagerRoles = ['Supervisor', 'BSM'];
 
@@ -40,6 +48,13 @@ class ValidatorHelpers {
       return firstWord;
     }
     return `${firstWord}${secondWord.charAt(0).toUpperCase()}${secondWord.slice(1)}`;
+  }
+
+  static validatorResponder(res, errors, next) {
+    if (errors.length) {
+      return res.status(400).json({ message: 'validationErrors', errors });
+    }
+    return next();
   }
 }
 
