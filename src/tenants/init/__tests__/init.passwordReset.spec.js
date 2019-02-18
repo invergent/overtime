@@ -23,7 +23,8 @@ describe('INIT tests', () => {
         .send({ staffId: 'TN0123' });
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual('staffId is invalid');
+      expect(response.body.message).toEqual('validationErrors');
+      expect(response.body.errors[0]).toEqual('Staff ID is invalid');
     });
 
     it('should send a password reset email', async () => {
@@ -32,7 +33,7 @@ describe('INIT tests', () => {
         .send({ staffId: 'TN012345' });
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('We just sent an email to john.doe@viclawrence.com');
+      expect(response.body.message).toEqual('We just sent an email to john.doe@init.com');
     });
   });
 

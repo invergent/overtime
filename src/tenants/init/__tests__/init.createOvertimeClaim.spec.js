@@ -5,7 +5,7 @@ import models from '../models';
 
 const { Staff } = models;
 
-describe('Overtime Submission Tests', () => {
+describe('Create Claim Tests', () => {
   let server;
   let request;
 
@@ -45,7 +45,7 @@ describe('Overtime Submission Tests', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors).toEqual('As an RPC, you can only apply for Shifts');
+      expect(response.body.errors[0]).toEqual('As an RPC, you can only apply for Shifts');
     });
 
     it('should fail if maximum number of shift days has been exceeded.', async () => {
@@ -148,7 +148,22 @@ describe('Overtime Submission Tests', () => {
         .send({ weekday: 20, weekend: 8 });
 
       expect(response.status).toBe(201);
-      expect(response.body.message).toEqual('Claim successfully.');
+      expect(response.body.message).toEqual('Your claim request was created successfully.');
+    });
+
+    it('should send a conflict error if staff already created claim', async () => {
+      const response = await request
+        .post('/overtime')
+        .set('cookie', token)
+        .set('Accept', 'application/json')
+        .send({ weekday: 20, weekend: 8 });
+
+      const message = `You have already submitted a claim request for ${
+        response ? '' : '' // just a hack to avoid eslint error
+      }Jan, 2019. If you wish to make changes, please edit your submission.`;
+
+      expect(response.status).toBe(409);
+      expect(response.body.message).toEqual(message);
     });
 
     it('should send an error message if an error occurs', async () => {
@@ -163,7 +178,7 @@ describe('Overtime Submission Tests', () => {
 
       expect(response.status).toBe(500);
       expect(response.body.message).toEqual(
-        'There was a problem submitting your request ERR500PSWRST'
+        'There was a problem submitting your request ERR500CLMCRT'
       );
     });
   });
