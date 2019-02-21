@@ -1,32 +1,29 @@
 import signin from '../signin';
-import models from '../../../../tenants/init/models';
+import tenantsModels from '../../../database/tenantsModels';
 import {
-  mockLoginCredentials, mockStaff
+  mockReq, mockStaff
 } from '../../../../__tests__/__mocks__';
 
 jest.mock('../../../helpers/krypter', () => ({
   authenticationEncryption: jest.fn(() => 'someToken')
 }));
 
-const { Staff } = models;
+const { Staff } = tenantsModels.INIT;
 
 describe('Signin Unit test', () => {
   it('should throw a catch error if an execution error occurs', async () => {
-    const err = { error: 'that did not work' };
-    const req = { body: { staffId: 'someId', password: 'someValue' } };
-    const res = {};
+    jest.spyOn(Staff, 'findOne').mockRejectedValue('failed');
 
-    try {
-      await signin(req, res, models);
-    } catch (e) {
-      expect(e).toEqual(Promise.reject(err));
-    }
+    const result = await signin(mockReq);
+    expect(result).toHaveLength(2);
+    expect(result[0]).toBe(500);
+    expect(result[1]).toBe('An error occured ERR500LOGIN');
   });
 
   it('should identify a first time signin', async () => {
-    Staff.findOne = jest.fn(() => Promise.resolve(mockStaff));
+    jest.spyOn(Staff, 'findOne').mockResolvedValue(mockStaff);
 
-    const [statusCode, message, data] = await signin(mockLoginCredentials, models);
+    const [statusCode, message, data] = await signin(mockReq);
 
     expect(statusCode).toBe(200);
     expect(message).toBe('Login successful!');

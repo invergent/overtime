@@ -1,12 +1,13 @@
 import helpers from '../helpers';
+import tenantsModels from '../database/tenantsModels';
 
 const { instrinsicMiddlewareHelpers } = helpers;
 const {
   claimExists, claimHasBeenApproved, checkThatUserCanUpdateThisClaim
 } = instrinsicMiddlewareHelpers;
 
-export default async (claimId, models, currentStaff) => {
-  const { Claims, Staff } = models;
+export default async (claimId, tenant, currentStaff) => {
+  const { Claims, Staff } = tenantsModels[tenant];
 
   const claim = await claimExists(claimId, Claims);
   if (!claim) return [404, 'Claim does not exist.'];

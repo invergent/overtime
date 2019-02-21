@@ -1,9 +1,9 @@
 import http from 'http';
 import supertest from 'supertest';
 import app from '../../../app';
-import models from '../models';
+import tenantsModels from '../../../application/database/tenantsModels';
 
-const { Staff } = models;
+const { Staff } = tenantsModels.INIT;
 const branchDetails = { branchId: 2 };
 
 describe('INIT: Update branch', () => {

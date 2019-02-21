@@ -1,9 +1,9 @@
 import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
-import models from '../models';
+import tenantsModels from '../../../application/database/tenantsModels';
 
-const { Staff } = models;
+const { Staff } = tenantsModels.INIT;
 
 describe('Create Claim Tests', () => {
   let server;

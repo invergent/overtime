@@ -2,11 +2,12 @@ import bcrypt from 'bcrypt';
 import EmailConstructor from '../EmailConstructor';
 import krypter from '../krypter';
 import types from '../../utils/types';
+import tenantsModels from '../../database/tenantsModels';
 
 class PasswordResetHelper {
-  static async processResetEmailMessage(staff, models) {
+  static async processResetEmailMessage(staff, tenant) {
     const { staffId } = staff;
-    const { EmailTemplate, PasswordResetRequest } = models;
+    const { EmailTemplate, PasswordResetRequest } = tenantsModels[tenant];
 
     const passwordResetHash = krypter.createCryptrHash(`${process.env.RESET_SECRET} ${staffId}`);
     await PasswordResetRequest.upsert({ staffId, passwordResetHash, status: 'Pending' });

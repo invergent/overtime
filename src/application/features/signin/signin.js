@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import krypter from '../../helpers/krypter';
+import tenantsModels from '../../database/tenantsModels';
 
-export default async (loginRequest, models) => {
-  const { Staff, Roles } = models;
-  const { body: { staffId, password } } = loginRequest;
+export default async (loginRequest) => {
+  const { body: { staffId, password }, tenant } = loginRequest;
+  const { Staff, Roles } = tenantsModels[tenant];
   const data = {};
 
   try {

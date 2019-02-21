@@ -1,13 +1,14 @@
 import helpers from '../../helpers';
 import intrinsicMiddlewares from '../../intrinsicMiddlewares';
+import tenantsModels from '../../database/tenantsModels';
 
 const { Dates } = helpers;
 const { claimsSpecificMiddleware } = intrinsicMiddlewares;
 
 class ProcessOvertimeClaim {
-  static async create(req, models) {
-    const { Staff, Claims } = models;
-    const { currentStaff: { staffId }, body } = req;
+  static async create(req) {
+    const { currentStaff: { staffId }, body, tenant } = req;
+    const { Staff, Claims } = tenantsModels[tenant];
 
     try {
       const staff = await Staff.findOne({ where: { staffId }, raw: true });
@@ -34,14 +35,14 @@ class ProcessOvertimeClaim {
     }
   }
 
-  static async update(req, models) {
-    const { Claims } = models;
+  static async update(req) {
     const {
-      currentStaff: { staffId }, body, params: { claimId }
+      currentStaff: { staffId }, body, params: { claimId }, tenant
     } = req;
+    const { Claims } = tenantsModels[tenant];
 
     try {
-      const [statusCode, message] = await claimsSpecificMiddleware(claimId, models, staffId);
+      const [statusCode, message] = await claimsSpecificMiddleware(claimId, tenant, staffId);
       if (statusCode !== 200) return [statusCode, message];
 
       const [updated, claim] = await Claims.update(
