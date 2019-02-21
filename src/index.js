@@ -1,7 +1,8 @@
-import { config } from 'dotenv';
+import path from 'path';
+import dotenv from 'dotenv';
 import app from './app';
 
-config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const port = parseInt(process.env.PORT, 10) || 7000;
 

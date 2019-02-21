@@ -1,20 +1,21 @@
 import bcrypt from 'bcrypt';
+import tenantsModels from '../../database/tenantsModels';
 
 class ChangePassword {
-  static async processPasswordUpdate(req, models) {
+  static async processPasswordUpdate(req) {
     const {
-      currentStaff, body: { currentPassword, newPassword }
+      currentStaff, body: { currentPassword, newPassword }, tenant
     } = req;
 
     try {
-      const staff = await ChangePassword.findStaffByStaffId(currentStaff.staffId, models);
+      const staff = await ChangePassword.findStaffByStaffId(currentStaff.staffId, tenant);
       const isCorrect = await ChangePassword
         .currentPasswordIsCorrect(currentPassword, staff.password);
       if (!isCorrect) {
         return [401, 'Password is incorrect'];
       }
 
-      await ChangePassword.updatePassword(currentStaff.staffId, newPassword, models);
+      await ChangePassword.updatePassword(currentStaff.staffId, newPassword, tenant);
       return [200, 'Password changed'];
     } catch (e) {
       return [500, 'An error occurred ERR500CHGPSW'];
@@ -25,12 +26,14 @@ class ChangePassword {
     return bcrypt.compare(currentPasswordFromUser, currentPasswordFromDB);
   }
 
-  static findStaffByStaffId(staffId, models) {
-    return models.Staff.findOne({ where: { staffId }, raw: true });
+  static findStaffByStaffId(staffId, tenant) {
+    const { Staff } = tenantsModels[tenant];
+    return Staff.findOne({ where: { staffId }, raw: true });
   }
 
-  static updatePassword(staffId, newPassword, models) {
-    return models.Staff.update({ password: newPassword }, { where: { staffId } });
+  static updatePassword(staffId, newPassword, tenant) {
+    const { Staff } = tenantsModels[tenant];
+    return Staff.update({ password: newPassword }, { where: { staffId } });
   }
 }
 

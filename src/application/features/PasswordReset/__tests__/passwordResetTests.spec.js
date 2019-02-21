@@ -3,8 +3,9 @@ import PasswordResetHelper from '../../../helpers/PasswordResetHelper';
 import { mockReq } from '../../../../__tests__/__mocks__';
 import models from '../../../../tenants/init/models';
 import krypter from '../../../helpers/krypter';
+import tenantsModels from '../../../database/tenantsModels';
 
-const { Staff } = models;
+const { Staff } = tenantsModels.INIT;
 
 jest.mock('../../../helpers/Mailer');
 krypter.authenticationEncryption = jest.fn(() => 'someToken');
@@ -17,10 +18,10 @@ describe('PasswordReset', () => {
 
   describe('Forgot password', () => {
     it('should fail if staff does not exist', async () => {
-      Staff.findOne = jest.fn(() => Promise.resolve(null));
+      jest.spyOn(Staff, 'findOne').mockResolvedValue(null);
 
       const [statusCode, message] = await PasswordReset
-        .forgotPassword(mockReq, models, 'someClient');
+        .forgotPassword(mockReq);
 
       expect(statusCode).toBe(404);
       expect(message).toBe('Staff does not exist');
@@ -29,17 +30,21 @@ describe('PasswordReset', () => {
 
   describe('Confirm Password Reset Request tests', () => {
     it('should fail if reset password hash is not in the link', async () => {
-      krypter.decryptCryptrHash = jest.fn(() => 'wrongSecret someId');
+      jest.spyOn(krypter, 'decryptCryptrHash').mockImplementation(() => 'wrongSecret someId');
+
       const [statusCode, message] = await PasswordReset
         .confirmPasswordResetRequest(mockReq);
+
       expect(statusCode).toBe(403);
       expect(message).toBe('Decryption failed!');
     });
 
     it('should successfully confirm password reset request after decrypting hash', async () => {
-      krypter.decryptCryptrHash = jest.fn(() => 'resetsecret someId');
+      jest.spyOn(krypter, 'decryptCryptrHash').mockImplementation(() => 'resetsecret someId');
+
       const [statusCode, message] = await PasswordReset
         .confirmPasswordResetRequest(mockReq);
+
       expect(statusCode).toBe(200);
       expect(message).toBe('Decryption successful!');
     });
@@ -55,34 +60,41 @@ describe('PasswordReset', () => {
   });
 
   describe('Reset password tests', () => {
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+
     it('should fail if request is invalid', async () => {
-      PasswordResetHelper.findAndValidateResetRequest = jest.fn(() => [403, 'invalid']);
+      jest.spyOn(PasswordResetHelper, 'findAndValidateResetRequest')
+        .mockImplementation(() => [403, 'invalid']);
 
       const [statusCode, message] = await PasswordReset
-        .resetPassword(mockReq, models);
+        .resetPassword(mockReq);
+
       expect(statusCode).toBe(403);
       expect(message).toBe('invalid');
     });
 
     it('should reset password successfully', async () => {
-      jest.resetAllMocks();
-      PasswordResetHelper.findAndValidateResetRequest = jest.fn(() => [200, 'valid']);
-      PasswordResetHelper.processPasswordReset = jest.fn(() => [200, 'valid']);
+      jest.spyOn(PasswordResetHelper, 'findAndValidateResetRequest')
+        .mockImplementation(() => [200, 'valid']);
+      jest.spyOn(PasswordResetHelper, 'processPasswordReset')
+        .mockImplementation(() => [200, 'valid']);
 
       const [statusCode, message] = await PasswordReset
-        .resetPassword(mockReq, models);
+        .resetPassword(mockReq);
       expect(statusCode).toBe(200);
       expect(message).toBe('valid');
     });
 
     it('should throw an exception if an error occurs', async () => {
-      jest.resetAllMocks();
-      const err = 'failed';
-      PasswordResetHelper.findAndValidateResetRequest = jest.fn(() => [200, 'valid']);
-      PasswordResetHelper.processPasswordReset = jest.fn(() => Promise.reject(err));
+      jest.spyOn(PasswordResetHelper, 'findAndValidateResetRequest')
+        .mockImplementation(() => [200, 'valid']);
+      jest.spyOn(PasswordResetHelper, 'processPasswordReset')
+        .mockRejectedValue('failed');
 
       const [statusCode, message] = await PasswordReset
-        .resetPassword(mockReq, models);
+        .resetPassword(mockReq);
       expect(statusCode).toBe(500);
       expect(message).toBe('An error occured ERR500PSWRST');
     });

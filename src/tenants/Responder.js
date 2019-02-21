@@ -1,6 +1,6 @@
 class Responder {
-  static async respond(req, res, models, method, client) {
-    const [statusCode, message, data] = await method(req, models, client);
+  static async respond(req, res, method, client) {
+    const [statusCode, message, data] = await method(req, client);
     const jsonResponse = { message };
     if (data) {
       jsonResponse.data = data;
@@ -8,8 +8,8 @@ class Responder {
     return res.status(statusCode).json(jsonResponse);
   }
 
-  static async respondWithCookie(req, res, models, method) {
-    const [statusCode, message, data] = await method(req, models);
+  static async respondWithCookie(req, res, method) {
+    const [statusCode, message, data] = await method(req);
 
     if (statusCode !== 200) {
       return res.status(statusCode).json({ message });

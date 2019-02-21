@@ -1,6 +1,8 @@
-export default async (req, models) => {
-  const { Staff, LineManagers } = models;
-  const { currentStaff: { staffId }, body } = req;
+import tenantsModels from '../../database/tenantsModels';
+
+export default async (req) => {
+  const { currentStaff: { staffId }, body, tenant } = req;
+  const { Staff, LineManagers } = tenantsModels[tenant];
   const lineManagerDetails = body;
   const lineManagerIdColumn = lineManagerDetails.lineManagerRole === 'Supervisor'
     ? 'supervisorId' : 'bsmId';

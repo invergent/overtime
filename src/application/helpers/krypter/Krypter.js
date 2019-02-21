@@ -1,5 +1,8 @@
+import { config } from 'dotenv';
 import Cryptr from 'cryptr';
 import jsonwebtoken from 'jsonwebtoken';
+
+config();
 
 class Krypter {
   constructor() {

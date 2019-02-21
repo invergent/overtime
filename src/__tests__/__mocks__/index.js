@@ -7,7 +7,8 @@ export const mockReq = {
   query: {
     hash: 'someHash'
   },
-  currentStaffId: 'someId'
+  currentStaffId: 'someId',
+  tenant: 'INIT'
 };
 
 export const mockStaff = {
@@ -22,5 +23,6 @@ export const mockLoginCredentials = {
   body: {
     staffId: 'someId',
     password: 'password'
-  }
+  },
+  tenant: 'INIT'
 };

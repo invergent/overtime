@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default (dbConfig) => {
   const db = {};

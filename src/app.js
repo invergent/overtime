@@ -11,6 +11,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// Add tenant's unique identifier property
+app.use((req, res, next) => {
+  const [tenant] = req.headers.host.split('.overtime-api');
+  req.tenant = tenant.toUpperCase();
+  return next();
+});
+
 // Subdomain definitions
 app.use(subdomain('init.overtime-api', initRouter));
 

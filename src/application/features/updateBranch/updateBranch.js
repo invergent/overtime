@@ -1,6 +1,8 @@
-export default async (req, models) => {
-  const { Staff, Branch } = models;
-  const { currentStaff, body: { branchId } } = req;
+import tenantsModels from '../../database/tenantsModels';
+
+export default async (req) => {
+  const { currentStaff, body: { branchId }, tenant } = req;
+  const { Staff, Branch } = tenantsModels[tenant];
 
   try {
     const branch = await Branch.findByPk(branchId, { raw: true });
