@@ -41,7 +41,7 @@ describe('Create Claim Tests', () => {
         .post('/overtime')
         .set('cookie', token)
         .set('Accept', 'application/json')
-        .send({});
+        .send({ weekend: 4 });
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
@@ -105,7 +105,7 @@ describe('Create Claim Tests', () => {
         .set('Accept', 'application/json')
         .send({ weekend: 8, atm: 9 });
 
-      const errorMessage = 'Your can contain either Weekend or ATM shifts; not both.';
+      const errorMessage = 'Your request can contain either Weekend or ATM shifts; not both.';
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');

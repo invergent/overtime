@@ -1,20 +1,20 @@
-import tenantsModels from '../../database/tenantsModels';
+import services from '../../services';
+
+const { LineManagerService, StaffService } = services;
 
 export default async (req) => {
   const { currentStaff: { staffId }, body, tenant } = req;
-  const { Staff, LineManagers } = tenantsModels[tenant];
   const lineManagerDetails = body;
   const lineManagerIdColumn = lineManagerDetails.lineManagerRole === 'Supervisor'
     ? 'supervisorId' : 'bsmId';
 
   try {
-    const [lineManager, created] = await LineManagers.findOrCreate({
-      where: { email: lineManagerDetails.email },
-      defaults: lineManagerDetails,
-      raw: true
-    });
+    const [lineManager, created] = await LineManagerService
+      .findOrCreateLineManager(tenant, lineManagerDetails);
 
-    await Staff.update({ [lineManagerIdColumn]: lineManager.id }, { where: { staffId } });
+    const data = { ...lineManager, staffId, lineManagerIdColumn };
+    StaffService.updateStaffsLineManager(tenant, data);
+
     return [
       created ? 201 : 200,
       `${lineManagerDetails.lineManagerRole} ${created ? 'added' : 'updated'} successfully.`,

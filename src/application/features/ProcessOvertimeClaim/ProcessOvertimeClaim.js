@@ -1,28 +1,22 @@
 import helpers from '../../helpers';
 import intrinsicMiddlewares from '../../intrinsicMiddlewares';
-import tenantsModels from '../../database/tenantsModels';
+import services from '../../services';
 
-const { Dates } = helpers;
+const { ClaimService, StaffService } = services;
+const { ProcessOvertimeClaimHelpers } = helpers;
 const { claimsSpecificMiddleware } = intrinsicMiddlewares;
 
 class ProcessOvertimeClaim {
   static async create(req) {
     const { currentStaff: { staffId }, body, tenant } = req;
-    const { Staff, Claims } = tenantsModels[tenant];
 
     try {
-      const staff = await Staff.findOne({ where: { staffId }, raw: true });
-      const overtimeRequest = {
-        monthOfClaim: Dates.convertPreviousYearMonthToString(),
-        ...body,
-        requester: staff.id
-      };
+      const staff = await StaffService.findStaffByStaffId(tenant, staffId);
+      const overtimeRequest = ProcessOvertimeClaimHelpers.createOvertimeRequestObject(
+        body, staff.id
+      );
 
-      const [claim, created] = await Claims.findOrCreate({
-        where: { monthOfClaim: overtimeRequest.monthOfClaim, requester: overtimeRequest.requester },
-        defaults: overtimeRequest,
-        raw: true
-      });
+      const [claim, created] = await ClaimService.findOrCreateClaim(tenant, overtimeRequest);
 
       const messageWhenCreated = 'Your claim request was created successfully.';
       const messageWhenNotCreated = `You have already submitted a claim request for ${
@@ -39,16 +33,12 @@ class ProcessOvertimeClaim {
     const {
       currentStaff: { staffId }, body, params: { claimId }, tenant
     } = req;
-    const { Claims } = tenantsModels[tenant];
 
     try {
       const [statusCode, message] = await claimsSpecificMiddleware(claimId, tenant, staffId);
       if (statusCode !== 200) return [statusCode, message];
 
-      const [updated, claim] = await Claims.update(
-        body,
-        { where: { id: claimId }, returning: true, raw: true }
-      );
+      const [updated, claim] = await ClaimService.updateClaim(tenant, body, claimId);
       return [
         200,
         `Claim${updated ? '' : ' not'} updated${updated ? ' successfully' : ''}.`,
