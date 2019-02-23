@@ -1,3 +1,4 @@
 export default Object.freeze({
-  Reset: 'Reset'
+  Reset: 'Reset',
+  NewClaim: 'newClaim'
 });

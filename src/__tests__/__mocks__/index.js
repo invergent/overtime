@@ -7,7 +7,7 @@ export const mockReq = {
   query: {
     hash: 'someHash'
   },
-  currentStaffId: 'someId',
+  currentStaff: { staffId: 'someId' },
   tenant: 'INIT'
 };
 

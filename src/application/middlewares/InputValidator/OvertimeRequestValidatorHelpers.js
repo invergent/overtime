@@ -26,7 +26,7 @@ class OvertimeRequestValidator {
     const errors = [...this.checkNonRPCRequestProps(overtimeTypes)];
 
     if (overtimeTypes.includes('weekend') && overtimeTypes.includes('atm')) {
-      errors.push('Your can contain either Weekend or ATM shifts; not both.');
+      errors.push('Your request can contain either Weekend or ATM shifts; not both.');
     }
     if (!overtimeTypes.length) {
       errors.push('request cannot be empty');

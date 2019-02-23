@@ -1,16 +1,17 @@
-import tenantsModels from '../../database/tenantsModels';
+import services from '../../services';
+
+const { StaffService, BranchService } = services;
 
 export default async (req) => {
-  const { currentStaff, body: { branchId }, tenant } = req;
-  const { Staff, Branch } = tenantsModels[tenant];
+  const { currentStaff: { staffId }, body: { branchId }, tenant } = req;
 
   try {
-    const branch = await Branch.findByPk(branchId, { raw: true });
+    const branch = await BranchService.fetchBranchByPk(tenant, branchId);
 
     if (!branch) return [404, 'Branch does not exist.'];
 
-    await Staff.update({ branchId }, { where: { staffId: currentStaff.staffId }, returning: true });
-    return [200, 'Branch updated successfully.'];
+    const data = await StaffService.updateStaffsBranch(tenant, staffId, branchId);
+    return [200, 'Branch updated successfully.', branch];
   } catch (e) {
     return [500, 'An error occured ERR500CNGBRH'];
   }

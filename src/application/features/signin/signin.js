@@ -1,14 +1,15 @@
 import bcrypt from 'bcrypt';
 import krypter from '../../helpers/krypter';
-import tenantsModels from '../../database/tenantsModels';
+import services from '../../services';
+
+const { StaffService } = services;
 
 export default async (loginRequest) => {
   const { body: { staffId, password }, tenant } = loginRequest;
-  const { Staff, Roles } = tenantsModels[tenant];
   const data = {};
 
   try {
-    const staff = await Staff.findOne({ where: { staffId }, include: [Roles], raw: true });
+    const staff = await StaffService.findStaffByStaffId(tenant, staffId, ['staffRole']);
     if (!staff) {
       return [404, 'Staff not found'];
     }
@@ -23,7 +24,9 @@ export default async (loginRequest) => {
       }
     }
 
-    const payload = { staffId, staffRole: staff['Role.name'] };
+
+
+    const payload = { staffId, staffRole: staff['staffRole.name'] };
 
     const hashedToken = krypter.authenticationEncryption('staff', payload);
     data.hashedToken = hashedToken;

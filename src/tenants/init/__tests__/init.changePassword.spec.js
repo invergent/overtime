@@ -101,7 +101,7 @@ describe('INIT: Change Password Tests', () => {
         .send(changePasswordCredentials);
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('Password changed');
+      expect(response.body.message).toEqual('Password changed!');
     });
 
     it('should fail if another change password request is sent with the old credentials', async () => {

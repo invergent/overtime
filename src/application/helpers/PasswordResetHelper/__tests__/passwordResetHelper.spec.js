@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt';
 import PasswordResetHelper from '../PasswordResetHelper';
-import EmailConstructor from '../../EmailConstructor';
-import models from '../../../../tenants/init/models';
 import {
   mockReq, mockStaff
 } from '../../../../__tests__/__mocks__';
+import services from '../../../services';
+
+const { PasswordResetService } = services;
 
 jest.mock('../../krypter', () => ({
   authenticationEncryption: jest.fn(() => 'someToken')
@@ -13,53 +14,38 @@ jest.mock('../../krypter', () => ({
 describe('PasswordResetHelper', () => {
   describe('findAndValidateResetRequest tests', () => {
     it('should validate password reset request as expired if it has already been treated', async () => {
-      const PasswordResetRequest = { findOne: jest.fn() };
+      jest.spyOn(PasswordResetService, 'fetchPasswordResetRequest').mockResolvedValue(null);
 
       const [statusCode, message] = await PasswordResetHelper
-        .findAndValidateResetRequest(mockReq.currentStaffId, mockReq.query.hash, PasswordResetRequest);
+        .findAndValidateResetRequest('tenant', 'staffId');
 
       expect(statusCode).toBe(404);
       expect(message).toBe('Reset link is expired');
     });
 
     it('should validate password reset request as invalid if hash is incorrect', async () => {
-      const passwordResetHash = 'correctHash';
-      const PasswordResetRequest = {
-        findOne: jest.fn(() => ({ passwordResetHash }))
-      };
+      const data = { passwordResetHash: 'correctHash' };
+      jest.spyOn(PasswordResetService, 'fetchPasswordResetRequest').mockResolvedValue(data);
 
       const [statusCode, message] = await PasswordResetHelper
-        .findAndValidateResetRequest(mockReq.currentStaffId, 'incorrectHash', PasswordResetRequest);
+        .findAndValidateResetRequest('tenant', 'staffId', 'incorrectHash');
 
       expect(statusCode).toBe(403);
       expect(message).toBe('Reset link is invalid');
     });
 
     it('should validate password reset request as valid and delete it from DB', async () => {
-      const passwordResetHash = 'correctHash';
-      const PasswordResetRequest = {
-        findOne: jest.fn(() => ({ passwordResetHash })),
-        destroy: jest.fn()
-      };
+      const data = { passwordResetHash: 'correctHash' };
+      jest.spyOn(PasswordResetService, 'fetchPasswordResetRequest').mockResolvedValue(data);
+      const deleteTreatedRequest = jest.spyOn(PasswordResetService, 'deletePasswordResetRequest')
+        .mockResolvedValue({});
 
       const [statusCode, message] = await PasswordResetHelper
-        .findAndValidateResetRequest(mockReq.currentStaffId, passwordResetHash, PasswordResetRequest);
+        .findAndValidateResetRequest('tenant', 'staffId', 'correctHash');
 
       expect(statusCode).toBe(200);
       expect(message).toBe('valid');
-    });
-  });
-
-  describe('processPasswordReset tests', () => {
-    it('should reset password successfully', async () => {
-      bcrypt.hashSync = jest.fn();
-      const Staff = { update: jest.fn() };
-
-      const [statusCode, message] = await PasswordResetHelper
-        .processPasswordReset(mockReq.currentStaffId, mockStaff.password, Staff);
-
-      expect(statusCode).toBe(200);
-      expect(message).toBe('Password reset successful!');
+      expect(deleteTreatedRequest).toHaveBeenCalled();
     });
   });
 });

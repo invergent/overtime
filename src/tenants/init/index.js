@@ -23,7 +23,8 @@ router.get('/confirm-reset-request', confirmPasswordResetRequest);
 router.post('/overtime',
   authenticator, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
 router.put(
-  '/overtime/:claimId', authenticator, checkParams, updateOvertimeClaim
+  '/overtime/:claimId', authenticator, checkParams, checkOvertimeProps, checkOvertimeValues,
+  updateOvertimeClaim
 );
 
 router.post('/users/profile/change-password',

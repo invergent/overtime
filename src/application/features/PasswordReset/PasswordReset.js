@@ -1,23 +1,21 @@
 import helpers from '../../helpers';
-import tenantsModels from '../../database/tenantsModels';
+import services from '../../services';
+import notifications from '../../notifications';
+import types from '../../utils/types';
 
-const { Mailer, krypter, PasswordResetHelper } = helpers;
+const { krypter, PasswordResetHelper } = helpers;
+const { StaffService } = services;
 
 class PasswordReset {
   static async forgotPassword(req) {
     const { body: { staffId }, tenant } = req;
-    const { Staff } = tenantsModels[tenant];
-    const mailer = new Mailer(tenant);
 
-    const staff = await Staff.findOne({ where: { staffId } });
-
+    const staff = await StaffService.findStaffByStaffId(tenant, staffId);
     if (!staff) {
       return [404, 'Staff does not exist'];
     }
 
-    const message = await PasswordResetHelper.processResetEmailMessage(staff, tenant);
-
-    mailer.send(message);
+    notifications.emit(types.NewClaim, [tenant, staff]);
     return [200, `We just sent an email to ${staff.email}`];
   }
 
@@ -36,28 +34,26 @@ class PasswordReset {
       return [403, 'Decryption failed!'];
     }
 
-    const hashedToken = krypter.authenticationEncryption('staffId', staffId);
+    const hashedToken = krypter.authenticationEncryption('staff', { staffId });
     data.hashedToken = hashedToken;
     return [200, 'Decryption successful!', data];
   }
 
   static async resetPassword(req) {
     const {
-      currentStaff, query: { hash }, body: { password }, tenant
+      currentStaff: { staffId }, query: { hash }, body: { password }, tenant
     } = req;
-    const { Staff, PasswordResetRequest } = tenantsModels[tenant];
 
     try {
-      let [statusCode, message] = await PasswordResetHelper
-        .findAndValidateResetRequest(currentStaff, hash, PasswordResetRequest);
+      const [statusCode, message] = await PasswordResetHelper
+        .findAndValidateResetRequest(tenant, staffId, hash);
 
       if (message !== 'valid') {
         return [statusCode, message];
       }
 
-      [statusCode, message] = PasswordResetHelper
-        .processPasswordReset(currentStaff, password, Staff);
-      return [statusCode, message];
+      const updated = await StaffService.updatePassword(tenant, staffId, password);
+      return [updated ? 200 : 500, `Password reset ${updated ? '' : 'un'}successful!`];
     } catch (e) {
       return [500, 'An error occured ERR500PSWRST'];
     }
