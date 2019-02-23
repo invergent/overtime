@@ -1,4 +1,12 @@
-export default Object.freeze({
+export const generalNames = Object.freeze({
   Reset: 'Reset',
-  NewClaim: 'newClaim'
+  NewClaimSupervisor: 'New Claim Supervisor',
+  NewClaimBSM: 'New Claim BSM',
+  Supervisor: 'Supervisor',
+  Bsm: 'BSM'
+});
+
+export const eventNames = Object.freeze({
+  PasswordReset: 'passwordReset',
+  NewClaim: 'NewClaim',
 });

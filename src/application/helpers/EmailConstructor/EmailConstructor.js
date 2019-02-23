@@ -24,9 +24,9 @@ class EmailConstructor {
       lastname: staffLastName,
       'supervisor.firstname': supervisorFirstName,
       'supervisor.lastname': supervisorLastName,
-      'bsm.firstname': bsmFirstName,
-      'bsm.lastname': bsmLastName,
-      passwordResetHash
+      'BSM.firstname': bsmFirstName,
+      'BSM.lastname': bsmLastName,
+      hash
     } = emailDetails;
 
     return htmlMessage
@@ -36,7 +36,7 @@ class EmailConstructor {
       .replace(/{{supervisorLastName}}/g, supervisorLastName)
       .replace(/{{bsmFirstName}}/g, bsmFirstName)
       .replace(/{{bsmLastName}}/g, bsmLastName)
-      .replace(/{{hash}}/g, passwordResetHash);
+      .replace(/{{hash}}/g, hash);
   }
 }
 

@@ -1,7 +1,7 @@
 import helpers from '../../helpers';
 import services from '../../services';
 import notifications from '../../notifications';
-import types from '../../utils/types';
+import { eventNames } from '../../utils/types';
 
 const { krypter, PasswordResetHelper } = helpers;
 const { StaffService } = services;
@@ -15,7 +15,7 @@ class PasswordReset {
       return [404, 'Staff does not exist'];
     }
 
-    notifications.emit(types.NewClaim, [tenant, staff]);
+    notifications.emit(eventNames.passwordReset, [tenant, staff]);
     return [200, `We just sent an email to ${staff.email}`];
   }
 

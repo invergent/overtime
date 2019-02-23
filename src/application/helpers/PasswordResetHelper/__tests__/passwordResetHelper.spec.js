@@ -1,15 +1,8 @@
-import bcrypt from 'bcrypt';
 import PasswordResetHelper from '../PasswordResetHelper';
-import {
-  mockReq, mockStaff
-} from '../../../../__tests__/__mocks__';
 import services from '../../../services';
+import krypter from '../../krypter';
 
 const { PasswordResetService } = services;
-
-jest.mock('../../krypter', () => ({
-  authenticationEncryption: jest.fn(() => 'someToken')
-}));
 
 describe('PasswordResetHelper', () => {
   describe('findAndValidateResetRequest tests', () => {
@@ -46,6 +39,18 @@ describe('PasswordResetHelper', () => {
       expect(statusCode).toBe(200);
       expect(message).toBe('valid');
       expect(deleteTreatedRequest).toHaveBeenCalled();
+    });
+  });
+
+  describe('createAndSaveResetHash tests', () => {
+    it('should create and save password reset hash', async () => {
+      jest.spyOn(krypter, 'createCryptrHash').mockReturnValue('passwordResetHash');
+      const update = jest.spyOn(PasswordResetService, 'updateOrInsertResetRequest').mockResolvedValue(null);
+
+      const hash = await PasswordResetHelper.createAndSaveResetHash('tenant', 'staffId');
+
+      expect(hash).toBe('passwordResetHash');
+      expect(update).toHaveBeenCalled();
     });
   });
 });

@@ -19,4 +19,12 @@ describe('PasswordResetService Unit tests', () => {
       expect(destroy).toHaveBeenCalled();
     });
   });
+
+  describe('updateOrInsertResetRequest tests', () => {
+    it('should update or insert reset request.', async () => {
+      const upsert = jest.spyOn(PasswordResetRequest, 'upsert').mockResolvedValue({});
+      await PasswordResetService.updateOrInsertResetRequest('INIT', 'staffId');
+      expect(upsert).toHaveBeenCalled();
+    });
+  });
 });

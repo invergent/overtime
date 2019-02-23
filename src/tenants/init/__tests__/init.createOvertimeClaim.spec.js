@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
 import tenantsModels from '../../../application/database/tenantsModels';
+import EmailNotifications from '../../../application/notifications/EmailNotifications';
 
 const { Staff } = tenantsModels.INIT;
 
@@ -14,6 +15,8 @@ describe('Create Claim Tests', () => {
     server.listen(7000, done);
     request = supertest('http://init.overtime-api.example.com:7000');
   });
+
+  beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
 
   afterAll((done) => {
     server.close(done);
