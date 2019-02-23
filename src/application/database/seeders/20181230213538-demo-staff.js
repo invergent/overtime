@@ -11,6 +11,7 @@ module.exports = {
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
     branchId: 1,
     supervisorId: 1,
+    bsmId: 3,
     role: 1,
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
@@ -25,6 +26,7 @@ module.exports = {
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
     branchId: 2,
     supervisorId: 1,
+    bsmId: 2,
     role: 2,
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
@@ -38,7 +40,8 @@ module.exports = {
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
     branchId: 1,
-    supervisorId: 2,
+    supervisorId: 4,
+    bsmId: 2,
     role: 3,
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
@@ -52,7 +55,8 @@ module.exports = {
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
     branchId: 2,
-    supervisorId: 1,
+    supervisorId: 4,
+    bsmId: 3,
     role: 2,
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'

@@ -1,18 +1,42 @@
 import helpers from '../helpers';
-import types from '../utils/types';
+import { generalNames } from '../utils/types';
 
-const { Mailer, EmailConstructor, EmailNotificationsHelpers } = helpers;
+const {
+  Mailer, krypter, EmailNotificationsHelpers, PasswordResetHelper
+} = helpers;
 
 class EmailNotifications {
   static async sendPasswordResetEmail(tenant, staff) {
     const { staffId } = staff;
 
-    const passwordResetHash = EmailNotificationsHelpers.createAndSaveResetHash(tenant, staffId);
+    const passwordResetHash = PasswordResetHelper.createAndSaveResetHash(tenant, staffId);
 
-    const passwordResetDetails = { ...staff, passwordResetHash, emailTemplateName: types.Reset };
-    const email = await EmailConstructor.create(tenant, passwordResetDetails);
+    const email = await EmailNotificationsHelpers.createEmail(
+      tenant, staff, passwordResetHash, generalNames.Reset
+    );
+
+    EmailNotifications.sendEmail(tenant, email);
+  }
+
+  static async sendLineManagerEmail(tenant, staff, lineManagerRole) {
+    const emailTemplateName = lineManagerRole === generalNames.Bsm
+      ? generalNames.NewClaimBSM : generalNames.NewClaimSupervisor;
+    const lineManagerId = lineManagerRole === generalNames.Bsm
+      ? staff['BSM.lineManagerId'] : staff['supervisor.lineManagerId'];
+
+    const payload = { lineManagerId, lineManagerRole };
+    const hashedToken = krypter.authenticationEncryption('lineManager', payload);
+
+    const email = await EmailNotificationsHelpers.createEmail(
+      tenant, staff, hashedToken, emailTemplateName
+    );
 
     return EmailNotifications.sendEmail(tenant, email);
+  }
+
+  static async NotifyLineManangersOfNewClaim(tenant, staff) {
+    EmailNotifications.sendLineManagerEmail(tenant, staff, generalNames.Bsm);
+    EmailNotifications.sendLineManagerEmail(tenant, staff, generalNames.Supervisor);
   }
 
   static sendEmail(tenant, email) {

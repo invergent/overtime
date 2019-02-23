@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
+import EmailNotifications from '../../../application/notifications/EmailNotifications';
 
 describe('INIT tests', () => {
   let server;
@@ -11,6 +12,8 @@ describe('INIT tests', () => {
     server.listen(7000, done);
     request = supertest('http://init.overtime-api.example.com:7000');
   });
+
+  beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
 
   afterAll((done) => {
     server.close(done);

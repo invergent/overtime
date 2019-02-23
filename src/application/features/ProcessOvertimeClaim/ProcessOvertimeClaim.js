@@ -1,6 +1,8 @@
 import helpers from '../../helpers';
 import intrinsicMiddlewares from '../../intrinsicMiddlewares';
 import services from '../../services';
+import notifications from '../../notifications';
+import { eventNames } from '../../utils/types';
 
 const { ClaimService, StaffService } = services;
 const { ProcessOvertimeClaimHelpers } = helpers;
@@ -11,17 +13,19 @@ class ProcessOvertimeClaim {
     const { currentStaff: { staffId }, body, tenant } = req;
 
     try {
-      const staff = await StaffService.findStaffByStaffId(tenant, staffId);
+      const staff = await StaffService.findStaffByStaffId(tenant, staffId, ['supervisor', 'BSM']);
       const overtimeRequest = ProcessOvertimeClaimHelpers.createOvertimeRequestObject(
         body, staff.id
       );
 
       const [claim, created] = await ClaimService.findOrCreateClaim(tenant, overtimeRequest);
 
-      const messageWhenCreated = 'Your claim request was created successfully.';
-      const messageWhenNotCreated = `You have already submitted a claim request for ${
-        overtimeRequest.monthOfClaim
-      }. If you wish to make changes, please edit your submission.`;
+      const { messageWhenCreated, messageWhenNotCreated } = ProcessOvertimeClaimHelpers
+        .responseMessage(overtimeRequest);
+
+      if (created) {
+        notifications.emit(eventNames.NewClaim, [tenant, staff]);
+      }
 
       return created ? [201, messageWhenCreated, claim] : [409, messageWhenNotCreated, claim];
     } catch (e) {

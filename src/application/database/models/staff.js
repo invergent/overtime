@@ -48,10 +48,10 @@ const staff = (sequelize, DataTypes) => {
   }, { freezeTableName: true });
 
   Staff.associate = (models) => {
-    Staff.belongsTo(models.LineManagers, { as: 'supervisor', foreignKey: 'id' });
-    Staff.belongsTo(models.LineManagers, { as: 'BSM', foreignKey: 'id' });
-    Staff.belongsTo(models.Branch, { foreignKey: 'id' });
-    Staff.belongsTo(models.Roles, { as: 'staffRole', foreignKey: 'id' });
+    Staff.belongsTo(models.LineManagers, { as: 'supervisor', foreignKey: 'supervisorId' });
+    Staff.belongsTo(models.LineManagers, { as: 'BSM', foreignKey: 'bsmId' });
+    Staff.belongsTo(models.Branch, { foreignKey: 'branchId' });
+    Staff.belongsTo(models.Roles, { as: 'staffRole', foreignKey: 'role' });
     Staff.hasMany(models.Claims, { foreignKey: 'id' });
   };
 
