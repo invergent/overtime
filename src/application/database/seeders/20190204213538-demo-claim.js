@@ -5,7 +5,7 @@ module.exports = {
     weekend: null,
     shift: 9,
     requester: 1,
-    approvedBySupervisor: false,
+    approvedBySupervisor: true,
     approvedByBSM: false,
     createdAt: '2019-02-06',
     updatedAt: '2019-02-06'
@@ -31,6 +31,17 @@ module.exports = {
     approvedByBSM: false,
     createdAt: '2019-02-06',
     updatedAt: '2019-02-06'
+  },
+  {
+    monthOfClaim: 'Dec, 2018',
+    weekday: 19,
+    weekend: 5,
+    shift: null,
+    requester: 4,
+    approvedBySupervisor: false,
+    approvedByBSM: false,
+    createdAt: '2019-02-24',
+    updatedAt: '2019-02-24'
   }]),
   down: queryInterface => queryInterface.bulkDelete('Claims')
 };

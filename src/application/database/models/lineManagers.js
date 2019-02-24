@@ -29,7 +29,8 @@ const lineManagers = (sequelize, DataTypes) => {
   });
 
   LineManagers.associate = (models) => {
-    LineManagers.hasMany(models.Staff, { foreignKey: 'id' });
+    LineManagers.hasMany(models.Staff, { as: 'supervisorStaff', foreignKey: 'supervisorId' });
+    LineManagers.hasMany(models.Staff, { as: 'bsmStaff', foreignKey: 'bsmId' });
   };
   return LineManagers;
 };

@@ -1,38 +1,41 @@
 import express from 'express';
 import controller from './controller';
 import InputValidator from '../../application/middlewares/InputValidator';
-import authenticator from '../../application/middlewares/authenticator';
+import Authenticator from '../../application/middlewares/Authenticator';
 
 
 const router = express.Router();
 const {
-  forgotPassword, signin, changePassword, updateBranch,
+  forgotPassword, changePassword, updateBranch,
   confirmPasswordResetRequest, resetPassword, addOrChangeLineManager, createOvertimeClaim,
-  updateOvertimeClaim
+  updateOvertimeClaim, pendingClaimsForlineManagers
 } = controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
   checkOvertimeValues, checkParams
 } = InputValidator;
+const { staff: staffAuthenticator, lineManager: lineManagerAuthenticator } = Authenticator;
 
-router.post('/signin', checkProps, checkEntries, signin);
+router.post('/signin', checkProps, checkEntries, controller.signin);
 
 router.post('/forgot-password', checkProps, checkStaffId, forgotPassword);
 router.get('/confirm-reset-request', confirmPasswordResetRequest);
 
-router.post('/overtime',
-  authenticator, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
+router.post('/claim',
+  staffAuthenticator, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
 router.put(
-  '/overtime/:claimId', authenticator, checkParams, checkOvertimeProps, checkOvertimeValues,
+  '/claim/:claimId', staffAuthenticator, checkParams, checkOvertimeProps, checkOvertimeValues,
   updateOvertimeClaim
 );
 
+router.get('/line-manager/claims/pending', lineManagerAuthenticator, pendingClaimsForlineManagers);
+
 router.post('/users/profile/change-password',
-  authenticator, checkProps, checkEntries, changePassword);
+  staffAuthenticator, checkProps, checkEntries, changePassword);
 router.post('/users/profile/line-manager',
-  authenticator, checkProps, checkEntries, addOrChangeLineManager);
-router.put('/users/profile/branch', authenticator, checkProps, checkBranchId, updateBranch);
-router.post('/users/profile/reset', authenticator, checkEntries, resetPassword);
+  staffAuthenticator, checkProps, checkEntries, addOrChangeLineManager);
+router.put('/users/profile/branch', staffAuthenticator, checkProps, checkBranchId, updateBranch);
+router.post('/users/profile/reset', staffAuthenticator, checkEntries, resetPassword);
 
 router.get('/', (req, res) => res.status(200).json({ message: 'INIT boarded' }));
 

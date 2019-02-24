@@ -1,6 +1,4 @@
-import services from '../../services';
-
-const { EmailService } = services;
+import EmailService from '../../services/EmailService';
 
 class EmailConstructor {
   static async create(tenant, emailDetails) {

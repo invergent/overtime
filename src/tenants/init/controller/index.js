@@ -4,7 +4,7 @@ import Responder from '../../Responder';
 
 const {
   signin, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword,
-  ProcessOvertimeClaim
+  ProcessOvertimeClaim, PendingClaims
 } = features;
 
 class MainController {
@@ -20,8 +20,8 @@ class MainController {
     return Responder.respond(req, res, addOrChangeLineManager);
   }
 
-  static async forgotPassword(req, res, client) {
-    return Responder.respond(req, res, PasswordReset.forgotPassword, client);
+  static async forgotPassword(req, res) {
+    return Responder.respond(req, res, PasswordReset.forgotPassword);
   }
 
   static async confirmPasswordResetRequest(req, res) {
@@ -43,6 +43,10 @@ class MainController {
 
   static async updateOvertimeClaim(req, res) {
     return Responder.respond(req, res, ProcessOvertimeClaim.update);
+  }
+
+  static async pendingClaimsForlineManagers(req, res) {
+    return Responder.respond(req, res, PendingClaims.pendingClaimsForlineManagers);
   }
 }
 

@@ -27,7 +27,7 @@ const claims = (sequelize, DataTypes) => {
   }, { freezeTableName: true });
 
   Claims.associate = (models) => {
-    Claims.belongsTo(models.Staff, { foreignKey: 'id' });
+    Claims.belongsTo(models.Staff, { foreignKey: 'requester' });
   };
 
   return Claims;

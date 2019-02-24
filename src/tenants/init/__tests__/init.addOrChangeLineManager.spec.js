@@ -154,7 +154,7 @@ describe('INIT: Add or Change Line Manager', () => {
         .send(supervisorsDetails);
 
       expect(response.status).toBe(401);
-      expect(response.body.message).toEqual('Authentication error ERR401AUTH');
+      expect(response.body.message).toEqual('Authentication error ERRSTFAUTH.');
     });
   });
 });

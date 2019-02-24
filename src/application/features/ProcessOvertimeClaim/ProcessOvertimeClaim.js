@@ -5,7 +5,7 @@ import notifications from '../../notifications';
 import { eventNames } from '../../utils/types';
 
 const { ClaimService, StaffService } = services;
-const { ProcessOvertimeClaimHelpers } = helpers;
+const { ClaimHelpers } = helpers;
 const { claimsSpecificMiddleware } = intrinsicMiddlewares;
 
 class ProcessOvertimeClaim {
@@ -14,13 +14,13 @@ class ProcessOvertimeClaim {
 
     try {
       const staff = await StaffService.findStaffByStaffId(tenant, staffId, ['supervisor', 'BSM']);
-      const overtimeRequest = ProcessOvertimeClaimHelpers.createOvertimeRequestObject(
+      const overtimeRequest = ClaimHelpers.createOvertimeRequestObject(
         body, staff.id
       );
 
       const [claim, created] = await ClaimService.findOrCreateClaim(tenant, overtimeRequest);
 
-      const { messageWhenCreated, messageWhenNotCreated } = ProcessOvertimeClaimHelpers
+      const { messageWhenCreated, messageWhenNotCreated } = ClaimHelpers
         .responseMessage(overtimeRequest);
 
       if (created) {

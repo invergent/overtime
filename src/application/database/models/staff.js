@@ -52,7 +52,7 @@ const staff = (sequelize, DataTypes) => {
     Staff.belongsTo(models.LineManagers, { as: 'BSM', foreignKey: 'bsmId' });
     Staff.belongsTo(models.Branch, { foreignKey: 'branchId' });
     Staff.belongsTo(models.Roles, { as: 'staffRole', foreignKey: 'role' });
-    Staff.hasMany(models.Claims, { foreignKey: 'id' });
+    Staff.hasMany(models.Claims, { foreignKey: 'requester' });
   };
 
   Staff.beforeValidate((user) => {

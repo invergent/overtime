@@ -1,6 +1,6 @@
 class Responder {
-  static async respond(req, res, method, client) {
-    const [statusCode, message, data] = await method(req, client);
+  static async respond(req, res, method) {
+    const [statusCode, message, data] = await method(req);
     const jsonResponse = { message };
     if (data) {
       jsonResponse.data = data;
