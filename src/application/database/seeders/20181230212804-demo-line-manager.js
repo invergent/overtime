@@ -32,7 +32,7 @@ module.exports = {
   {
     lineManagerId: 'TN176374',
     lineManagerRole: 'Supervisor',
-    firstname: 'JohnBSMMy',
+    firstname: 'JohnSuppy',
     lastname: 'DoeBSMMy',
     designation: 'Oga at the top',
     email: 'jonz.super@init.com',

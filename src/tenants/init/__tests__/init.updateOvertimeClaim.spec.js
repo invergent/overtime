@@ -48,7 +48,7 @@ describe('Update Claim Submission Tests', () => {
 
     it('should fail if claimId is invalid', async () => {
       const response = await request
-        .put('/overtime/NaN')
+        .put('/claim/NaN')
         .set('cookie', token1)
         .set('Accept', 'application/json')
         .send(claim);
@@ -60,7 +60,7 @@ describe('Update Claim Submission Tests', () => {
 
     it('should fail if claim does not exist', async () => {
       const response = await request
-        .put('/overtime/10000')
+        .put('/claim/10000')
         .set('cookie', token1)
         .set('Accept', 'application/json')
         .send(claim);
@@ -71,7 +71,7 @@ describe('Update Claim Submission Tests', () => {
 
     it('should fail if claim has already been approved.', async () => {
       const response = await request
-        .put('/overtime/3')
+        .put('/claim/3')
         .set('cookie', token1)
         .set('Accept', 'application/json')
         .send(claim);
@@ -84,7 +84,7 @@ describe('Update Claim Submission Tests', () => {
 
     it('should fail if user is unauthorised to edit claim.', async () => {
       const response = await request
-        .put('/overtime/2')
+        .put('/claim/2')
         .set('cookie', token2)
         .set('Accept', 'application/json')
         .send(claim);
@@ -95,7 +95,7 @@ describe('Update Claim Submission Tests', () => {
 
     it('should successfully update claim.', async () => {
       const response = await request
-        .put('/overtime/2')
+        .put('/claim/2')
         .set('cookie', token1)
         .set('Accept', 'application/json')
         .send(claim);
@@ -110,7 +110,7 @@ describe('Update Claim Submission Tests', () => {
       jest.spyOn(Claims, 'update').mockReturnValue([false, true]);
 
       const response = await request
-        .put('/overtime/2')
+        .put('/claim/2')
         .set('cookie', token1)
         .set('Accept', 'application/json')
         .send(claim);
@@ -124,7 +124,7 @@ describe('Update Claim Submission Tests', () => {
       jest.spyOn(Claims, 'update').mockRejectedValue(err);
 
       const response = await request
-        .put('/overtime/2')
+        .put('/claim/2')
         .set('cookie', token1)
         .set('Accept', 'application/json')
         .send(claim);

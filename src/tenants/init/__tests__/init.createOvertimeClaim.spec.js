@@ -41,7 +41,7 @@ describe('Create Claim Tests', () => {
 
     it('should fail if request contains unexpected props or is an empty request', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekend: 4 });
@@ -53,7 +53,7 @@ describe('Create Claim Tests', () => {
 
     it('should fail if maximum number of shift days has been exceeded.', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ shift: 25 });
@@ -79,7 +79,7 @@ describe('Create Claim Tests', () => {
 
     it('should fail if request is empty', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({});
@@ -91,7 +91,7 @@ describe('Create Claim Tests', () => {
 
     it('should fail if request contains props different from weekday, weekend and atm', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekday: 19, shift: 18 });
@@ -103,7 +103,7 @@ describe('Create Claim Tests', () => {
 
     it('should fail if weekend and atm are in the same request', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekend: 8, atm: 9 });
@@ -117,7 +117,7 @@ describe('Create Claim Tests', () => {
 
     it('should fail if props do not have values', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekend: '' });
@@ -131,7 +131,7 @@ describe('Create Claim Tests', () => {
 
     it('should fail if the value of overtime props exceeds the maximum for the month', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekday: 25, weekend: 14 });
@@ -145,7 +145,7 @@ describe('Create Claim Tests', () => {
 
     it('should successfully submit overtime request', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekday: 20, weekend: 8 });
@@ -156,7 +156,7 @@ describe('Create Claim Tests', () => {
 
     it('should send a conflict error if staff already created claim', async () => {
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekday: 20, weekend: 8 });
@@ -174,7 +174,7 @@ describe('Create Claim Tests', () => {
       jest.spyOn(Staff, 'findOne').mockRejectedValue(err);
 
       const response = await request
-        .post('/overtime')
+        .post('/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({ weekday: 20, weekend: 8 });

@@ -5,7 +5,7 @@ import PasswordResetHelper from './PasswordResetHelper';
 import instrinsicMiddlewareHelpers from './instrinsicMiddlewareHelpers';
 import Dates from './Dates';
 import EmailNotificationsHelpers from './EmailNotificationsHelpers';
-import ProcessOvertimeClaimHelpers from './ProcessOvertimeClaimHelpers';
+import ClaimHelpers from './ClaimHelpers';
 
 export default {
   EmailConstructor,
@@ -15,5 +15,5 @@ export default {
   PasswordResetHelper,
   instrinsicMiddlewareHelpers,
   Dates,
-  ProcessOvertimeClaimHelpers
+  ClaimHelpers
 };

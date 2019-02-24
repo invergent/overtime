@@ -4,6 +4,7 @@ import updateBranch from './updateBranch';
 import PasswordReset from './PasswordReset';
 import ChangePassword from './ChangePassword';
 import ProcessOvertimeClaim from './ProcessOvertimeClaim';
+import PendingClaims from './PendingClaims';
 
 export default {
   signin,
@@ -11,5 +12,6 @@ export default {
   updateBranch,
   PasswordReset,
   ChangePassword,
-  ProcessOvertimeClaim
+  ProcessOvertimeClaim,
+  PendingClaims
 };

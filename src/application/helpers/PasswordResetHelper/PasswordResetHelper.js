@@ -1,7 +1,5 @@
 import krypter from '../krypter';
-import services from '../../services';
-
-const { PasswordResetService } = services;
+import PasswordResetService from '../../services/PasswordResetService';
 
 class PasswordResetHelper {
   static async findAndValidateResetRequest(tenant, staffId, hash) {

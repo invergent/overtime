@@ -1,4 +1,7 @@
 import tenantsModels from '../../database/tenantsModels';
+import helpers from '../../helpers';
+
+const { ClaimHelpers } = helpers;
 
 class ClaimService {
   static findOrCreateClaim(tenant, overtimeRequest) {
@@ -21,6 +24,13 @@ class ClaimService {
       claim,
       { where: { id: claimId }, returning: true, raw: true }
     );
+  }
+
+  static fetchPendingClaimsForLineManagers(tenant, lineManager) {
+    const { LineManagers } = tenantsModels[tenant];
+    const queryOptions = ClaimHelpers.createQueryOptions(tenant, lineManager);
+
+    return LineManagers.findOne(queryOptions);
   }
 }
 
