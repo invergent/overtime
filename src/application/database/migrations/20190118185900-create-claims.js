@@ -27,11 +27,11 @@ module.exports = {
         as: 'requester'
       }
     },
-    approvedBySupervisor: {
+    approvalBySupervisor: {
       type: Sequelize.ENUM('Pending', 'Approved', 'Declined'),
       defaultValue: 'Pending'
     },
-    approvedByBSM: {
+    approvalByBSM: {
       type: Sequelize.ENUM('Pending', 'Approved', 'Declined'),
       defaultValue: 'Pending'
     },

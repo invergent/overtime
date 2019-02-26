@@ -60,12 +60,6 @@ class Claim {
     return filteredResults;
   }
 
-  static async getIdsOfClaimsAssignedToLineManager(tenant, lineManager) {
-    const filteredResults = await Claim.pendingClaimsForlineManager(tenant, lineManager);
-    const pendingClaimIds = ClaimHelpers.getIdsOfFilteredPendingClaims(filteredResults);
-    return pendingClaimIds;
-  }
-
   static async sendPendingClaimsTolineManager(req) {
     const { tenant, lineManager } = req;
     const filteredResults = await Claim.pendingClaimsForlineManager(tenant, lineManager);
@@ -77,17 +71,39 @@ class Claim {
     return [200, `You have ${filteredResults.length} claims to approve.`, filteredResults];
   }
 
-  static async approve(req) {
-    const { tenant, params: { claimId }, lineManager } = req;
-    const { lineManagerRole } = lineManager;
+  static async getIdsOfClaimsAssignedToLineManager(tenant, lineManager) {
+    const filteredResults = await Claim.pendingClaimsForlineManager(tenant, lineManager);
+    const pendingClaimIds = ClaimHelpers.getIdsOfFilteredPendingClaims(filteredResults);
+    return pendingClaimIds;
+  }
 
+  static async checkThatClaimIsAssignedToLineManager(tenant, lineManager, claimId) {
     const assignedClaims = await Claim.getIdsOfClaimsAssignedToLineManager(tenant, lineManager);
     if (!assignedClaims.includes(parseInt(claimId, 10))) {
       return [403, 'This claim is not on your pending list. Access denied.'];
     }
+    return [200, 'okay'];
+  }
 
-    const [updated, claim] = await ClaimService.approveClaim(tenant, lineManagerRole, claimId);
-    return [200, `Claim${updated ? '' : ' not'} approved.`, claim[0]];
+  static async runClaimApproval(req, approvalType) {
+    const { tenant, params: { claimId }, lineManager } = req;
+    const { lineManagerRole } = lineManager;
+    const approvalMethod = approvalType === 'approve' ? 'approveClaim' : 'declineClaim';
+
+    const [statusCode, message] = await Claim.checkThatClaimIsAssignedToLineManager(
+      tenant, lineManager, claimId
+    );
+    if (statusCode === 403) return [statusCode, message];
+    const [updated, claim] = await ClaimService[approvalMethod](tenant, lineManagerRole, claimId);
+    return [200, `Claim${updated ? '' : ' not'} ${approvalType}d.`, claim[0]];
+  }
+
+  static approve(req) {
+    return Claim.runClaimApproval(req, 'approve');
+  }
+
+  static decline(req) {
+    return Claim.runClaimApproval(req, 'decline');
   }
 }
 

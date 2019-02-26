@@ -16,11 +16,11 @@ const claims = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    approvedBySupervisor: {
+    approvalBySupervisor: {
       type: DataTypes.ENUM('Pending', 'Approved', 'Declined'),
       defaultValue: 'Pending'
     },
-    approvedByBSM: {
+    approvalByBSM: {
       type: DataTypes.ENUM('Pending', 'Approved', 'Declined'),
       defaultValue: 'Pending'
     }

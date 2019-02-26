@@ -7,7 +7,7 @@ const router = express.Router();
 const {
   forgotPassword, signin, authoriseLineManager, changePassword, updateBranch,
   confirmPasswordResetRequest, resetPassword, addOrChangeLineManager, createOvertimeClaim,
-  updateOvertimeClaim, pendingClaimsForlineManagers, approveClaim
+  updateOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim
 } = controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
@@ -30,6 +30,7 @@ router.put(
 
 router.get('/line-manager/claims/pending', authenticateLineManager, pendingClaimsForlineManagers);
 router.get('/line-manager/claims/pending/:claimId/approve', authenticateLineManager, approveClaim);
+router.get('/line-manager/claims/pending/:claimId/decline', authenticateLineManager, declineClaim);
 
 router.post('/users/profile/change-password',
   authenticateStaff, checkProps, checkEntries, changePassword);

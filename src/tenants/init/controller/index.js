@@ -55,6 +55,10 @@ class MainController {
   static async approveClaim(req, res) {
     return Responder.respond(req, res, Claim.approve);
   }
+
+  static async declineClaim(req, res) {
+    return Responder.respond(req, res, Claim.decline);
+  }
 }
 
 export default MainController;

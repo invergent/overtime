@@ -60,6 +60,36 @@ module.exports = {
     role: 2,
     createdAt: '2018-12-30',
     updatedAt: '2018-12-30'
+  },
+  {
+    staffId: 'TN044455',
+    firstname: 'Gamolly',
+    lastname: 'Zeezana',
+    middleName: 'Clifford',
+    email: 'zana.ford@init.com',
+    password: bcrypt.hashSync('password', 7),
+    image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
+    branchId: 2,
+    supervisorId: 4,
+    bsmId: 2,
+    role: 2,
+    createdAt: '2018-12-30',
+    updatedAt: '2018-12-30'
+  },
+  {
+    staffId: 'TN042995',
+    firstname: 'Ligamala',
+    lastname: 'Anziba',
+    middleName: 'Muche',
+    email: 'ligamala.muche@init.com',
+    password: bcrypt.hashSync('password', 7),
+    image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
+    branchId: 2,
+    supervisorId: 4,
+    bsmId: 2,
+    role: 2,
+    createdAt: '2018-12-30',
+    updatedAt: '2018-12-30'
   }]),
   down: queryInterface => queryInterface.bulkDelete('Staff')
 };
