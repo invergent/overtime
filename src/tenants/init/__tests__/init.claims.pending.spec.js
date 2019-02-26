@@ -44,16 +44,17 @@ describe('Pending Claims Tests', () => {
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('You have 3 claims to approve.');
       expect(response.body.data[0].staffFirstName).toEqual('Molly');
-      expect(response.body.data[1].staffFirstName).toEqual('Mercy');
+      expect(response.body.data[1].staffFirstName).toEqual('Gamolly');
     });
 
     it('should get claims awaiting the line manager\'s (BSM) approval.', async () => {
       const response = await request.get('/line-manager/claims/pending').set('cookie', token2);
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('You have 2 claims to approve.');
-      expect(response.body.data[0].staffFirstName).toEqual('John');
-      expect(response.body.data[1].staffFirstName).toEqual('Mercy');
+      expect(response.body.message).toEqual('You have 3 claims to approve.');
+      expect(response.body.data[0].staffFirstName).toEqual('Mercy');
+      expect(response.body.data[1].staffFirstName).toEqual('Ligamala');
+      expect(response.body.data[2].staffFirstName).toEqual('Mercy');
     });
 
     it('should return 404 if there are no claims for line manager to approve .', async () => {

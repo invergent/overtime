@@ -9,8 +9,8 @@ export default async (tenant, staffId, claimId) => {
   const staff = await StaffService.findStaffByStaffId(tenant, staffId);
   if (claim.requester !== staff.id) return [403, 'You do not have access to this claim.'];
 
-  const { approvedBySupervisor, approvedByBSM } = claim;
-  if (approvedBySupervisor !== 'Pending' || approvedByBSM !== 'Pending') {
+  const { approvalBySupervisor, approvalByBSM } = claim;
+  if (approvalBySupervisor !== 'Pending' || approvalByBSM !== 'Pending') {
     return [403, 'Claim has already been approved/declined and cannot be edited.'];
   }
   return [200, 'okay'];

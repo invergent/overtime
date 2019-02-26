@@ -23,13 +23,13 @@ class ClaimHelpers {
     const { lineManagerId, lineManagerRole } = lineManager;
     const bsmOrSupervisorStaff = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
 
-    const claimsWhereOptions = { approvedBySupervisor: 'Pending' };
+    const claimsWhereOptions = { approvalBySupervisor: 'Pending' };
 
     const { Claims, Staff } = tenantsModels[tenant];
 
     if (lineManagerRole === 'BSM') {
-      claimsWhereOptions.approvedBySupervisor = 'Approved';
-      claimsWhereOptions.approvedByBSM = 'Pending';
+      claimsWhereOptions.approvalBySupervisor = 'Approved';
+      claimsWhereOptions.approvalByBSM = 'Pending';
     }
 
     const options = {
@@ -62,7 +62,9 @@ class ClaimHelpers {
         [`${staff}.Claims.monthOfClaim`]: monthOfClaim,
         [`${staff}.Claims.weekday`]: weekday,
         [`${staff}.Claims.weekend`]: weekend,
-        [`${staff}.Claims.shift`]: shift
+        [`${staff}.Claims.shift`]: shift,
+        [`${staff}.Claims.approvalBySupervisor`]: approvalBySupervisor,
+        [`${staff}.Claims.approvalByBSM`]: approvalByBSM
       } = result;
       return {
         staffId,
@@ -73,7 +75,9 @@ class ClaimHelpers {
         monthOfClaim,
         weekday,
         weekend,
-        shift
+        shift,
+        approvalBySupervisor,
+        approvalByBSM
       };
     });
   }

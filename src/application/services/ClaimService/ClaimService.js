@@ -38,14 +38,22 @@ class ClaimService {
     return LineManagers.findOne(queryOptions);
   }
 
-  static approveClaim(tenant, lineManagerRole, claimId) {
+  static runClaimApproval(tenant, lineManagerRole, claimId, approvalType) {
     const { Claims } = tenantsModels[tenant];
-    const approvalColumn = lineManagerRole === 'BSM' ? 'approvedByBSM' : 'approvedBySupervisor';
+    const approvalColumn = lineManagerRole === 'BSM' ? 'approvalByBSM' : 'approvalBySupervisor';
 
     return Claims.update(
-      { [approvalColumn]: 'Approved' },
+      { [approvalColumn]: approvalType },
       { where: { id: claimId }, returning: true, raw: true }
     );
+  }
+
+  static approveClaim(tenant, lineManagerRole, claimId) {
+    return ClaimService.runClaimApproval(tenant, lineManagerRole, claimId, 'Approved');
+  }
+
+  static declineClaim(tenant, lineManagerRole, claimId) {
+    return ClaimService.runClaimApproval(tenant, lineManagerRole, claimId, 'Declined');
   }
 }
 
