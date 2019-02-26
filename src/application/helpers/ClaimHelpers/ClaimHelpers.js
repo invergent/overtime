@@ -23,13 +23,13 @@ class ClaimHelpers {
     const { lineManagerId, lineManagerRole } = lineManager;
     const bsmOrSupervisorStaff = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
 
-    const claimsWhereOptions = { approvedBySupervisor: false };
+    const claimsWhereOptions = { approvedBySupervisor: 'Pending' };
 
     const { Claims, Staff } = tenantsModels[tenant];
 
     if (lineManagerRole === 'BSM') {
-      claimsWhereOptions.approvedBySupervisor = true;
-      claimsWhereOptions.approvedByBSM = false;
+      claimsWhereOptions.approvedBySupervisor = 'Approved';
+      claimsWhereOptions.approvedByBSM = 'Pending';
     }
 
     const options = {
@@ -51,7 +51,7 @@ class ClaimHelpers {
 
   static filterQueryResult(queryResult, lineManagerRole) {
     const staff = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
-    
+
     return queryResult.map((result) => {
       const {
         [`${staff}.staffId`]: staffId,
@@ -76,6 +76,10 @@ class ClaimHelpers {
         shift
       };
     });
+  }
+
+  static getIdsOfFilteredPendingClaims(filteredPendingClaims) {
+    return filteredPendingClaims.map(claim => claim.claimId);
   }
 }
 

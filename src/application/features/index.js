@@ -1,17 +1,15 @@
-import signin from './signin';
+import Authorisation from './Authorisation';
 import addOrChangeLineManager from './addOrChangeLineManager';
 import updateBranch from './updateBranch';
 import PasswordReset from './PasswordReset';
 import ChangePassword from './ChangePassword';
-import ProcessOvertimeClaim from './ProcessOvertimeClaim';
-import PendingClaims from './PendingClaims';
+import Claim from './Claim';
 
 export default {
-  signin,
+  Authorisation,
   addOrChangeLineManager,
   updateBranch,
   PasswordReset,
   ChangePassword,
-  ProcessOvertimeClaim,
-  PendingClaims
+  Claim
 };
