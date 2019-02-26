@@ -1,23 +1,17 @@
-import helpers from '../helpers';
-import tenantsModels from '../database/tenantsModels';
+import services from '../services';
 
-const { instrinsicMiddlewareHelpers } = helpers;
-const {
-  claimExists, claimHasBeenApproved, checkThatUserCanUpdateThisClaim
-} = instrinsicMiddlewareHelpers;
+const { ClaimService, StaffService } = services;
 
-export default async (claimId, tenant, currentStaff) => {
-  const { Claims, Staff } = tenantsModels[tenant];
-
-  const claim = await claimExists(claimId, Claims);
+export default async (tenant, staffId, claimId) => {
+  const claim = await ClaimService.findClaimByPk(tenant, claimId);
   if (!claim) return [404, 'Claim does not exist.'];
 
-  const userCanUpdateThisClaim = await checkThatUserCanUpdateThisClaim(claim, Staff, currentStaff);
-  if (!userCanUpdateThisClaim) return [403, 'You do not have access to this claim.'];
+  const staff = await StaffService.findStaffByStaffId(tenant, staffId);
+  if (claim.requester !== staff.id) return [403, 'You do not have access to this claim.'];
 
-  const claimsBeenApproved = claimHasBeenApproved(claim);
-  if (claimsBeenApproved) {
-    return [403, 'Claim has already been approved and cannot be edited.'];
+  const { approvedBySupervisor, approvedByBSM } = claim;
+  if (approvedBySupervisor !== 'Pending' || approvedByBSM !== 'Pending') {
+    return [403, 'Claim has already been approved/declined and cannot be edited.'];
   }
   return [200, 'okay'];
 };

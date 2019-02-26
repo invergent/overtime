@@ -18,12 +18,28 @@ describe('Pending Claims Tests', () => {
   });
 
   describe('pendingClaimsForlineManagers', () => {
+    let token1;
+    let token2;
+    let token3;
+
+    beforeAll(async () => {
+      // verify line manager
+      const response1 = await request.get(`/verify?hash=${supervisorHash}`);
+      token1 = response1.header['set-cookie'];
+
+      const response2 = await request.get(`/verify?hash=${bsmHash}`);
+      token2 = response2.header['set-cookie'];
+
+      const response3 = await request.get(`/verify?hash=${noClaimHash}`);
+      token3 = response3.header['set-cookie'];
+    });
+
     afterEach(() => {
       jest.resetAllMocks();
     });
 
     it('should get claims awaiting the line manager\'s (supervisor) approval.', async () => {
-      const response = await request.get(`/line-manager/claims/pending?hash=${supervisorHash}`);
+      const response = await request.get('/line-manager/claims/pending').set('cookie', token1);
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('You have 3 claims to approve.');
@@ -32,7 +48,7 @@ describe('Pending Claims Tests', () => {
     });
 
     it('should get claims awaiting the line manager\'s (BSM) approval.', async () => {
-      const response = await request.get(`/line-manager/claims/pending?hash=${bsmHash}`);
+      const response = await request.get('/line-manager/claims/pending').set('cookie', token2);
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('You have 2 claims to approve.');
@@ -41,24 +57,20 @@ describe('Pending Claims Tests', () => {
     });
 
     it('should return 404 if there are no claims for line manager to approve .', async () => {
-      const response = await request.get(`/line-manager/claims/pending?hash=${noClaimHash}`);
+      const response = await request.get('/line-manager/claims/pending').set('cookie', token3);
 
       expect(response.status).toBe(404);
       expect(response.body.message).toEqual('You currently have no pending claims to approve.');
     });
 
-    it('should fail if hash is not provided.', async () => {
+    it('should fail if line manager is unauthorised.', async () => {
       const response = await request.get('/line-manager/claims/pending');
+      const errorToLineManager = `Your request was unauthorised.${
+        ''
+      } Be sure to have clicked the button in the email you recieved.`;
 
       expect(response.status).toBe(401);
-      expect(response.body.message).toEqual('Your request was unauthorised. Access denied.');
-    });
-
-    it('should fail if hash is invalid.', async () => {
-      const response = await request.get('/line-manager/claims/pending?hash=invalid');
-
-      expect(response.status).toBe(401);
-      expect(response.body.message).toEqual('Authentication error ERRLMRAUTH.');
+      expect(response.body.message).toEqual(errorToLineManager);
     });
   });
 });

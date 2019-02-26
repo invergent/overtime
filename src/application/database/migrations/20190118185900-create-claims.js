@@ -28,12 +28,12 @@ module.exports = {
       }
     },
     approvedBySupervisor: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
+      type: Sequelize.ENUM('Pending', 'Approved', 'Declined'),
+      defaultValue: 'Pending'
     },
     approvedByBSM: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
+      type: Sequelize.ENUM('Pending', 'Approved', 'Declined'),
+      defaultValue: 'Pending'
     },
     createdAt: {
       allowNull: false,

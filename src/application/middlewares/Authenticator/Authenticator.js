@@ -1,15 +1,28 @@
 import krypter from '../../helpers/krypter';
 
+const errorToStaff = 'Please login first.';
+const errorToLineManager = `Your request was unauthorised.${
+  ''
+} Be sure to have clicked the button in the email you recieved.`;
+
 class Authenticator {
-  static staff(req, res, next) {
-    const { token } = req.cookies;
-    if (!token) {
-      return res.status(401).json({ message: 'Please login first.' });
-    }
-    return Authenticator.decrypt(req, res, next, 'currentStaff', token);
+  static authenticateStaff(req, res, next) {
+    return Authenticator.authenticate(req, res, next, 'currentStaff', errorToStaff);
   }
 
-  static lineManager(req, res, next) {
+  static authenticateLineManager(req, res, next) {
+    return Authenticator.authenticate(req, res, next, 'lineManager', errorToLineManager);
+  }
+
+  static authenticate(req, res, next, requester, message) {
+    const { token } = req.cookies;
+    if (!token) {
+      return res.status(401).json({ message });
+    }
+    return Authenticator.decrypt(req, res, next, requester, token);
+  }
+
+  static verifyLineManager(req, res, next) {
     const { query: { hash } } = req;
     if (!hash) {
       return res.status(401).json({ message: 'Your request was unauthorised. Access denied.' });

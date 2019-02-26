@@ -17,12 +17,12 @@ const claims = (sequelize, DataTypes) => {
       allowNull: false
     },
     approvedBySupervisor: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+      type: DataTypes.ENUM('Pending', 'Approved', 'Declined'),
+      defaultValue: 'Pending'
     },
     approvedByBSM: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+      type: DataTypes.ENUM('Pending', 'Approved', 'Declined'),
+      defaultValue: 'Pending'
     }
   }, { freezeTableName: true });
 

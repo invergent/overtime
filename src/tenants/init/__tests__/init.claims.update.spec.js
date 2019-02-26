@@ -55,7 +55,7 @@ describe('Update Claim Submission Tests', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors[0]).toEqual('claimId must be an integer.');
+      expect(response.body.errors[0]).toEqual('claimId must be an integer greater than zero.');
     });
 
     it('should fail if claim does not exist', async () => {
@@ -69,19 +69,6 @@ describe('Update Claim Submission Tests', () => {
       expect(response.body.message).toEqual('Claim does not exist.');
     });
 
-    it('should fail if claim has already been approved.', async () => {
-      const response = await request
-        .put('/claim/3')
-        .set('cookie', token1)
-        .set('Accept', 'application/json')
-        .send(claim);
-
-      const message = 'Claim has already been approved and cannot be edited.';
-
-      expect(response.status).toBe(403);
-      expect(response.body.message).toEqual(message);
-    });
-
     it('should fail if user is unauthorised to edit claim.', async () => {
       const response = await request
         .put('/claim/2')
@@ -91,6 +78,19 @@ describe('Update Claim Submission Tests', () => {
 
       expect(response.status).toBe(403);
       expect(response.body.message).toEqual('You do not have access to this claim.');
+    });
+
+    it('should fail if claim has already been approved.', async () => {
+      const response = await request
+        .put('/claim/3')
+        .set('cookie', token1)
+        .set('Accept', 'application/json')
+        .send(claim);
+
+      const message = 'Claim has already been approved/declined and cannot be edited.';
+
+      expect(response.status).toBe(403);
+      expect(response.body.message).toEqual(message);
     });
 
     it('should successfully update claim.', async () => {

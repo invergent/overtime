@@ -17,6 +17,11 @@ class ClaimService {
     });
   }
 
+  static findClaimByPk(tenant, claimId) {
+    const { Claims } = tenantsModels[tenant];
+    return Claims.findByPk(claimId, { raw: true });
+  }
+
   static updateClaim(tenant, claim, claimId) {
     const { Claims } = tenantsModels[tenant];
 
@@ -31,6 +36,16 @@ class ClaimService {
     const queryOptions = ClaimHelpers.createQueryOptions(tenant, lineManager);
 
     return LineManagers.findOne(queryOptions);
+  }
+
+  static approveClaim(tenant, lineManagerRole, claimId) {
+    const { Claims } = tenantsModels[tenant];
+    const approvalColumn = lineManagerRole === 'BSM' ? 'approvedByBSM' : 'approvedBySupervisor';
+
+    return Claims.update(
+      { [approvalColumn]: 'Approved' },
+      { where: { id: claimId }, returning: true, raw: true }
+    );
   }
 }
 

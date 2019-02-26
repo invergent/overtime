@@ -3,13 +3,16 @@ import features from '../../../application/features';
 import Responder from '../../Responder';
 
 const {
-  signin, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword,
-  ProcessOvertimeClaim, PendingClaims
+  Authorisation, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword, Claim
 } = features;
 
 class MainController {
   static async signin(req, res) {
-    return Responder.respondWithCookie(req, res, signin);
+    return Responder.respondWithCookie(req, res, Authorisation.authoriseStaff);
+  }
+
+  static async authoriseLineManager(req, res) {
+    return Responder.respondWithCookie(req, res, Authorisation.authoriseLineManager);
   }
 
   static async updateBranch(req, res) {
@@ -38,15 +41,19 @@ class MainController {
   }
 
   static async createOvertimeClaim(req, res) {
-    return Responder.respond(req, res, ProcessOvertimeClaim.create);
+    return Responder.respond(req, res, Claim.create);
   }
 
   static async updateOvertimeClaim(req, res) {
-    return Responder.respond(req, res, ProcessOvertimeClaim.update);
+    return Responder.respond(req, res, Claim.update);
   }
 
   static async pendingClaimsForlineManagers(req, res) {
-    return Responder.respond(req, res, PendingClaims.pendingClaimsForlineManagers);
+    return Responder.respond(req, res, Claim.sendPendingClaimsTolineManager);
+  }
+
+  static async approveClaim(req, res) {
+    return Responder.respond(req, res, Claim.approve);
   }
 }
 
