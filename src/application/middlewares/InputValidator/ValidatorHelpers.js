@@ -15,13 +15,13 @@ class ValidatorHelpers {
     return [];
   }
 
-  static validateNumberParam(param, claimId) {
-    const isInter = Number.isInteger(parseInt(param, 10));
-    const isGreaterThanZero = parseInt(param, 10) > 0;
-
-    if (isInter && isGreaterThanZero) return [];
-    return [`${claimId} must be an integer greater than zero.`];
-  }
+  // static validateNumberParam(param, claimId) {
+  //   const isInter = Number.isInteger(parseInt(param, 10));
+  //   const isGreaterThanZero = parseInt(param, 10) > 0;
+  //
+  //   if (isInter && isGreaterThanZero) return [];
+  //   return [`${claimId} must be an integer greater than zero.`];
+  // }
 
   static checkLineManagerRole(lineManagerRole) {
     const lineManagerRoles = ['Supervisor', 'BSM'];

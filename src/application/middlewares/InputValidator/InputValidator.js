@@ -54,12 +54,12 @@ class InputValidator {
     return ValidatorHelpers.validatorResponder(res, errors, next);
   }
 
-  static checkParams(req, res, next) {
-    const { claimId } = req.params;
-
-    const error = ValidatorHelpers.validateNumberParam(claimId, 'claimId');
-    return ValidatorHelpers.validatorResponder(res, error, next);
-  }
+  // static checkParams(req, res, next) {
+  //   const { claimId } = req.params;
+  //
+  //   const error = ValidatorHelpers.validateNumberParam(claimId, 'claimId');
+  //   return ValidatorHelpers.validatorResponder(res, error, next);
+  // }
 }
 
 export default InputValidator;

@@ -8,6 +8,8 @@ export const mockReq = {
     hash: 'someHash'
   },
   currentStaff: { staffId: 'someId' },
+  lineManager: {},
+  params: { claimId: 'someClaim' },
   tenant: 'INIT'
 };
 

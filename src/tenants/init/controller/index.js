@@ -44,10 +44,6 @@ class MainController {
     return Responder.respond(req, res, Claim.create);
   }
 
-  static async updateOvertimeClaim(req, res) {
-    return Responder.respond(req, res, Claim.update);
-  }
-
   static async pendingClaimsForlineManagers(req, res) {
     return Responder.respond(req, res, Claim.sendPendingClaimsTolineManager);
   }
