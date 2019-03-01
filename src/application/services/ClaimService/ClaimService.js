@@ -1,7 +1,6 @@
 import tenantsModels from '../../database/tenantsModels';
-import helpers from '../../helpers';
-
-const { ClaimHelpers } = helpers;
+import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
+import GenericHelpers from '../../helpers/GenericHelpers';
 
 class ClaimService {
   static findOrCreateClaim(tenant, overtimeRequest) {
@@ -17,43 +16,41 @@ class ClaimService {
     });
   }
 
-  static findClaimByPk(tenant, claimId) {
-    const { Claims } = tenantsModels[tenant];
-    return Claims.findByPk(claimId, { raw: true });
-  }
-
-  static updateClaim(tenant, claim, claimId) {
+  static updateClaim(tenant, updatePayload, claimId) {
     const { Claims } = tenantsModels[tenant];
 
     return Claims.update(
-      claim,
+      updatePayload,
       { where: { id: claimId }, returning: true, raw: true }
     );
   }
 
   static fetchPendingClaimsForLineManagers(tenant, lineManager) {
     const { LineManagers } = tenantsModels[tenant];
-    const queryOptions = ClaimHelpers.createQueryOptions(tenant, lineManager);
+    const queryOptions = GenericHelpers.createQueryOptions(tenant, lineManager);
 
     return LineManagers.findOne(queryOptions);
   }
 
-  static runClaimApproval(tenant, lineManagerRole, claimId, approvalType) {
-    const { Claims } = tenantsModels[tenant];
-    const approvalColumn = lineManagerRole === 'BSM' ? 'approvalByBSM' : 'approvalBySupervisor';
+  static async runClaimApproval(tenant, lineManager, claimId, approvalType) {
+    const { id: lineManagerId, lineManagerRole } = lineManager;
+    const updatePayload = GenericHelpers.createUpdatePayload(lineManagerRole, approvalType);
 
-    return Claims.update(
-      { [approvalColumn]: approvalType },
-      { where: { id: claimId }, returning: true, raw: true }
+    const [updated, claim] = await ClaimService.updateClaim(tenant, updatePayload, claimId);
+    const history = await ClaimApprovalHistoryService.createApprovalHistory(
+      tenant, claimId, lineManagerId
     );
+
+    const updatedClaim = { ...claim[0], history: history.dataValues };
+    return [updated, updatedClaim];
   }
 
-  static approveClaim(tenant, lineManagerRole, claimId) {
-    return ClaimService.runClaimApproval(tenant, lineManagerRole, claimId, 'Approved');
+  static approveClaim(tenant, lineManager, claimId) {
+    return ClaimService.runClaimApproval(tenant, lineManager, claimId, 'approve');
   }
 
-  static declineClaim(tenant, lineManagerRole, claimId) {
-    return ClaimService.runClaimApproval(tenant, lineManagerRole, claimId, 'Declined');
+  static declineClaim(tenant, lineManager, claimId) {
+    return ClaimService.runClaimApproval(tenant, lineManager, claimId, 'decline');
   }
 }
 
