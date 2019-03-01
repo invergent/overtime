@@ -14,8 +14,8 @@ class ModelsCache {
 
   copyDbModelsForEachTenant(listOfTenants) {
     listOfTenants.forEach((tenant) => {
-      const tenantSequelizeModel = this.createModels(tenant);
-      this[tenant] = tenantSequelizeModel;
+      const tenantSequelizeModel = this.createModels(tenant.name);
+      this[tenant.name] = tenantSequelizeModel;
     });
   }
 }

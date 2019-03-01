@@ -22,7 +22,8 @@
     "db:migrate": "sequelize db:migrate --url $INIT_DEV_DB_URL",
     "db:rollback": "sequelize db:migrate:undo:all --url $INIT_DEV_DB_URL",
     "db:rollmigrate": "yarn db:rollback && yarn db:migrate && yarn db:seed",
-    "testing": "cross-env sequelize db:migrate --url echo $npm_package_config_DB_URL"
+    "testing": "cross-env sequelize db:migrate --url echo $npm_package_config_DB_URL",
+    "mig": "node migrater.js"
   },
   "repository": {
     "type": "git",

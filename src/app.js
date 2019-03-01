@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import subdomain from 'express-subdomain';
 import initRouter from './tenants/init';
+import allTenants from './application/database/tenantsModels/tenants';
 
 const app = express();
 
@@ -19,7 +20,9 @@ app.use((req, res, next) => {
 });
 
 // Subdomain definitions
-app.use(subdomain('init.overtime-api', initRouter));
+
+allTenants.forEach(tenant => app.use(subdomain(`${tenant.name.toLowerCase()}.overtime-api`, initRouter(tenant))))
+
 
 app.get('*', (req, res) => res.status(200).json({ message: 'Project started' }));
 

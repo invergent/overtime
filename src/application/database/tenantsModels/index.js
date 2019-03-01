@@ -1,8 +1,7 @@
 import ModelsCache from './ModelsCache';
 import config from '../config/connectionConfig';
 import sequelizeModels from '../models';
-
-const allTenants = ['INIT'];
+import allTenants from './tenants';
 
 const modelsCache = new ModelsCache(allTenants, config, sequelizeModels);
 
