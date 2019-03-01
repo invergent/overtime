@@ -5,8 +5,7 @@ module.exports = {
     weekend: null,
     shift: 9,
     requester: 1,
-    approvalBySupervisor: 'Approved',
-    approvalByBSM: 'Pending',
+    status: 'Awaiting BSM',
     createdAt: '2019-02-06',
     updatedAt: '2019-02-06'
   },
@@ -16,8 +15,7 @@ module.exports = {
     weekend: 7,
     shift: null,
     requester: 3,
-    approvalBySupervisor: 'Pending',
-    approvalByBSM: 'Pending',
+    status: 'Awaiting BSM',
     createdAt: '2019-02-06',
     updatedAt: '2019-02-06'
   },
@@ -27,8 +25,7 @@ module.exports = {
     weekend: 6,
     shift: null,
     requester: 3,
-    approvalBySupervisor: 'Approved',
-    approvalByBSM: 'Pending',
+    status: 'Awaiting supervisor',
     createdAt: '2019-02-06',
     updatedAt: '2019-02-06'
   },
@@ -38,8 +35,7 @@ module.exports = {
     weekend: 5,
     shift: null,
     requester: 4,
-    approvalBySupervisor: 'Pending',
-    approvalByBSM: 'Pending',
+    status: 'Awaiting supervisor',
     createdAt: '2019-02-24',
     updatedAt: '2019-02-24'
   },
@@ -49,8 +45,7 @@ module.exports = {
     weekend: 6,
     shift: null,
     requester: 5,
-    approvalBySupervisor: 'Pending',
-    approvalByBSM: 'Pending',
+    status: 'Awaiting supervisor',
     createdAt: '2019-02-26',
     updatedAt: '2019-02-26'
   },
@@ -60,8 +55,7 @@ module.exports = {
     weekend: 4,
     shift: null,
     requester: 6,
-    approvalBySupervisor: 'Approved',
-    approvalByBSM: 'Pending',
+    status: 'Awaiting supervisor',
     createdAt: '2019-02-26',
     updatedAt: '2019-02-26'
   }]),

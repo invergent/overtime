@@ -6,6 +6,16 @@ import EmailNotifications from '../../../application/notifications/EmailNotifica
 
 const { Staff } = tenantsModels.INIT;
 
+const previousYearMonth = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const previousMonthYearDate = new Date(year, month, 0);
+  const previousMonth = previousMonthYearDate.toDateString().split(' ')[1];
+  const previousYear = previousMonthYearDate.toDateString().split(' ')[3];
+  return `${previousMonth}, ${previousYear}`;
+};
+
 describe('Create Claim Tests', () => {
   let server;
   let request;
@@ -162,8 +172,8 @@ describe('Create Claim Tests', () => {
         .send({ weekday: 20, weekend: 8 });
 
       const message = `You have already submitted a claim request for ${
-        response ? '' : '' // just a hack to avoid eslint error
-      }Jan, 2019. If you wish to make changes, please edit your submission.`;
+        previousYearMonth()
+      }. If you wish to make changes, please cancel the current claim and create a new one.`;
 
       expect(response.status).toBe(409);
       expect(response.body.message).toEqual(message);

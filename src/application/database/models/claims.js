@@ -16,18 +16,17 @@ const claims = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    approvalBySupervisor: {
-      type: DataTypes.ENUM('Pending', 'Approved', 'Declined'),
-      defaultValue: 'Pending'
-    },
-    approvalByBSM: {
-      type: DataTypes.ENUM('Pending', 'Approved', 'Declined'),
-      defaultValue: 'Pending'
+    status: {
+      type: DataTypes.ENUM(
+        'Awaiting supervisor', 'Awaiting BSM', 'Declined', 'Processing', 'Completed'
+      ),
+      allowNull: false
     }
   }, { freezeTableName: true });
 
   Claims.associate = (models) => {
     Claims.belongsTo(models.Staff, { foreignKey: 'requester' });
+    Claims.hasMany(models.ClaimApprovalHistory, { as: 'approvalHistory', foreignKey: 'claimId' });
   };
 
   return Claims;

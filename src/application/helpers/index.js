@@ -5,6 +5,7 @@ import PasswordResetHelper from './PasswordResetHelper';
 import Dates from './Dates';
 import EmailNotificationsHelpers from './EmailNotificationsHelpers';
 import ClaimHelpers from './ClaimHelpers';
+import GenericHelpers from './GenericHelpers';
 
 export default {
   EmailConstructor,
@@ -13,5 +14,6 @@ export default {
   krypter,
   PasswordResetHelper,
   Dates,
-  ClaimHelpers
+  ClaimHelpers,
+  GenericHelpers
 };

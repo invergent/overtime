@@ -46,20 +46,10 @@ describe('Claim Approval Tests', () => {
     });
 
     it('should approve claim.', async () => {
-      const response = await request.get('/line-manager/claims/pending/2/approve').set('cookie', supervisorToken);
-
+      const response = await request.get('/line-manager/claims/pending/3/approve').set('cookie', supervisorToken);
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Claim approved.');
-      expect(response.body.data.approvalBySupervisor).toEqual('Approved');
-    });
-
-    it('should send a non-approval message if approval was not updated on the DB.', async () => {
-      jest.spyOn(ClaimService, 'approveClaim').mockResolvedValue([false, ['claim']]);
-
-      const response = await request.get('/line-manager/claims/pending/1/approve').set('cookie', bsmToken);
-
-      expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('Claim not approved.');
+      expect(response.body.data.status).toEqual('Awaiting BSM');
     });
   });
 
@@ -76,12 +66,19 @@ describe('Claim Approval Tests', () => {
       jest.clearAllMocks();
     });
 
-    it('should decline claim.', async () => {
-      const response = await request.get('/line-manager/claims/pending/1/decline').set('cookie', bsmToken);
+    it('should approve claim (BSM).', async () => {
+      const response = await request.get('/line-manager/claims/pending/1/approve').set('cookie', bsmToken);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Claim approved.');
+      expect(response.body.data.status).toEqual('Processing');
+    });
+
+    it('should decline claim (BSM).', async () => {
+      const response = await request.get('/line-manager/claims/pending/2/decline').set('cookie', bsmToken);
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Claim declined.');
-      expect(response.body.data.approvalByBSM).toEqual('Declined');
+      expect(response.body.data.status).toEqual('Declined');
     });
   });
 });

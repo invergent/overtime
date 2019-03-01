@@ -21,10 +21,12 @@ class EmailNotifications {
   static async sendLineManagerEmail(tenant, staff, lineManagerRole) {
     const emailTemplateName = lineManagerRole === generalNames.Bsm
       ? generalNames.NewClaimBSM : generalNames.NewClaimSupervisor;
+    const id = lineManagerRole === generalNames.Bsm
+      ? staff['BSM.id'] : staff['supervisor.id'];
     const lineManagerId = lineManagerRole === generalNames.Bsm
       ? staff['BSM.lineManagerId'] : staff['supervisor.lineManagerId'];
 
-    const payload = { lineManagerId, lineManagerRole };
+    const payload = { id, lineManagerId, lineManagerRole };
     const hashedToken = krypter.authenticationEncryption('lineManager', payload);
 
     const email = await EmailNotificationsHelpers.createEmail(
