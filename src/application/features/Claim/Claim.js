@@ -2,6 +2,7 @@ import helpers from '../../helpers';
 import services from '../../services';
 import notifications from '../../notifications';
 import { eventNames } from '../../utils/types';
+import IntrinsicMiddlewares from '../../IntrinsicMiddlewares';
 
 const { ClaimService, StaffService } = services;
 const { ClaimHelpers } = helpers;
@@ -70,6 +71,16 @@ class Claim {
 
   static decline(req) {
     return Claim.runClaimApproval(req, 'decline');
+  }
+
+  static async cancel(req) {
+    const { tenant, currentStaff: { staffId }, params: { claimId } } = req;
+    const [statusCode, message] = await IntrinsicMiddlewares.claimMiddleware(
+      tenant, staffId, claimId
+    );
+    if (statusCode !== 200) return [statusCode, message];
+    const [updated, claim] = await ClaimService.cancelClaim(tenant, claimId);
+    return [200, `Claim${updated ? '' : ' not'} cancelled.`, claim[0]];
   }
 }
 

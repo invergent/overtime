@@ -29,7 +29,7 @@ module.exports = {
     },
     status: {
       type: Sequelize.ENUM(
-        'Awaiting supervisor', 'Awaiting BSM', 'Declined', 'Processing', 'Completed'
+        'Awaiting supervisor', 'Awaiting BSM', 'Declined', 'Cancelled', 'Processing', 'Completed'
       ),
       allowNull: false
     },

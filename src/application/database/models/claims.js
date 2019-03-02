@@ -18,7 +18,7 @@ const claims = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.ENUM(
-        'Awaiting supervisor', 'Awaiting BSM', 'Declined', 'Processing', 'Completed'
+        'Awaiting supervisor', 'Awaiting BSM', 'Declined', 'Cancelled', 'Processing', 'Completed'
       ),
       allowNull: false
     }

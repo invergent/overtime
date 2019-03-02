@@ -1,19 +1,17 @@
 import tenantsModels from '../../database/tenantsModels';
+import BasicQuerier from '../BasicQuerier';
 
 class PasswordResetService {
   static fetchPasswordResetRequest(tenant, staffId) {
-    const { PasswordResetRequest } = tenantsModels[tenant];
-    return PasswordResetRequest.findOne({ where: { staffId }, raw: true });
+    return BasicQuerier.passwordResetQueries(tenant, 'findOne', staffId);
   }
 
   static deletePasswordResetRequest(tenant, staffId) {
-    const { PasswordResetRequest } = tenantsModels[tenant];
-    return PasswordResetRequest.destroy({ where: { staffId }, returning: true });
+    return BasicQuerier.passwordResetQueries(tenant, 'destroy', staffId);
   }
 
   static updateOrInsertResetRequest(tenant, data) {
-    const { PasswordResetRequest } = tenantsModels[tenant];
-    return PasswordResetRequest.upsert(data);
+    return BasicQuerier.passwordResetQueries(tenant, 'upsert', undefined, data);
   }
 }
 

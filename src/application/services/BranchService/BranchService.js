@@ -1,9 +1,8 @@
-import tenantsModels from '../../database/tenantsModels';
+import BasicQuerier from '../BasicQuerier';
 
 class BranchService {
   static fetchBranchByPk(tenant, branchId) {
-    const { Branch } = tenantsModels[tenant];
-    return Branch.findByPk(branchId, { raw: true });
+    return BasicQuerier.findByPk(tenant, 'Branch', branchId);
   }
 }
 
