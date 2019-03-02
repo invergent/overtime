@@ -1,6 +1,7 @@
 import tenantsModels from '../../database/tenantsModels';
 import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
 import GenericHelpers from '../../helpers/GenericHelpers';
+import BasicQuerier from '../BasicQuerier';
 
 class ClaimService {
   static findOrCreateClaim(tenant, overtimeRequest) {
@@ -14,6 +15,10 @@ class ClaimService {
       defaults: overtimeRequest,
       raw: true
     });
+  }
+
+  static findClaimByPk(tenant, claimId) {
+    return BasicQuerier.findByPk(tenant, 'Claims', claimId);
   }
 
   static updateClaim(tenant, updatePayload, claimId) {
@@ -51,6 +56,11 @@ class ClaimService {
 
   static declineClaim(tenant, lineManager, claimId) {
     return ClaimService.runClaimApproval(tenant, lineManager, claimId, 'decline');
+  }
+
+  static cancelClaim(tenant, claimId) {
+    const updatePayload = { status: 'Cancelled' };
+    return ClaimService.updateClaim(tenant, updatePayload, claimId);
   }
 }
 

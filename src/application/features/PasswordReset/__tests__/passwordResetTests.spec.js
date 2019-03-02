@@ -2,10 +2,8 @@ import PasswordReset from '../index';
 import PasswordResetHelper from '../../../helpers/PasswordResetHelper';
 import { mockReq } from '../../../../__tests__/__mocks__';
 import krypter from '../../../helpers/krypter';
-import tenantsModels from '../../../database/tenantsModels';
 import services from '../../../services';
 
-const { Staff } = tenantsModels.INIT;
 const { StaffService } = services;
 
 jest.mock('../../../helpers/Mailer');
@@ -19,7 +17,7 @@ describe('PasswordReset', () => {
 
   describe('Forgot password', () => {
     it('should fail if staff does not exist', async () => {
-      jest.spyOn(Staff, 'findOne').mockResolvedValue(null);
+      jest.spyOn(StaffService, 'findStaffByStaffId').mockResolvedValue(null);
 
       const [statusCode, message] = await PasswordReset
         .forgotPassword(mockReq);

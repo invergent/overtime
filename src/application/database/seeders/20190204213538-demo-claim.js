@@ -58,6 +58,26 @@ module.exports = {
     status: 'Awaiting supervisor',
     createdAt: '2019-02-26',
     updatedAt: '2019-02-26'
+  },
+  {
+    monthOfClaim: 'Jan, 2019',
+    weekday: 9,
+    weekend: 2,
+    shift: null,
+    requester: 7,
+    status: 'Awaiting supervisor',
+    createdAt: '2019-03-03',
+    updatedAt: '2019-03-03'
+  },
+  {
+    monthOfClaim: 'Jan, 2019',
+    weekday: 16,
+    weekend: 5,
+    shift: null,
+    requester: 8,
+    status: 'Processing',
+    createdAt: '2019-03-03',
+    updatedAt: '2019-03-03'
   }]),
   down: queryInterface => queryInterface.bulkDelete('Claims')
 };
