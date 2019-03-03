@@ -1,4 +1,5 @@
 import tenantsModels from '../../database/tenantsModels';
+import BasicQuerier from '../BasicQuerier';
 
 class StaffService {
   static async updatePassword(tenant, staffId, password) {
@@ -7,6 +8,10 @@ class StaffService {
       { password }, { where: { staffId }, returning: true }
     );
     return !!updated;
+  }
+
+  static fetchStaffByPk(tenant, staffPk, includes) {
+    return BasicQuerier.findByPk(tenant, 'Staff', staffPk, includes);
   }
 
   static findStaffByStaffId(tenant, staffId, includes) {

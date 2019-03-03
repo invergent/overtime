@@ -36,9 +36,12 @@ class EmailNotifications {
     return EmailNotifications.sendEmail(tenant, email);
   }
 
-  static async NotifyLineManangersOfNewClaim(tenant, staff) {
-    EmailNotifications.sendLineManagerEmail(tenant, staff, generalNames.Bsm);
+  static async NotifySupervisor(tenant, staff) {
     EmailNotifications.sendLineManagerEmail(tenant, staff, generalNames.Supervisor);
+  }
+
+  static async NotifyBSM(tenant, staff) {
+    EmailNotifications.sendLineManagerEmail(tenant, staff, generalNames.Bsm);
   }
 
   static sendEmail(tenant, email) {

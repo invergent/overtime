@@ -9,4 +9,5 @@ export const generalNames = Object.freeze({
 export const eventNames = Object.freeze({
   PasswordReset: 'passwordReset',
   NewClaim: 'NewClaim',
+  SupervisorApproved: 'SupervisorApproved'
 });

@@ -278,7 +278,7 @@ module.exports = {
                 <h2>New Overtime Claim request</h2>
                 <div class="paragraphs">
                   <p>Dear {{bsmFirstName}},</p>
-                  <p><strong>{{staffFirstName}} {{staffLastName}}</strong> just submitted an overtime claim. It is awaiting your approval.</p>
+                  <p><strong>{{staffFirstName}} {{staffLastName}}</strong>'s overtime claim was approved by <strong>{{supervisorFirstName}} {{supervisorLastName}}</strong>. Your approval is required to commence processing the claim.</p>
                   <p>Click the button below to access all pending claims awaiting your approval.</p>
                 </div>
                 <div class="button-wrapper">
