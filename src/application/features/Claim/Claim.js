@@ -65,8 +65,15 @@ class Claim {
     return [200, `Claim${updated ? '' : ' not'} ${approvalType}d.`, claim];
   }
 
-  static approve(req) {
-    return Claim.runClaimApproval(req, 'approve');
+  static async approve(req) {
+    const { tenant } = req;
+    const [statusCode, message, data] = await Claim.runClaimApproval(req, 'approve');
+    if (statusCode !== 200) return [statusCode, message];
+
+    const staff = await StaffService.fetchStaffByPk(tenant, data.requester, ['supervisor', 'BSM']);
+    notifications.emit(eventNames.SupervisorApproved, [tenant, staff]);
+
+    return [statusCode, message, data];
   }
 
   static decline(req) {

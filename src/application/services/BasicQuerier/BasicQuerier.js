@@ -1,8 +1,10 @@
 import tenantsModels from '../../database/tenantsModels';
 
 class BasicQuerier {
-  static findByPk(tenant, model, pk) {
-    return tenantsModels[tenant][model].findByPk(pk, { raw: true });
+  static findByPk(tenant, model, pk, includes) {
+    const options = { raw: true };
+    if (includes) options.include = includes;
+    return tenantsModels[tenant][model].findByPk(pk, options);
   }
 
   static passwordResetQueries(tenant, method, staffId, data) {

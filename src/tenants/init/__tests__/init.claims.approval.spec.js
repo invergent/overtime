@@ -3,8 +3,7 @@ import http from 'http';
 import app from '../../../app';
 import { supervisorHash, bsmHash } from './testUtils';
 import services from '../../../application/services';
-
-const { ClaimService } = services;
+import EmailNotifications from '../../../application/notifications/EmailNotifications';
 
 describe('Claim Approval Tests', () => {
   let server;
@@ -28,6 +27,8 @@ describe('Claim Approval Tests', () => {
       const supervisorVerificationResponse = await request.get(`/verify?hash=${supervisorHash}`);
       supervisorToken = supervisorVerificationResponse.header['set-cookie'];
     });
+
+    beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
 
     afterEach(() => {
       jest.resetAllMocks();
@@ -56,6 +57,8 @@ describe('Claim Approval Tests', () => {
       const bsmVerificationResponse = await request.get(`/verify?hash=${bsmHash}`);
       bsmToken = bsmVerificationResponse.header['set-cookie'];
     });
+
+    beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
 
     afterEach(() => {
       jest.resetAllMocks();
