@@ -27,7 +27,7 @@ class Authorisation {
       const payload = { staffId, staffRole: staff['staffRole.name'] };
       const hashedToken = krypter.authenticationEncryption('staff', payload);
       data.hashedToken = hashedToken;
-      return [200, 'Login successful!', data];
+      return [200, 'Login successful!', data, 'staffToken'];
     } catch (e) {
       return [500, 'An error occurred ERR500LOGIN.'];
     }
@@ -39,7 +39,7 @@ class Authorisation {
     try {
       const hashedToken = krypter.authenticationEncryption('lineManager', lineManager);
       const data = { hashedToken };
-      return [200, 'Verification successful!', data];
+      return [200, 'Verification successful!', data, 'lineManagerToken'];
     } catch (e) {
       return [500, 'An error occurred ERR500VFYMGR.'];
     }

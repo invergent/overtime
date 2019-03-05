@@ -13,15 +13,12 @@ class Claim {
 
     try {
       const staff = await StaffService.findStaffByStaffId(tenant, staffId, ['supervisor', 'BSM']);
-      const overtimeRequest = ClaimHelpers.createOvertimeRequestObject(
-        body, staff.id
+      const overtimeRequest = ClaimHelpers.createOvertimeRequestObject(body, staff.id);
+      const { messageWhenCreated, messageWhenNotCreated } = ClaimHelpers.responseMessage(
+        overtimeRequest
       );
 
       const [claim, created] = await ClaimService.findOrCreateClaim(tenant, overtimeRequest);
-
-      const { messageWhenCreated, messageWhenNotCreated } = ClaimHelpers
-        .responseMessage(overtimeRequest);
-
       if (created) {
         notifications.emit(eventNames.NewClaim, [tenant, staff]);
       }
@@ -55,38 +52,47 @@ class Claim {
 
   static async runClaimApproval(req, approvalType) {
     const { tenant, params: { claimId }, lineManager } = req;
-    const approvalMethod = approvalType === 'approve' ? 'approveClaim' : 'declineClaim';
+    const approvalMethod = approvalType === 'Approved' ? 'approveClaim' : 'declineClaim';
 
     const [statusCode, message] = await Claim.checkThatClaimIsAssignedToLineManager(
       tenant, lineManager, claimId
     );
     if (statusCode === 403) return [statusCode, message];
     const [updated, claim] = await ClaimService[approvalMethod](tenant, lineManager, claimId);
-    return [200, `Claim${updated ? '' : ' not'} ${approvalType}d.`, claim];
+    return [200, `Claim${updated ? '' : ' not'} ${approvalType.toLowerCase()}.`, claim];
   }
 
-  static async approve(req) {
-    const { tenant } = req;
-    const [statusCode, message, data] = await Claim.runClaimApproval(req, 'approve');
+  static async runApprovalAndNotifyUsers(req, approvalType) {
+    const { tenant, lineManager: { lineManagerRole } } = req;
+    const [statusCode, message, data] = await Claim.runClaimApproval(req, approvalType);
     if (statusCode !== 200) return [statusCode, message];
 
     const staff = await StaffService.fetchStaffByPk(tenant, data.requester, ['supervisor', 'BSM']);
-    notifications.emit(eventNames.SupervisorApproved, [tenant, staff]);
+    notifications.emit(
+      eventNames[`${lineManagerRole}${approvalType}`], [tenant, staff, lineManagerRole]
+    );
 
     return [statusCode, message, data];
   }
 
+  static async approve(req) {
+    return Claim.runApprovalAndNotifyUsers(req, 'Approved');
+  }
+
   static decline(req) {
-    return Claim.runClaimApproval(req, 'decline');
+    return Claim.runApprovalAndNotifyUsers(req, 'Declined');
   }
 
   static async cancel(req) {
     const { tenant, currentStaff: { staffId }, params: { claimId } } = req;
-    const [statusCode, message] = await IntrinsicMiddlewares.claimMiddleware(
+    const [statusCode, message, staff] = await IntrinsicMiddlewares.claimMiddleware(
       tenant, staffId, claimId
     );
     if (statusCode !== 200) return [statusCode, message];
+
     const [updated, claim] = await ClaimService.cancelClaim(tenant, claimId);
+    notifications.emit(eventNames.Cancelled, [tenant, staff]);
+    
     return [200, `Claim${updated ? '' : ' not'} cancelled.`, claim[0]];
   }
 }

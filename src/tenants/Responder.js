@@ -9,13 +9,13 @@ class Responder {
   }
 
   static async respondWithCookie(req, res, method) {
-    const [statusCode, message, data] = await method(req);
+    const [statusCode, message, data, tokenType] = await method(req);
 
     if (statusCode !== 200) {
       return res.status(statusCode).json({ message });
     }
 
-    res.cookie('token', data.hashedToken,
+    res.cookie(tokenType, data.hashedToken,
       { expires: new Date(Date.now() + 3600000), httpOnly: true });
     return res.status(statusCode).json({ message, data });
   }

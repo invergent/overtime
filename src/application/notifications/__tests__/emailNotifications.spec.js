@@ -1,6 +1,6 @@
 import EmailNotifications from '../EmailNotifications';
 import helpers from '../../helpers';
-import { generalNames } from '../../utils/types';
+import { templateNames } from '../../utils/types';
 import {
   mockReq, mockStaff
 } from '../../../__tests__/__mocks__';
@@ -24,7 +24,7 @@ describe('Notifications Unit tests', () => {
       await EmailNotifications.sendPasswordResetEmail(tenant, mockStaff);
 
       expect(createHash).toHaveBeenCalledWith(tenant, staffId);
-      expect(createEmail).toHaveBeenCalledWith(tenant, mockStaff, passwordResetHash, generalNames.Reset);
+      expect(createEmail).toHaveBeenCalledWith(tenant, mockStaff, templateNames.Reset, passwordResetHash);
       expect(sendEmail).toHaveBeenCalledWith(tenant, email);
     });
   });
