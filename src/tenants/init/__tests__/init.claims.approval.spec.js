@@ -2,7 +2,6 @@ import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
 import { supervisorHash, bsmHash } from './testUtils';
-import services from '../../../application/services';
 import EmailNotifications from '../../../application/notifications/EmailNotifications';
 
 describe('Claim Approval Tests', () => {
@@ -47,6 +46,13 @@ describe('Claim Approval Tests', () => {
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Claim approved.');
       expect(response.body.data.status).toEqual('Awaiting BSM');
+    });
+
+    it('should decline claim.', async () => {
+      const response = await request.get('/line-manager/claims/pending/4/decline').set('cookie', supervisorToken);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Claim declined.');
+      expect(response.body.data.status).toEqual('Declined');
     });
   });
 
@@ -130,7 +136,7 @@ describe('Claim Approval Tests', () => {
     it('Cancelling a claim in the processing stage should fail.', async () => {
       const response = await request.delete('/users/claims/8').set('cookie', staffToken2);
       expect(response.status).toBe(403);
-      expect(response.body.message).toEqual('You cannot cancel a claim that is being processed.');
+      expect(response.body.message).toEqual('Operation failed. Only pending claims can be cancelled.');
     });
   });
 });

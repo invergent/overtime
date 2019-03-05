@@ -15,7 +15,8 @@ class Authenticator {
   }
 
   static authenticate(req, res, next, requester, message) {
-    const { token } = req.cookies;
+    const { staffToken, lineManagerToken } = req.cookies;
+    const token = requester === 'currentStaff' ? staffToken : lineManagerToken;
     if (!token) {
       return res.status(401).json({ message });
     }

@@ -42,9 +42,9 @@ describe('Pending Claims Tests', () => {
       const response = await request.get('/line-manager/claims/pending').set('cookie', token1);
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('You have 4 claims to approve.');
-      expect(response.body.data[0].staffFirstName).toEqual('Molly');
-      expect(response.body.data[1].staffFirstName).toEqual('Gamolly');
+      expect(response.body.message).toEqual('You have 3 claims to approve.');
+      expect(response.body.data[0].staffFirstName).toEqual('Gamolly');
+      expect(response.body.data[1].staffFirstName).toEqual('Ligamala');
     });
 
     it('should get claims awaiting the line manager\'s (BSM) approval.', async () => {

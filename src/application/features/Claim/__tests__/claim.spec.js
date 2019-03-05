@@ -10,7 +10,7 @@ describe('Claim Unit Test', () => {
       jest.spyOn(Claim, 'checkThatClaimIsAssignedToLineManager').mockResolvedValue([200, 'okay']);
       jest.spyOn(ClaimService, 'approveClaim').mockResolvedValue([false, {}]);
 
-      const result = await Claim.runClaimApproval(mockReq, 'approve');
+      const result = await Claim.runClaimApproval(mockReq, 'Approved');
 
       expect(result).toHaveLength(3);
       expect(result[0]).toEqual(200);

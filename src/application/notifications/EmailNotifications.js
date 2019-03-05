@@ -1,47 +1,67 @@
 import helpers from '../helpers';
-import { generalNames } from '../utils/types';
+import { templateNames, roleNames } from '../utils/types';
 
-const {
-  Mailer, krypter, EmailNotificationsHelpers, PasswordResetHelper
-} = helpers;
+const { Mailer, EmailNotificationsHelpers, PasswordResetHelper } = helpers;
 
 class EmailNotifications {
-  static async sendPasswordResetEmail(tenant, staff) {
-    const { staffId } = staff;
-
-    const passwordResetHash = PasswordResetHelper.createAndSaveResetHash(tenant, staffId);
-
+  static async sendNotificationEmail(tenant, staff, emailTemplateName, hashedToken) {
     const email = await EmailNotificationsHelpers.createEmail(
-      tenant, staff, passwordResetHash, generalNames.Reset
+      tenant, staff, emailTemplateName, hashedToken
     );
-
-    EmailNotifications.sendEmail(tenant, email);
-  }
-
-  static async sendLineManagerEmail(tenant, staff, lineManagerRole) {
-    const emailTemplateName = lineManagerRole === generalNames.Bsm
-      ? generalNames.NewClaimBSM : generalNames.NewClaimSupervisor;
-    const id = lineManagerRole === generalNames.Bsm
-      ? staff['BSM.id'] : staff['supervisor.id'];
-    const lineManagerId = lineManagerRole === generalNames.Bsm
-      ? staff['BSM.lineManagerId'] : staff['supervisor.lineManagerId'];
-
-    const payload = { id, lineManagerId, lineManagerRole };
-    const hashedToken = krypter.authenticationEncryption('lineManager', payload);
-
-    const email = await EmailNotificationsHelpers.createEmail(
-      tenant, staff, hashedToken, emailTemplateName
-    );
-
     return EmailNotifications.sendEmail(tenant, email);
   }
 
-  static async NotifySupervisor(tenant, staff) {
-    EmailNotifications.sendLineManagerEmail(tenant, staff, generalNames.Supervisor);
+  static async sendPasswordResetEmail(tenant, staff) {
+    const { staffId } = staff;
+    const passwordResetHash = PasswordResetHelper.createAndSaveResetHash(tenant, staffId);
+    return EmailNotifications.sendNotificationEmail(
+      tenant, staff, templateNames.Reset, passwordResetHash
+    );
   }
 
-  static async NotifyBSM(tenant, staff) {
-    EmailNotifications.sendLineManagerEmail(tenant, staff, generalNames.Bsm);
+  static sendLineManagerNotifications(tenant, staff, lineManagerRole) {
+    const [hashedToken, emailTemplateName] = EmailNotificationsHelpers
+      .createLineManagerEmailDetails(staff, lineManagerRole);
+    return EmailNotifications.sendNotificationEmail(tenant, staff, emailTemplateName, hashedToken);
+  }
+
+  static sendStaffNotifications(tenant, staff, lineManagerRole, notificationType) {
+    const emailTemplateName = EmailNotificationsHelpers.staffEmailTemplateName(
+      lineManagerRole, notificationType
+    );
+    return EmailNotifications.sendNotificationEmail(tenant, staff, emailTemplateName);
+  }
+
+  static notifySupervisorOfNewClaim(tenant, staff) {
+    EmailNotifications.sendLineManagerNotifications(tenant, staff, roleNames.Supervisor);
+  }
+
+  static notifyBSMSupervisorApproved(tenant, staff) {
+    EmailNotifications.sendLineManagerNotifications(tenant, staff, roleNames.Bsm);
+  }
+
+  static notifyStaffOfClaimSubmission(tenant, staff) {
+    EmailNotifications.sendStaffNotifications(tenant, staff);
+  }
+
+  static notifyStaffSupervisorApproved(tenant, staff, lineManagerRole) {
+    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Approved');
+  }
+
+  static notifyStaffBSMApproved(tenant, staff, lineManagerRole) {
+    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Approved');
+  }
+
+  static notifyStaffSupervisorDeclined(tenant, staff, lineManagerRole) {
+    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Declined');
+  }
+
+  static notifyStaffBSMDeclined(tenant, staff, lineManagerRole) {
+    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Declined');
+  }
+
+  static notifyStaffCancelled(tenant, staff, lineManagerRole) {
+    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Cancelled');
   }
 
   static sendEmail(tenant, email) {
