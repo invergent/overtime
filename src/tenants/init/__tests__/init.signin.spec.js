@@ -26,7 +26,7 @@ describe('INIT tests', () => {
     });
   });
 
-  describe('Signin', () => {
+  describe('Staff Signin', () => {
     it('should respond with missing fields if fields are empty while attempting a signin', async () => {
       const response = await request
         .post('/signin')
@@ -45,8 +45,8 @@ describe('INIT tests', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors[0]).toEqual('Enter a value for password');
-      expect(response.body.errors[1]).toEqual('Staff ID is invalid');
+      expect(response.body.errors[0]).toEqual('Staff ID is invalid');
+      expect(response.body.errors[1]).toEqual('Password is required');
     });
 
     it('should fail if staff does not exist', async () => {
@@ -69,10 +69,22 @@ describe('INIT tests', () => {
       expect(response.body.message).toEqual('Credentials do not match');
     });
 
-    it('should log user in', async () => {
+    it('should log in staff', async () => {
       const response = await request
         .post('/signin')
         .send({ staffId: 'TN012345', password: 'password' })
+        .set('Accept', 'application/json');
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Login successful!');
+    });
+  });
+
+  describe('Admin Signin', () => {
+    it('should log in admin', async () => {
+      const response = await request
+        .post('/admin/login')
+        .send({ email: 'theadmin@init.com', password: 'password' })
         .set('Accept', 'application/json');
 
       expect(response.status).toBe(200);

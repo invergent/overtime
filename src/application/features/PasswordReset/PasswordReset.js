@@ -10,7 +10,7 @@ class PasswordReset {
   static async forgotPassword(req) {
     const { body: { staffId }, tenant } = req;
 
-    const staff = await StaffService.findStaffByStaffId(tenant, staffId);
+    const staff = await StaffService.findStaffByStaffIdOrEmail(tenant, staffId);
     if (!staff) {
       return [404, 'Staff does not exist'];
     }

@@ -1,17 +1,14 @@
 class ValidatorHelpers {
-  static checkForEmptyFields(fieldValue) {
-    if (!fieldValue || !fieldValue.trim()) {
-      return [`${fieldValue} is required`];
+  static checkForEmptyFields(field, value) {
+    if (!value || !value.trim()) {
+      return [`${field} is required`];
     }
     return [];
   }
 
-  static checkStaffId(staffId) {
-    const staffIdRegex = /^[T][N][0-9]{6}$/;
-
-    if (!staffIdRegex.test(staffId)) {
-      return ['Staff ID is invalid'];
-    }
+  static checkPatternedFields(field, value, regex) {
+    if (!value) return [];
+    if (!regex.test(value)) return [`${field} is invalid`];
     return [];
   }
 
@@ -34,8 +31,11 @@ class ValidatorHelpers {
 
   static getMethodName(path) {
     let methodName;
+
     if (path.indexOf('users') !== -1) {
       methodName = path.slice(15);
+    } else if (path.indexOf('admin') !== -1) {
+      methodName = path.slice(7);
     } else {
       methodName = path.slice(1);
     }

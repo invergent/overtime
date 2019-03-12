@@ -19,7 +19,7 @@ describe('Authorisation Unit Tests', () => {
       const result = await Authorisation.authoriseStaff(mockReq);
       expect(result).toHaveLength(2);
       expect(result[0]).toBe(500);
-      expect(result[1]).toBe('An error occurred ERR500LOGIN.');
+      expect(result[1]).toBe('An error occurred ERR500STFLGN.');
     });
 
     it('should identify a first time signin', async () => {

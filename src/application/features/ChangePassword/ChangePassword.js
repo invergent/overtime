@@ -10,7 +10,7 @@ class ChangePassword {
     } = req;
 
     try {
-      const staff = await StaffService.findStaffByStaffId(tenant, staffId);
+      const staff = await StaffService.findStaffByStaffIdOrEmail(tenant, staffId);
       const isCorrect = await ChangePassword
         .currentPasswordIsCorrect(currentPassword, staff.password);
       if (!isCorrect) {

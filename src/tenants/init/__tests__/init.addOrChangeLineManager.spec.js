@@ -74,7 +74,7 @@ describe('INIT: Add or Change Line Manager', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors.length).toEqual(6);
+      expect(response.body.errors.length).toEqual(7);
     });
 
     it('should fail if fields are missing', async () => {
