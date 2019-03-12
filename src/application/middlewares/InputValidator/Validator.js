@@ -1,5 +1,5 @@
-import formProperties from './formProperties';
 import ValidatorHelpers from './ValidatorHelpers';
+import { emailRegex, staffIdRegex, formProperties } from '../../utils/inputValidator';
 
 class Validator {
   static checkProps(reqObject, methodName) {
@@ -15,15 +15,12 @@ class Validator {
   }
 
   static signin(reqObject) {
-    const { staffId, password } = reqObject;
+    const { staffId, email, password } = reqObject;
     const errors = [];
 
-    if (!password.trim()) {
-      errors.push('Enter a value for password');
-    }
-
-    errors.push(...ValidatorHelpers.checkStaffId(staffId));
-
+    errors.push(...ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('Email', email, emailRegex));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Password', password));
     return errors;
   }
 
@@ -31,17 +28,18 @@ class Validator {
     const {
       lineManagerRole, lineManagerId, firstname, lastname, designation, email
     } = reqObject;
-    const emailRegex = /\S+@\S+\.\S+/;
     const errors = [];
 
     if (!emailRegex.test(email)) {
-      errors.push('email is invalid');
+      errors.push('Email is invalid');
     }
+
     errors.push(...ValidatorHelpers.checkLineManagerRole(lineManagerRole));
-    errors.push(...ValidatorHelpers.checkStaffId(lineManagerId));
-    errors.push(...ValidatorHelpers.checkForEmptyFields(firstname));
-    errors.push(...ValidatorHelpers.checkForEmptyFields(lastname));
-    errors.push(...ValidatorHelpers.checkForEmptyFields(designation));
+    errors.push(...ValidatorHelpers.checkPatternedFields('lineManagerId', lineManagerId, staffIdRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('email', email, emailRegex));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('firstname', firstname));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('lastname', lastname));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('designation', designation));
 
     return errors;
   }
@@ -52,8 +50,8 @@ class Validator {
 
     const errors = [];
 
-    errors.push(...ValidatorHelpers.checkForEmptyFields(truthyPassword));
-    errors.push(...ValidatorHelpers.checkForEmptyFields(confirmPassword));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('password', truthyPassword));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('confirmPassword', confirmPassword));
 
     if (truthyPassword.trim() !== confirmPassword.trim()) {
       errors.push('Passwords do not match');
@@ -66,10 +64,14 @@ class Validator {
     const { currentPassword } = reqObject;
     const errors = [];
 
-    errors.push(...ValidatorHelpers.checkForEmptyFields(currentPassword));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('currentPassword', currentPassword));
     errors.push(...this.reset(reqObject));
 
     return errors;
+  }
+
+  static login(reqObject) {
+    return Validator.signin(reqObject);
   }
 }
 

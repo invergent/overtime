@@ -5,9 +5,9 @@ import Authenticator from '../../application/middlewares/Authenticator';
 
 const router = express.Router();
 const {
-  forgotPassword, signin, authoriseLineManager, changePassword, updateBranch,
-  confirmPasswordResetRequest, resetPassword, addOrChangeLineManager, createOvertimeClaim,
-  pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim
+  forgotPassword, authoriseStaff, authoriseAdmin, authoriseLineManager, changePassword,
+  updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
+  createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim
 } = controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
@@ -15,7 +15,8 @@ const {
 } = InputValidator;
 const { authenticateStaff, authenticateLineManager, verifyLineManager } = Authenticator;
 
-router.post('/signin', checkProps, checkEntries, signin);
+router.post('/signin', checkProps, checkEntries, authoriseStaff);
+router.post('/admin/login', checkProps, checkEntries, authoriseAdmin);
 router.get('/verify', verifyLineManager, authoriseLineManager);
 
 router.post('/forgot-password', checkProps, checkStaffId, forgotPassword);

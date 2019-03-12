@@ -4,7 +4,7 @@
   "description": "overtime recorder",
   "main": "index.js",
   "engines": {
-    "node": "11.1.0",
+    "node": "11.10.1",
     "yarn": "1.13.0"
   },
   "scripts": {

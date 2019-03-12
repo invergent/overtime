@@ -1,6 +1,10 @@
-export default {
+export const formProperties = {
   signin: {
     staffId: 'staffId',
+    password: 'password'
+  },
+  login: {
+    email: 'email',
     password: 'password'
   },
   lineManager: {
@@ -32,3 +36,6 @@ export default {
     atm: 'atm'
   }
 };
+
+export const staffIdRegex = /^[T][N][0-9]{6}$/;
+export const emailRegex = /\S+@\S+\.\S+/;

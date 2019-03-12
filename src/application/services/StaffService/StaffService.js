@@ -14,9 +14,10 @@ class StaffService {
     return BasicQuerier.findByPk(tenant, 'Staff', staffPk, includes);
   }
 
-  static findStaffByStaffId(tenant, staffId, includes) {
+  static findStaffByStaffIdOrEmail(tenant, identifier, includes) {
     const { Staff } = tenantsModels[tenant];
-    const options = { where: { staffId }, raw: true };
+    const searchColumn = identifier.includes('.com') ? 'email' : 'staffId';
+    const options = { where: { [searchColumn]: identifier }, raw: true };
 
     if (includes && Array.isArray(includes)) {
       options.include = includes;

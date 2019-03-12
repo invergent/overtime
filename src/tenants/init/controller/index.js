@@ -7,8 +7,12 @@ const {
 } = features;
 
 class MainController {
-  static async signin(req, res) {
+  static async authoriseStaff(req, res) {
     return Responder.respondWithCookie(req, res, Authorisation.authoriseStaff);
+  }
+
+  static async authoriseAdmin(req, res) {
+    return Responder.respondWithCookie(req, res, Authorisation.authoriseAdmin);
   }
 
   static async authoriseLineManager(req, res) {

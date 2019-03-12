@@ -1,45 +1,39 @@
-import bcrypt from 'bcrypt';
-import krypter from '../../helpers/krypter';
 import services from '../../services';
+import AuthorisationHelpers from '../../helpers/AuthorisationHelpers';
 
 const { StaffService } = services;
 
 class Authorisation {
-  static async authoriseStaff(req) {
-    const { body: { staffId, password }, tenant } = req;
-    const data = {};
+  static async runAuthorisation(req, tokenType) {
+    const { body: { staffId, email, password }, tenant } = req;
+    const identifier = staffId || email;
+    const errorCode = tokenType === 'adminToken' ? 'ADMLGN' : 'STFLGN';
 
     try {
-      const staff = await StaffService.findStaffByStaffId(tenant, staffId, ['staffRole']);
-      if (!staff) {
-        return [404, 'Staff not found'];
-      }
+      const staff = await StaffService.findStaffByStaffIdOrEmail(tenant, identifier, ['staffRole']);
+      if (!staff) return [404, 'Staff not found'];
 
-      if (staff.password === 'password') {
-        data.firstSignin = true;
-      } else {
-        const match = bcrypt.compareSync(password, staff.password);
-        if (!match) {
-          return [401, 'Credentials do not match'];
-        }
-      }
+      const [statusCode, message, data] = AuthorisationHelpers.comparePassword(password, staff);
+      if (statusCode !== 200) return [statusCode, message, data];
 
-      const payload = { staffId, staffRole: staff['staffRole.name'] };
-      const hashedToken = krypter.authenticationEncryption('staff', payload);
-      data.hashedToken = hashedToken;
-      return [200, 'Login successful!', data, 'staffToken'];
+      return AuthorisationHelpers.createStaffToken(staff, data, tokenType);
     } catch (e) {
-      return [500, 'An error occurred ERR500LOGIN.'];
+      return [500, `An error occurred ERR500${errorCode}.`];
     }
+  }
+
+  static async authoriseStaff(req) {
+    return Authorisation.runAuthorisation(req, 'staffToken');
+  }
+
+  static authoriseAdmin(req) {
+    return Authorisation.runAuthorisation(req, 'adminToken');
   }
 
   static authoriseLineManager(req) {
     const { lineManager } = req;
-
     try {
-      const hashedToken = krypter.authenticationEncryption('lineManager', lineManager);
-      const data = { hashedToken };
-      return [200, 'Verification successful!', data, 'lineManagerToken'];
+      return AuthorisationHelpers.createLineManagerToken(lineManager);
     } catch (e) {
       return [500, 'An error occurred ERR500VFYMGR.'];
     }

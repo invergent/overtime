@@ -12,7 +12,7 @@ class Claim {
     const { currentStaff: { staffId }, body, tenant } = req;
 
     try {
-      const staff = await StaffService.findStaffByStaffId(tenant, staffId, ['supervisor', 'BSM']);
+      const staff = await StaffService.findStaffByStaffIdOrEmail(tenant, staffId, ['supervisor', 'BSM']);
       const overtimeRequest = ClaimHelpers.createOvertimeRequestObject(body, staff.id);
       const { messageWhenCreated, messageWhenNotCreated } = ClaimHelpers.responseMessage(
         overtimeRequest

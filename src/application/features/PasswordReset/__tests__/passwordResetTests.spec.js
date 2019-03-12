@@ -17,7 +17,7 @@ describe('PasswordReset', () => {
 
   describe('Forgot password', () => {
     it('should fail if staff does not exist', async () => {
-      jest.spyOn(StaffService, 'findStaffByStaffId').mockResolvedValue(null);
+      jest.spyOn(StaffService, 'findStaffByStaffIdOrEmail').mockResolvedValue(null);
 
       const [statusCode, message] = await PasswordReset
         .forgotPassword(mockReq);

@@ -7,7 +7,7 @@ class IntrinsicMiddlewares {
     const claim = await ClaimService.findClaimByPk(tenant, claimId);
     if (!claim) return [404, 'Claim does not exist.'];
 
-    const staff = await StaffService.findStaffByStaffId(tenant, staffId, ['supervisor', 'BSM']);
+    const staff = await StaffService.findStaffByStaffIdOrEmail(tenant, staffId, ['supervisor', 'BSM']);
     if (claim.requester !== staff.id) return [401, 'You do not have access to this claim.'];
 
     const statuses = ['Awaiting BSM', 'Awaiting supervisor'];

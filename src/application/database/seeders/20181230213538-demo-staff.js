@@ -120,6 +120,18 @@ module.exports = {
     role: 3,
     createdAt: '2019-03-03',
     updatedAt: '2019-03-03'
+  },
+  {
+    staffId: 'ADMIN001',
+    firstname: 'TheAdmin',
+    lastname: 'JustAdmin',
+    middleName: 'Madmin',
+    email: 'theadmin@init.com',
+    password: bcrypt.hashSync('password', 7),
+    image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
+    role: 3,
+    createdAt: '2019-03-07',
+    updatedAt: '2019-03-07'
   }]),
   down: queryInterface => queryInterface.bulkDelete('Staff')
 };

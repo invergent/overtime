@@ -2,6 +2,7 @@ import Validator from './Validator';
 import ValidatorHelpers from './ValidatorHelpers';
 import OvertimeRequestValidator from './OvertimeRequestValidator';
 import Dates from '../../helpers/Dates';
+import { staffIdRegex } from '../../utils/inputValidator';
 
 class InputValidator {
   static checkProps(req, res, next) {
@@ -34,7 +35,7 @@ class InputValidator {
 
   static checkStaffId(req, res, next) {
     const { staffId } = req.body;
-    const error = ValidatorHelpers.checkStaffId(staffId);
+    const error = ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex);
 
     return ValidatorHelpers.validatorResponder(res, error, next);
   }
