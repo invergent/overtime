@@ -6,7 +6,7 @@ import EmailNotifications from '../../../application/notifications/EmailNotifica
 
 const { Staff } = tenantsModels.INIT;
 
-const previousYearMonth = () => {
+const getPreviousYearMonth = () => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
@@ -172,7 +172,7 @@ describe('Create Claim Tests', () => {
         .send({ weekday: 20, weekend: 8 });
 
       const message = `You have already submitted a claim request for ${
-        previousYearMonth()
+        getPreviousYearMonth()
       }. If you wish to make changes, please cancel the current claim and create a new one.`;
 
       expect(response.status).toBe(409);

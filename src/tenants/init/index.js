@@ -7,13 +7,16 @@ const router = express.Router();
 const {
   forgotPassword, authoriseStaff, authoriseAdmin, authoriseLineManager, changePassword,
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
-  createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim
+  createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
+  submittedClaims
 } = controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
   checkOvertimeValues
 } = InputValidator;
-const { authenticateStaff, authenticateLineManager, verifyLineManager } = Authenticator;
+const {
+  authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager
+} = Authenticator;
 
 router.post('/signin', checkProps, checkEntries, authoriseStaff);
 router.post('/admin/login', checkProps, checkEntries, authoriseAdmin);
@@ -36,6 +39,8 @@ router.post('/users/profile/line-manager',
   authenticateStaff, checkProps, checkEntries, addOrChangeLineManager);
 router.put('/users/profile/branch', authenticateStaff, checkProps, checkBranchId, updateBranch);
 router.post('/users/profile/reset', authenticateStaff, checkEntries, resetPassword);
+
+router.get('/admin/claims', authenticateAdmin, submittedClaims);
 
 router.get('/', (req, res) => res.status(200).json({ message: 'INIT boarded' }));
 

@@ -1,4 +1,5 @@
 import krypter from '../../helpers/krypter';
+import { authErrorCodes, authRoleName } from '../../utils/authentication';
 
 const errorToStaff = 'Please login first.';
 const errorToLineManager = `Your request was unauthorised.${
@@ -6,8 +7,12 @@ const errorToLineManager = `Your request was unauthorised.${
 } Be sure to have clicked the button in the email you recieved.`;
 
 class Authenticator {
+  static authenticateAdmin(req, res, next) {
+    return Authenticator.authenticate(req, res, next, 'admin', errorToStaff);
+  }
+
   static authenticateStaff(req, res, next) {
-    return Authenticator.authenticate(req, res, next, 'currentStaff', errorToStaff);
+    return Authenticator.authenticate(req, res, next, 'staff', errorToStaff);
   }
 
   static authenticateLineManager(req, res, next) {
@@ -15,8 +20,7 @@ class Authenticator {
   }
 
   static authenticate(req, res, next, requester, message) {
-    const { staffToken, lineManagerToken } = req.cookies;
-    const token = requester === 'currentStaff' ? staffToken : lineManagerToken;
+    const token = req.cookies[`${requester}Token`];
     if (!token) {
       return res.status(401).json({ message });
     }
@@ -32,12 +36,12 @@ class Authenticator {
   }
 
   static decrypt(req, res, next, requester, token) {
-    const errorCode = requester === 'currentStaff' ? 'ERRSTFAUTH' : 'ERRLMRAUTH';
-    const decodedValue = requester === 'currentStaff' ? 'staff' : 'lineManager';
+    const errorCode = authErrorCodes[requester];
+    const currentUserRole = authRoleName[requester];
 
     try {
       const decoded = krypter.authenticationDecryption(token);
-      req[requester] = decoded[decodedValue];
+      req[currentUserRole] = decoded[requester];
       return next();
     } catch (e) {
       return res.status(401).json({ message: `Authentication error ${errorCode}.` });
