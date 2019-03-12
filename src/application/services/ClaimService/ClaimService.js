@@ -1,6 +1,8 @@
+import { Op } from 'sequelize';
 import tenantsModels from '../../database/tenantsModels';
 import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
 import GenericHelpers from '../../helpers/GenericHelpers';
+import Dates from '../../helpers/Dates';
 import BasicQuerier from '../BasicQuerier';
 
 class ClaimService {
@@ -61,6 +63,14 @@ class ClaimService {
   static cancelClaim(tenant, claimId) {
     const updatePayload = { status: 'Cancelled' };
     return ClaimService.updateClaim(tenant, updatePayload, claimId);
+  }
+
+  static fetchSubmittedClaimsIntheCurrentMonth(tenant) {
+    const { Claims } = tenantsModels[tenant];
+    const { year, month } = Dates.getCurrentYearMonth();
+    const firstDayOfCurrentMonth = new Date(year, month, 1);
+    const options = { where: { createdAt: { [Op.gte]: firstDayOfCurrentMonth } }, raw: true };
+    return Claims.findAll(options);
   }
 }
 

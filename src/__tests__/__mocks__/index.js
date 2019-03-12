@@ -28,3 +28,10 @@ export const mockLoginCredentials = {
   },
   tenant: 'INIT'
 };
+
+export const mockEmail = {
+  to: 'to',
+  from: 'from',
+  subject: 'subject',
+  html: 'html'
+};

@@ -92,8 +92,14 @@ class Claim {
 
     const [updated, claim] = await ClaimService.cancelClaim(tenant, claimId);
     notifications.emit(eventNames.Cancelled, [tenant, staff]);
-    
+
     return [200, `Claim${updated ? '' : ' not'} cancelled.`, claim[0]];
+  }
+
+  static async submittedClaims(req) {
+    const { tenant } = req;
+    const claims = await ClaimService.fetchSubmittedClaimsIntheCurrentMonth(tenant);
+    return [200, `Found ${claims.length} claims`, claims];
   }
 }
 
