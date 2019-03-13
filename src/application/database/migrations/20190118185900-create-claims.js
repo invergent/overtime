@@ -18,6 +18,10 @@ module.exports = {
     shift: {
       type: Sequelize.INTEGER
     },
+    amount: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
     requester: {
       type: Sequelize.INTEGER,
       onDelete: 'CASCADE',
