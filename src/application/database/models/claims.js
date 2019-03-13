@@ -12,6 +12,10 @@ const claims = (sequelize, DataTypes) => {
     shift: {
       type: DataTypes.INTEGER
     },
+    amount: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     requester: {
       type: DataTypes.STRING,
       allowNull: false

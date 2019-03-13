@@ -154,6 +154,7 @@ describe('Create Claim Tests', () => {
     });
 
     it('should successfully submit overtime request', async () => {
+      const amount = (20 * 150) + (8 * 800);
       const response = await request
         .post('/users/claim')
         .set('cookie', token)
@@ -162,6 +163,7 @@ describe('Create Claim Tests', () => {
 
       expect(response.status).toBe(201);
       expect(response.body.message).toEqual('Your claim request was created successfully.');
+      expect(response.body.data.amount).toEqual(amount);
     });
 
     it('should send a conflict error if staff already created claim', async () => {
