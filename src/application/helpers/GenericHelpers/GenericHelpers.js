@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import tenantsModels from '../../database/tenantsModels';
 
 class GenericHelpers {
@@ -33,6 +34,29 @@ class GenericHelpers {
     };
 
     return options;
+  }
+
+  static adminFetchClaimOptions(tenant, period) {
+    const { Branch, Staff } = tenantsModels[tenant];
+    const options = {
+      where: {
+        createdAt: { [Op.gte]: period }
+      },
+      include: [{
+        model: Staff,
+        include: [{
+          model: Branch
+        }]
+      }],
+      raw: true
+    };
+
+    return options;
+  }
+
+  static createColumnHeaderKeys(header) {
+    const key = header.toLowerCase().replace(/\//g, '').replace(/ id/g, 'Id').replace(/ /g, '');
+    return key;
   }
 }
 

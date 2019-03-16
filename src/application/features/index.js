@@ -4,6 +4,7 @@ import updateBranch from './updateBranch';
 import PasswordReset from './PasswordReset';
 import ChangePassword from './ChangePassword';
 import Claim from './Claim';
+import exportDoc from './exportDoc';
 
 export default {
   Authorisation,
@@ -11,5 +12,6 @@ export default {
   updateBranch,
   PasswordReset,
   ChangePassword,
-  Claim
+  Claim,
+  exportDoc
 };

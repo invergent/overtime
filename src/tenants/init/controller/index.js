@@ -3,7 +3,8 @@ import features from '../../../application/features';
 import Responder from '../../Responder';
 
 const {
-  Authorisation, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword, Claim
+  Authorisation, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword, Claim,
+  exportDoc
 } = features;
 
 class MainController {
@@ -66,6 +67,10 @@ class MainController {
 
   static async submittedClaims(req, res) {
     return Responder.respond(req, res, Claim.submittedClaims);
+  }
+
+  static async exportDoc(req, res) {
+    return Responder.download(req, res, exportDoc);
   }
 }
 

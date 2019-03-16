@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import tenantsModels from '../../database/tenantsModels';
 import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
 import GenericHelpers from '../../helpers/GenericHelpers';
@@ -69,7 +68,7 @@ class ClaimService {
     const { Claims } = tenantsModels[tenant];
     const { year, month } = Dates.getCurrentYearMonth();
     const firstDayOfCurrentMonth = new Date(year, month, 1);
-    const options = { where: { createdAt: { [Op.gte]: firstDayOfCurrentMonth } }, raw: true };
+    const options = GenericHelpers.adminFetchClaimOptions(tenant, firstDayOfCurrentMonth);
     return Claims.findAll(options);
   }
 }

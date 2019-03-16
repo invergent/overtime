@@ -18,7 +18,7 @@ class Mailer {
   send(email) {
     sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
     const formattedEmail = this.create(email);
-    sendgrid.send(formattedEmail);
+    return sendgrid.send(formattedEmail);
   }
 }
 

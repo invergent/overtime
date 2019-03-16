@@ -1,14 +1,15 @@
 import EmailNotifications from '../EmailNotifications';
 import helpers from '../../helpers';
 import { templateNames } from '../../utils/types';
+import Mailer from '../../helpers/Mailer';
 import {
   mockReq, mockStaff
 } from '../../../__tests__/__mocks__';
 
 
-jest.mock('../../helpers/Mailer', () => jest.fn().mockImplementation(() => ({
+jest.mock('../../helpers/Mailer', () => () => ({
   send: value => value
-})));
+}));
 
 const { PasswordResetHelper } = helpers;
 
@@ -37,7 +38,7 @@ describe('Notifications Unit tests', () => {
 
       const result = EmailNotifications.sendEmail(tenant, email);
 
-      expect(result).toEqual();
+      expect(result).toEqual(email);
     });
   });
 });

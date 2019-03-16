@@ -1,5 +1,5 @@
 import krypter from '../../helpers/krypter';
-import { authErrorCodes, authRoleName } from '../../utils/authentication';
+import { authErrorCodes, authRoleName } from '../../utils/general';
 
 const errorToStaff = 'Please login first.';
 const errorToLineManager = `Your request was unauthorised.${
