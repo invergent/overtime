@@ -8,10 +8,10 @@ const {
   forgotPassword, authoriseStaff, authoriseAdmin, authoriseLineManager, changePassword,
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
-  submittedClaims
+  submittedClaims, exportDoc
 } = controller;
 const {
-  checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps,
+  checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps, checkDocType,
   checkOvertimeValues
 } = InputValidator;
 const {
@@ -41,6 +41,7 @@ router.put('/users/profile/branch', authenticateStaff, checkProps, checkBranchId
 router.post('/users/profile/reset', authenticateStaff, checkEntries, resetPassword);
 
 router.get('/admin/claims', authenticateAdmin, submittedClaims);
+router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exportDoc);
 
 router.get('/', (req, res) => res.status(200).json({ message: 'INIT boarded' }));
 

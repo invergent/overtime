@@ -66,7 +66,7 @@ class EmailNotifications {
 
   static sendEmail(tenant, email) {
     const mailer = new Mailer(tenant);
-    mailer.send(email);
+    return mailer.send(email);
   }
 }
 

@@ -55,6 +55,12 @@ class InputValidator {
     return ValidatorHelpers.validatorResponder(res, errors, next);
   }
 
+  static checkDocType(req, res, next) {
+    const { params: { docType } } = req;
+    const errors = ValidatorHelpers.checkDocTypeParam(docType);
+    return ValidatorHelpers.validatorResponder(res, errors, next);
+  }
+
   // static checkParams(req, res, next) {
   //   const { claimId } = req.params;
   //

@@ -1,6 +1,6 @@
 import Dates from '../Dates';
 import ClaimService from '../../services/ClaimService';
-import claimTypeRates from '../../utils/claim';
+import { claimTypeRates } from '../../utils/general';
 
 class ClaimHelpers {
   static calculateClaimAmount(overtimeRequest) {
@@ -66,8 +66,46 @@ class ClaimHelpers {
     });
   }
 
+  static filterAdminClaimsQueryResult(queryResult) {
+    return queryResult.map((result) => {
+      const {
+        weekday,
+        weekend,
+        shift,
+        amount,
+        status,
+        monthOfClaim: monthofclaim,
+        'Staff.staffId': staffId,
+        'Staff.firstname': firstname,
+        'Staff.lastname': lastname,
+        'Staff.middleName': middlename,
+        'Staff.Branch.solId': solId,
+        'Staff.Branch.branchName': branch
+      } = result;
+      return {
+        weekday,
+        weekend,
+        shift,
+        amount,
+        status,
+        staffId,
+        firstname,
+        lastname,
+        middlename,
+        solId,
+        branch,
+        monthofclaim
+      };
+    });
+  }
+
   static getIdsOfFilteredPendingClaims(filteredPendingClaims) {
     return filteredPendingClaims.map(claim => claim.claimId);
+  }
+
+  static async submittedClaimsForAdmin(tenant) {
+    const claims = await ClaimService.fetchSubmittedClaimsIntheCurrentMonth(tenant);
+    return ClaimHelpers.filterAdminClaimsQueryResult(claims);
   }
 
   static async pendingClaimsForlineManager(tenant, lineManager) {

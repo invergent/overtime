@@ -12,6 +12,11 @@ class ValidatorHelpers {
     return [];
   }
 
+  static checkDocTypeParam(docType) {
+    if (!['excel'].includes(docType)) return ['Invalid! DocType can only be "excel".'];
+    return [];
+  }
+
   // static validateNumberParam(param, claimId) {
   //   const isInter = Number.isInteger(parseInt(param, 10));
   //   const isGreaterThanZero = parseInt(param, 10) > 0;

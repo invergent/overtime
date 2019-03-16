@@ -1,12 +1,12 @@
 import PasswordReset from '../index';
 import PasswordResetHelper from '../../../helpers/PasswordResetHelper';
 import { mockReq } from '../../../../__tests__/__mocks__';
+import notifications from '../../../notifications';
 import krypter from '../../../helpers/krypter';
 import services from '../../../services';
 
 const { StaffService } = services;
 
-jest.mock('../../../helpers/Mailer');
 jest.spyOn(krypter, 'authenticationEncryption').mockImplementation(() => 'someToken');
 
 
@@ -18,6 +18,7 @@ describe('PasswordReset', () => {
   describe('Forgot password', () => {
     it('should fail if staff does not exist', async () => {
       jest.spyOn(StaffService, 'findStaffByStaffIdOrEmail').mockResolvedValue(null);
+      jest.spyOn(notifications, 'emit');
 
       const [statusCode, message] = await PasswordReset
         .forgotPassword(mockReq);
@@ -100,8 +101,7 @@ describe('PasswordReset', () => {
     it('should throw an exception if an error occurs', async () => {
       jest.spyOn(PasswordResetHelper, 'findAndValidateResetRequest')
         .mockImplementation(() => [200, 'valid']);
-      jest.spyOn(StaffService, 'updatePassword')
-          .mockRejectedValue('failed');
+      jest.spyOn(StaffService, 'updatePassword').mockRejectedValue('failed');
 
       const [statusCode, message] = await PasswordReset
         .resetPassword(mockReq);

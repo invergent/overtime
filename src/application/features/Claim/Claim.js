@@ -98,7 +98,7 @@ class Claim {
 
   static async submittedClaims(req) {
     const { tenant } = req;
-    const claims = await ClaimService.fetchSubmittedClaimsIntheCurrentMonth(tenant);
+    const claims = await ClaimHelpers.submittedClaimsForAdmin(tenant);
     return [200, `Found ${claims.length} claims`, claims];
   }
 }

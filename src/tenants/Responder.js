@@ -19,6 +19,11 @@ class Responder {
       { expires: new Date(Date.now() + 3600000), httpOnly: true });
     return res.status(statusCode).json({ message, data });
   }
+
+  static async download(req, res, method) {
+    const [filePath, fileName] = await method(req);
+    return res.download(filePath, fileName);
+  }
 }
 
 export default Responder;

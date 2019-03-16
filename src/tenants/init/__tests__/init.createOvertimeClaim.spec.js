@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import http from 'http';
+import sendgrid from '@sendgrid/mail';
 import app from '../../../app';
 import tenantsModels from '../../../application/database/tenantsModels';
 import EmailNotifications from '../../../application/notifications/EmailNotifications';
@@ -25,8 +26,6 @@ describe('Create Claim Tests', () => {
     server.listen(7000, done);
     request = supertest('http://init.overtime-api.example.com:7000');
   });
-
-  beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
 
   afterAll((done) => {
     server.close(done);
@@ -154,6 +153,8 @@ describe('Create Claim Tests', () => {
     });
 
     it('should successfully submit overtime request', async () => {
+      jest.spyOn(EmailNotifications, 'sendEmail').mockImplementation(() => {});
+
       const amount = (20 * 150) + (8 * 800);
       const response = await request
         .post('/users/claim')
