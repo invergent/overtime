@@ -80,7 +80,8 @@ class ClaimHelpers {
         'Staff.lastname': lastname,
         'Staff.middleName': middlename,
         'Staff.Branch.solId': solId,
-        'Staff.Branch.branchName': branch
+        'Staff.Branch.branchName': branch,
+        'Staff.staffRole.name': role
       } = result;
       return {
         weekday,
@@ -94,7 +95,8 @@ class ClaimHelpers {
         middlename,
         solId,
         branch,
-        monthofclaim
+        monthofclaim,
+        role
       };
     });
   }

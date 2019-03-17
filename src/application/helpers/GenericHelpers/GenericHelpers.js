@@ -37,16 +37,17 @@ class GenericHelpers {
   }
 
   static adminFetchClaimOptions(tenant, period) {
-    const { Branch, Staff } = tenantsModels[tenant];
+    const { Branch, Staff, Roles } = tenantsModels[tenant];
     const options = {
       where: {
         createdAt: { [Op.gte]: period }
       },
       include: [{
         model: Staff,
-        include: [{
-          model: Branch
-        }]
+        include: [
+          { model: Branch },
+          { model: Roles, as: 'staffRole' }
+        ]
       }],
       raw: true
     };

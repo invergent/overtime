@@ -21,6 +21,6 @@ export const tenantList = {
 };
 
 export const exportDocHeaders = [
-  'S/N', 'Staff ID', 'FirstName', 'LastName', 'MiddleName', 'Branch', 'Sol ID', 'Weekday',
-  'Weekend', 'Shift', 'Amount', 'Status', 'Month of Claim'
+  'S/N', 'Staff ID', 'FirstName', 'LastName', 'MiddleName', 'Role', 'Branch', 'Sol ID',
+  'Weekday', 'Weekend', 'Shift', 'Amount', 'Status', 'Month of Claim'
 ];
