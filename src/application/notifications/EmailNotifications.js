@@ -1,11 +1,11 @@
 import helpers from '../helpers';
 import { templateNames, roleNames } from '../utils/types';
 
-const { Mailer, EmailNotificationsHelpers, PasswordResetHelper } = helpers;
+const { Mailer, NotificationsHelpers, PasswordResetHelper } = helpers;
 
 class EmailNotifications {
   static async sendNotificationEmail(tenant, staff, emailTemplateName, hashedToken) {
-    const email = await EmailNotificationsHelpers.createEmail(
+    const email = await NotificationsHelpers.createEmail(
       tenant, staff, emailTemplateName, hashedToken
     );
     return EmailNotifications.sendEmail(tenant, email);
@@ -19,49 +19,52 @@ class EmailNotifications {
     );
   }
 
-  static sendLineManagerNotifications(tenant, staff, lineManagerRole) {
-    const [hashedToken, emailTemplateName] = EmailNotificationsHelpers
+  static sendLineManagerNotifications(data) {
+    const { tenant, staff, lineManagerRole } = data;
+    const [hashedToken, emailTemplateName] = NotificationsHelpers
       .createLineManagerEmailDetails(staff, lineManagerRole);
     return EmailNotifications.sendNotificationEmail(tenant, staff, emailTemplateName, hashedToken);
   }
 
-  static sendStaffNotifications(tenant, staff, lineManagerRole, notificationType) {
-    const emailTemplateName = EmailNotificationsHelpers.staffEmailTemplateName(
+  static sendStaffNotifications(data, notificationType) {
+    const { tenant, staff, lineManagerRole } = data;
+    const emailTemplateName = NotificationsHelpers.staffEmailTemplateName(
       lineManagerRole, notificationType
     );
     return EmailNotifications.sendNotificationEmail(tenant, staff, emailTemplateName);
   }
 
-  static notifySupervisorOfNewClaim(tenant, staff) {
-    EmailNotifications.sendLineManagerNotifications(tenant, staff, roleNames.Supervisor);
+  static notifySupervisorOfNewClaim(data) {
+    EmailNotifications.sendLineManagerNotifications(data);
   }
 
-  static notifyBSMSupervisorApproved(tenant, staff) {
-    EmailNotifications.sendLineManagerNotifications(tenant, staff, roleNames.Bsm);
+  static notifyBSMSupervisorApproved(data) {
+    data.lineManagerRole = roleNames.Bsm; // set lineManager role to BSM to notify BSM
+    EmailNotifications.sendLineManagerNotifications(data);
   }
 
-  static notifyStaffOfClaimSubmission(tenant, staff) {
-    EmailNotifications.sendStaffNotifications(tenant, staff);
+  static notifyStaffOfClaimSubmission(data) {
+    EmailNotifications.sendStaffNotifications(data);
   }
 
-  static notifyStaffSupervisorApproved(tenant, staff, lineManagerRole) {
-    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Approved');
+  static notifyStaffSupervisorApproved(data) {
+    EmailNotifications.sendStaffNotifications(data, 'Approved');
   }
 
-  static notifyStaffBSMApproved(tenant, staff, lineManagerRole) {
-    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Approved');
+  static notifyStaffBSMApproved(data) {
+    EmailNotifications.sendStaffNotifications(data, 'Approved');
   }
 
-  static notifyStaffSupervisorDeclined(tenant, staff, lineManagerRole) {
-    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Declined');
+  static notifyStaffSupervisorDeclined(data) {
+    EmailNotifications.sendStaffNotifications(data, 'Declined');
   }
 
-  static notifyStaffBSMDeclined(tenant, staff, lineManagerRole) {
-    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Declined');
+  static notifyStaffBSMDeclined(data) {
+    EmailNotifications.sendStaffNotifications(data, 'Declined');
   }
 
-  static notifyStaffCancelled(tenant, staff, lineManagerRole) {
-    EmailNotifications.sendStaffNotifications(tenant, staff, lineManagerRole, 'Cancelled');
+  static notifyStaffCancelled(data) {
+    EmailNotifications.sendStaffNotifications(data, 'Cancelled');
   }
 
   static sendEmail(tenant, email) {
