@@ -20,7 +20,7 @@ class Claim {
 
       const [claim, created] = await ClaimService.findOrCreateClaim(tenant, overtimeRequest);
       if (created) {
-        notifications.emit(eventNames.NewClaim, [tenant, staff]);
+        notifications.emit(eventNames.NewClaim, [{ tenant, staff }]);
       }
 
       return created ? [201, messageWhenCreated, claim] : [409, messageWhenNotCreated, claim];
@@ -63,13 +63,15 @@ class Claim {
   }
 
   static async runApprovalAndNotifyUsers(req, approvalType) {
-    const { tenant, lineManager: { lineManagerRole } } = req;
+    const { tenant, params: { claimId }, lineManager: { lineManagerRole } } = req;
     const [statusCode, message, data] = await Claim.runClaimApproval(req, approvalType);
     if (statusCode !== 200) return [statusCode, message];
 
     const staff = await StaffService.fetchStaffByPk(tenant, data.requester, ['supervisor', 'BSM']);
     notifications.emit(
-      eventNames[`${lineManagerRole}${approvalType}`], [tenant, staff, lineManagerRole]
+      eventNames[`${lineManagerRole}${approvalType}`], [{
+        tenant, staff, lineManagerRole, claimId
+      }]
     );
 
     return [statusCode, message, data];
@@ -91,7 +93,7 @@ class Claim {
     if (statusCode !== 200) return [statusCode, message];
 
     const [updated, claim] = await ClaimService.cancelClaim(tenant, claimId);
-    notifications.emit(eventNames.Cancelled, [tenant, staff]);
+    notifications.emit(eventNames.Cancelled, [{ tenant, staff, claimId }]);
 
     return [200, `Claim${updated ? '' : ' not'} cancelled.`, claim[0]];
   }

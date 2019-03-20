@@ -3,8 +3,9 @@ import { templateNames, roleNames } from '../../utils/types';
 import krypter from '../krypter';
 
 
-class EmailNotificationsHelpers {
+class NotificationsHelpers {
   static staffEmailTemplateName(lineManagerRole, notificationType) {
+    if (notificationType === 'Cancelled') return templateNames[notificationType];
     if (lineManagerRole) return templateNames[`${lineManagerRole}${notificationType}`];
     return templateNames.NewClaimStaff;
   }
@@ -33,4 +34,4 @@ class EmailNotificationsHelpers {
   }
 }
 
-export default EmailNotificationsHelpers;
+export default NotificationsHelpers;
