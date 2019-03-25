@@ -1,11 +1,10 @@
 import supertest from 'supertest';
 import http from 'http';
-import sendgrid from '@sendgrid/mail';
 import app from '../../../app';
-import tenantsModels from '../../../application/database/tenantsModels';
+import models from '../../../application/database/models';
 import EmailNotifications from '../../../application/notifications/EmailNotifications';
 
-const { Staff } = tenantsModels.INIT;
+const { Staff } = models;
 
 const getPreviousYearMonth = () => {
   const today = new Date();

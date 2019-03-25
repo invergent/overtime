@@ -26,13 +26,13 @@ class InAppNotifications {
   }
 
   static recordAndNotifyStaff(data, notificationSource) {
-    const { tenant, staff, claimId } = data;
+    const { tenantRef, staff, claimId } = data;
     const message = notificationActivities[notificationSource];
 
     pusher.trigger(`${staff.staffId}`, notificationSource, { message });
-    
+
     const notification = { activity: message, userId: staff.id, claimId };
-    return NotificationService.createNotification(tenant, notification);
+    return NotificationService.createNotification(tenantRef, notification);
   }
 }
 

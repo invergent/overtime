@@ -1,11 +1,11 @@
 import Authorisation from '../Authorisation';
 import krypter from '../../../helpers/krypter';
-import tenantsModels from '../../../database/tenantsModels';
+import models from '../../../database/models';
 import {
   mockReq, mockStaff
 } from '../../../../__tests__/__mocks__';
 
-const { Staff } = tenantsModels.INIT;
+const { Staff } = models;
 
 describe('Authorisation Unit Tests', () => {
   beforeEach(() => {

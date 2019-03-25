@@ -1,23 +1,25 @@
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
 import BasicQuerier from '../BasicQuerier';
+import GenericHelpers from '../../helpers/GenericHelpers';
+
+const { Staff } = models;
 
 class StaffService {
-  static async updatePassword(tenant, staffId, password) {
-    const { Staff } = tenantsModels[tenant];
-    const [updated] = await Staff.update(
-      { password }, { where: { staffId }, returning: true }
+  static async updateStaffInfo(tenantRef, staffId, field, payloadToUpdate) {
+    const { payload, queryOptions } = GenericHelpers.staffUpdateQueryOptions(
+      tenantRef, staffId, field, payloadToUpdate
     );
+    const [updated] = await Staff.update(payload, queryOptions);
     return !!updated;
   }
 
-  static fetchStaffByPk(tenant, staffPk, includes) {
-    return BasicQuerier.findByPk(tenant, 'Staff', staffPk, includes);
+  static fetchStaffByPk(tenantRef, staffPk, includes) {
+    return BasicQuerier.findByPk(tenantRef, 'Staff', staffPk, includes);
   }
 
-  static findStaffByStaffIdOrEmail(tenant, identifier, includes) {
-    const { Staff } = tenantsModels[tenant];
+  static findStaffByStaffIdOrEmail(tenantRef, identifier, includes) {
     const searchColumn = identifier.includes('.com') ? 'email' : 'staffId';
-    const options = { where: { [searchColumn]: identifier }, raw: true };
+    const options = { where: { tenantRef, [searchColumn]: identifier }, raw: true };
 
     if (includes && Array.isArray(includes)) {
       options.include = includes;
@@ -26,15 +28,11 @@ class StaffService {
     return Staff.findOne(options);
   }
 
-  static updateStaffsLineManager(tenant, data) {
-    const { Staff } = tenantsModels[tenant];
+  static updateStaffsLineManager(tenantRef, data) {
     const { id: lineManagerId, lineManagerIdColumn, staffId } = data;
-    return Staff.update({ [lineManagerIdColumn]: lineManagerId }, { where: { staffId } });
-  }
-
-  static updateStaffsBranch(tenant, staffId, branchId) {
-    const { Staff } = tenantsModels[tenant];
-    return Staff.update({ branchId }, { where: { staffId }, returning: true });
+    return Staff.update(
+      { [lineManagerIdColumn]: lineManagerId }, { where: { tenantRef, staffId } }
+    );
   }
 }
 

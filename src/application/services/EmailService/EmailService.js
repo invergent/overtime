@@ -1,8 +1,9 @@
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
+
+const { EmailTemplate } = models;
 
 class EmailService {
-  static fetchEmailTemplateByName(tenant, templateName) {
-    const { EmailTemplate } = tenantsModels[tenant];
+  static fetchEmailTemplateByName(tenantRef, templateName) {
     return EmailTemplate.findOne({ where: { name: templateName }, raw: true });
   }
 }

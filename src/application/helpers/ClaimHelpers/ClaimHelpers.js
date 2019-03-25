@@ -105,20 +105,20 @@ class ClaimHelpers {
     return filteredPendingClaims.map(claim => claim.claimId);
   }
 
-  static async submittedClaimsForAdmin(tenant) {
-    const claims = await ClaimService.fetchSubmittedClaimsIntheCurrentMonth(tenant);
+  static async submittedClaimsForAdmin(tenantRef) {
+    const claims = await ClaimService.fetchSubmittedClaims(tenantRef);
     return ClaimHelpers.filterAdminClaimsQueryResult(claims);
   }
 
-  static async pendingClaimsForlineManager(tenant, lineManager) {
+  static async pendingClaimsForlineManager(tenantRef, lineManager) {
     const { lineManagerRole } = lineManager;
-    const pendingClaims = await ClaimService.fetchPendingClaimsForLineManagers(tenant, lineManager);
+    const pendingClaims = await ClaimService.fetchPendingClaimsForLineManagers(tenantRef, lineManager);
     const filteredResults = ClaimHelpers.filterQueryResult(pendingClaims, lineManagerRole);
     return filteredResults;
   }
 
-  static async getIdsOfClaimsAssignedToLineManager(tenant, lineManager) {
-    const filteredResults = await ClaimHelpers.pendingClaimsForlineManager(tenant, lineManager);
+  static async getIdsOfClaimsAssignedToLineManager(tenantRef, lineManager) {
+    const filteredResults = await ClaimHelpers.pendingClaimsForlineManager(tenantRef, lineManager);
     const pendingClaimIds = ClaimHelpers.getIdsOfFilteredPendingClaims(filteredResults);
     return pendingClaimIds;
   }

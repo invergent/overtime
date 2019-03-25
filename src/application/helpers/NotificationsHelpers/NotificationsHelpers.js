@@ -24,13 +24,13 @@ class NotificationsHelpers {
     return [hashedToken, emailTemplateName];
   }
 
-  static createEmail(tenant, staff, emailTemplateName, hash) {
+  static createEmail(tenantRef, staff, emailTemplateName, hash) {
     const emailDetails = {
       ...staff,
       emailTemplateName,
       hash
     };
-    return EmailConstructor.create(tenant, emailDetails);
+    return EmailConstructor.create(tenantRef, emailDetails);
   }
 }
 

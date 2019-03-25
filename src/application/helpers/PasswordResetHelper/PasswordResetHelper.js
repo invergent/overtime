@@ -2,9 +2,9 @@ import krypter from '../krypter';
 import PasswordResetService from '../../services/PasswordResetService';
 
 class PasswordResetHelper {
-  static async findAndValidateResetRequest(tenant, staffId, hash) {
+  static async findAndValidateResetRequest(tenantRef, staffId, hash) {
     const passwordResetRequest = await PasswordResetService.fetchPasswordResetRequest(
-      tenant, staffId
+      tenantRef, staffId
     );
 
     if (!passwordResetRequest) {
@@ -15,15 +15,15 @@ class PasswordResetHelper {
       return [403, 'Reset link is invalid'];
     }
 
-    PasswordResetService.deletePasswordResetRequest(tenant, staffId);
+    PasswordResetService.deletePasswordResetRequest(tenantRef, staffId);
     return [200, 'valid'];
   }
 
-  static createAndSaveResetHash(tenant, staffId) {
+  static createAndSaveResetHash(tenantRef, staffId) {
     const passwordResetHash = krypter.createCryptrHash(`${process.env.RESET_SECRET} ${staffId}`);
 
     const data = { staffId, passwordResetHash, status: 'Pending' };
-    PasswordResetService.updateOrInsertResetRequest(tenant, data);
+    PasswordResetService.updateOrInsertResetRequest(tenantRef, data);
     return passwordResetHash;
   }
 }

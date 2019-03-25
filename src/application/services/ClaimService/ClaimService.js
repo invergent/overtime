@@ -1,15 +1,15 @@
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
 import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
 import GenericHelpers from '../../helpers/GenericHelpers';
-import Dates from '../../helpers/Dates';
 import BasicQuerier from '../BasicQuerier';
 
-class ClaimService {
-  static findOrCreateClaim(tenant, overtimeRequest) {
-    const { Claims } = tenantsModels[tenant];
+const { Claims, LineManagers } = models;
 
+class ClaimService {
+  static findOrCreateClaim(tenantRef, overtimeRequest) {
     return Claims.findOrCreate({
       where: {
+        tenantRef,
         monthOfClaim: overtimeRequest.monthOfClaim,
         requester: overtimeRequest.requester
       },
@@ -18,57 +18,51 @@ class ClaimService {
     });
   }
 
-  static findClaimByPk(tenant, claimId) {
-    return BasicQuerier.findByPk(tenant, 'Claims', claimId);
+  static findClaimByPk(tenantRef, claimId) {
+    return BasicQuerier.findByPk(tenantRef, 'Claims', claimId);
   }
 
-  static updateClaim(tenant, updatePayload, claimId) {
-    const { Claims } = tenantsModels[tenant];
-
+  static updateClaim(tenantRef, updatePayload, claimId) {
     return Claims.update(
       updatePayload,
-      { where: { id: claimId }, returning: true, raw: true }
+      { where: { tenantRef, id: claimId }, returning: true, raw: true }
     );
   }
 
-  static fetchPendingClaimsForLineManagers(tenant, lineManager) {
-    const { LineManagers } = tenantsModels[tenant];
-    const queryOptions = GenericHelpers.createQueryOptions(tenant, lineManager);
+  static fetchPendingClaimsForLineManagers(tenantRef, lineManager) {
+    const queryOptions = GenericHelpers.createQueryOptions(tenantRef, lineManager);
 
     return LineManagers.findOne(queryOptions);
   }
 
-  static async runClaimApproval(tenant, lineManager, claimId, approvalType) {
+  static async runClaimApproval(tenantRef, lineManager, claimId, approvalType) {
     const { id: lineManagerId, lineManagerRole } = lineManager;
     const updatePayload = GenericHelpers.createUpdatePayload(lineManagerRole, approvalType);
 
-    const [updated, claim] = await ClaimService.updateClaim(tenant, updatePayload, claimId);
+    const [updated, claim] = await ClaimService.updateClaim(tenantRef, updatePayload, claimId);
     const history = await ClaimApprovalHistoryService.createApprovalHistory(
-      tenant, claimId, lineManagerId
+      tenantRef, claimId, lineManagerId
     );
 
     const updatedClaim = { ...claim[0], history: history.dataValues };
     return [updated, updatedClaim];
   }
 
-  static approveClaim(tenant, lineManager, claimId) {
-    return ClaimService.runClaimApproval(tenant, lineManager, claimId, 'approve');
+  static approveClaim(tenantRef, lineManager, claimId) {
+    return ClaimService.runClaimApproval(tenantRef, lineManager, claimId, 'approve');
   }
 
-  static declineClaim(tenant, lineManager, claimId) {
-    return ClaimService.runClaimApproval(tenant, lineManager, claimId, 'decline');
+  static declineClaim(tenantRef, lineManager, claimId) {
+    return ClaimService.runClaimApproval(tenantRef, lineManager, claimId, 'decline');
   }
 
-  static cancelClaim(tenant, claimId) {
+  static cancelClaim(tenantRef, claimId) {
     const updatePayload = { status: 'Cancelled' };
-    return ClaimService.updateClaim(tenant, updatePayload, claimId);
+    return ClaimService.updateClaim(tenantRef, updatePayload, claimId);
   }
 
-  static fetchSubmittedClaimsIntheCurrentMonth(tenant) {
-    const { Claims } = tenantsModels[tenant];
-    const { year, month } = Dates.getCurrentYearMonth();
-    const firstDayOfCurrentMonth = new Date(year, month, 1);
-    const options = GenericHelpers.adminFetchClaimOptions(tenant, firstDayOfCurrentMonth);
+  static fetchSubmittedClaims(tenantRef, statusType, period) {
+    const options = GenericHelpers.adminFetchClaimOptions(tenantRef, statusType, period);
     return Claims.findAll(options);
   }
 }

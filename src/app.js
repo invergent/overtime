@@ -2,7 +2,6 @@ import '@babel/polyfill';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import path from 'path';
 import subdomain from 'express-subdomain';
 import initRouter from './tenants/init';
 
@@ -15,7 +14,7 @@ app.use(cookieParser());
 // Add tenant's unique identifier property
 app.use((req, res, next) => {
   const [tenant] = req.headers.host.split('.overtime-api');
-  req.tenant = tenant.toUpperCase();
+  req.tenantRef = tenant.toUpperCase();
   return next();
 });
 

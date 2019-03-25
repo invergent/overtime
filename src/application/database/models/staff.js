@@ -2,6 +2,10 @@ import bcrypt from 'bcrypt';
 
 const staff = (sequelize, DataTypes) => {
   const Staff = sequelize.define('Staff', {
+    tenantRef: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     staffId: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -48,6 +52,7 @@ const staff = (sequelize, DataTypes) => {
   }, { freezeTableName: true });
 
   Staff.associate = (models) => {
+    Staff.belongsTo(models.Tenants, { as: 'company', foreignKey: 'tenantRef' });
     Staff.belongsTo(models.LineManagers, { as: 'supervisor', foreignKey: 'supervisorId' });
     Staff.belongsTo(models.LineManagers, { as: 'BSM', foreignKey: 'bsmId' });
     Staff.belongsTo(models.Branch, { foreignKey: 'branchId' });
