@@ -2,6 +2,7 @@ import express from 'express';
 import controller from './controller';
 import InputValidator from '../../application/middlewares/InputValidator';
 import Authenticator from '../../application/middlewares/Authenticator';
+import ClaimAccessControl from '../../application/middlewares/ClaimAccessControl';
 
 const router = express.Router();
 const {
@@ -17,6 +18,7 @@ const {
 const {
   authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager
 } = Authenticator;
+const { validateClaimAccess } = ClaimAccessControl;
 
 router.post('/signin', checkProps, checkEntries, authoriseStaff);
 router.post('/admin/login', checkProps, checkEntries, authoriseAdmin);
@@ -31,7 +33,7 @@ router.get('/line-manager/claims/pending/:claimId/decline', authenticateLineMana
 
 router.post('/users/claim',
   authenticateStaff, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
-router.delete('/users/claims/:claimId', authenticateStaff, cancelClaim);
+router.delete('/users/claims/:claimId', authenticateStaff, validateClaimAccess, cancelClaim);
 
 router.post('/users/profile/change-password',
   authenticateStaff, checkProps, checkEntries, changePassword);

@@ -3,17 +3,17 @@ import services from '../../services';
 const { LineManagerService, StaffService } = services;
 
 export default async (req) => {
-  const { currentStaff: { staffId }, body, tenant } = req;
+  const { currentStaff: { staffId }, body, tenantRef } = req;
   const lineManagerDetails = body;
   const lineManagerIdColumn = lineManagerDetails.lineManagerRole === 'Supervisor'
     ? 'supervisorId' : 'bsmId';
 
   try {
     const [lineManager, created] = await LineManagerService
-      .findOrCreateLineManager(tenant, lineManagerDetails);
+      .findOrCreateLineManager(lineManagerDetails);
 
     const data = { ...lineManager, staffId, lineManagerIdColumn };
-    StaffService.updateStaffsLineManager(tenant, data);
+    StaffService.updateStaffsLineManager(tenantRef, data);
 
     return [
       created ? 201 : 200,

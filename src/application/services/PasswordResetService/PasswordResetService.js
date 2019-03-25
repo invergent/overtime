@@ -1,17 +1,16 @@
-import tenantsModels from '../../database/tenantsModels';
 import BasicQuerier from '../BasicQuerier';
 
 class PasswordResetService {
-  static fetchPasswordResetRequest(tenant, staffId) {
-    return BasicQuerier.passwordResetQueries(tenant, 'findOne', staffId);
+  static fetchPasswordResetRequest(tenantRef, staffId) {
+    return BasicQuerier.passwordResetQueries(tenantRef, 'findOne', staffId);
   }
 
-  static deletePasswordResetRequest(tenant, staffId) {
-    return BasicQuerier.passwordResetQueries(tenant, 'destroy', staffId);
+  static deletePasswordResetRequest(tenantRef, staffId) {
+    return BasicQuerier.passwordResetQueries(tenantRef, 'destroy', staffId);
   }
 
-  static updateOrInsertResetRequest(tenant, data) {
-    return BasicQuerier.passwordResetQueries(tenant, 'upsert', undefined, data);
+  static updateOrInsertResetRequest(tenantRef, data) {
+    return BasicQuerier.passwordResetQueries(tenantRef, 'upsert', undefined, data);
   }
 }
 

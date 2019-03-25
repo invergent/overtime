@@ -6,6 +6,15 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
+    tenantRef: {
+      type: Sequelize.STRING,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Tenants',
+        key: 'ref',
+        as: 'company'
+      }
+    },
     staffId: {
       type: Sequelize.STRING,
       allowNull: false,

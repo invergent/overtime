@@ -1,8 +1,8 @@
 import BasicQuerier from '../BasicQuerier';
 
 class BranchService {
-  static fetchBranchByPk(tenant, branchId) {
-    return BasicQuerier.findByPk(tenant, 'Branch', branchId);
+  static fetchBranchByPk(tenantRef, branchId) {
+    return BasicQuerier.findByPk(tenantRef, 'Branch', branchId);
   }
 }
 

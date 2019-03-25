@@ -1,17 +1,17 @@
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
 
 class BasicQuerier {
-  static findByPk(tenant, model, pk, includes) {
-    const options = { raw: true };
+  static findByPk(tenantRef, model, pk, includes) {
+    const options = { where: { tenantRef }, raw: true };
     if (includes) options.include = includes;
-    return tenantsModels[tenant][model].findByPk(pk, options);
+    return models[model].findByPk(pk, options);
   }
 
-  static passwordResetQueries(tenant, method, staffId, data) {
-    let options = { where: { staffId }, raw: true };
+  static passwordResetQueries(tenantRef, method, staffId, data) {
+    let options = { where: { tenantRef, staffId }, raw: true };
     if (method === 'destroy') options.returning = true;
     if (data) options = data;
-    return tenantsModels[tenant].PasswordResetRequest[method](options);
+    return models.PasswordResetRequest[method](options);
   }
 }
 

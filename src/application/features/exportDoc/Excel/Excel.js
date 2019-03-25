@@ -8,8 +8,8 @@ const { GenericHelpers, ClaimHelpers } = helpers;
 const workbook = new Exceljs.Workbook();
 
 class Excel {
-  static setWorkBookPropertiesAndCreateSheet(tenant) {
-    workbook.creator = tenantList[tenant];
+  static setWorkBookPropertiesAndCreateSheet(tenantRef) {
+    workbook.creator = tenantList[tenantRef];
     workbook.created = new Date();
     const worksheet = workbook.addWorksheet('Submitted Claims');
     return worksheet;
@@ -33,9 +33,9 @@ class Excel {
     return worksheet;
   }
 
-  static async workbookData(tenant) {
-    const claims = await ClaimHelpers.submittedClaimsForAdmin(tenant);
-    const preparedWorksheet = Excel.setWorkBookPropertiesAndCreateSheet(tenant);
+  static async workbookData(tenantRef) {
+    const claims = await ClaimHelpers.submittedClaimsForAdmin(tenantRef);
+    const preparedWorksheet = Excel.setWorkBookPropertiesAndCreateSheet(tenantRef);
     const worksheetWithHeader = Excel.createDocColumnHeaders(preparedWorksheet);
     const populatedWorksheet = Excel.populateRowsWithClaimData(worksheetWithHeader, claims);
     return populatedWorksheet;
@@ -48,10 +48,14 @@ class Excel {
   }
 
   static async claimReport(req) {
-    const { tenant } = req;
-    const workbookData = await Excel.workbookData(tenant);
-    const pathToDocument = await Excel.createExcelDocument(workbookData);
-    return [pathToDocument, `${tenant}ClaimReport.xlsx`];
+    const { tenantRef } = req;
+    try {
+      const workbookData = await Excel.workbookData(tenantRef);
+      const pathToDocument = await Excel.createExcelDocument(workbookData);
+      return [pathToDocument, `${tenantRef}ClaimReport.xlsx`];
+    } catch (e) {
+      return [500, 'An error occurred ERR500DWLEXL'];
+    }
   }
 }
 

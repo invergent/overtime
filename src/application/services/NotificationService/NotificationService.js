@@ -1,8 +1,10 @@
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
+
+const { Notifications } = models;
 
 class NotificationService {
-  static createNotification(tenant, notification) {
-    return tenantsModels[tenant].Notifications.create(notification);
+  static createNotification(tenantRef, notification) {
+    return Notifications.create(notification);
   }
 }
 

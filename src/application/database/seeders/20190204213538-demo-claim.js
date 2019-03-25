@@ -1,5 +1,6 @@
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('Claims', [{
+    tenantRef: 'INIT',
     monthOfClaim: 'Oct, 2018',
     weekday: null,
     weekend: null,
@@ -11,6 +12,7 @@ module.exports = {
     updatedAt: '2019-02-06'
   },
   {
+    tenantRef: 'INIT',
     monthOfClaim: 'Nov, 2018',
     weekday: 12,
     weekend: 7,
@@ -22,6 +24,7 @@ module.exports = {
     updatedAt: '2019-02-06'
   },
   {
+    tenantRef: 'INIT',
     monthOfClaim: 'Dec, 2018',
     weekday: 17,
     weekend: 6,
@@ -33,6 +36,7 @@ module.exports = {
     updatedAt: '2019-02-06'
   },
   {
+    tenantRef: 'INIT',
     monthOfClaim: 'Dec, 2018',
     weekday: 19,
     weekend: 5,
@@ -44,6 +48,7 @@ module.exports = {
     updatedAt: '2019-02-24'
   },
   {
+    tenantRef: 'INIT',
     monthOfClaim: 'Jan, 2019',
     weekday: 14,
     weekend: 6,
@@ -55,6 +60,7 @@ module.exports = {
     updatedAt: '2019-02-26'
   },
   {
+    tenantRef: 'INIT',
     monthOfClaim: 'Jan, 2019',
     weekday: 17,
     weekend: 4,
@@ -66,6 +72,7 @@ module.exports = {
     updatedAt: '2019-02-26'
   },
   {
+    tenantRef: 'INIT',
     monthOfClaim: 'Jan, 2019',
     weekday: 9,
     weekend: 2,
@@ -77,6 +84,7 @@ module.exports = {
     updatedAt: '2019-03-03'
   },
   {
+    tenantRef: 'INIT',
     monthOfClaim: 'Jan, 2019',
     weekday: 16,
     weekend: 5,

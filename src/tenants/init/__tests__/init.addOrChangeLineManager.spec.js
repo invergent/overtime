@@ -2,9 +2,9 @@ import http from 'http';
 import jwt from 'jsonwebtoken';
 import supertest from 'supertest';
 import app from '../../../app';
-import tenantsModels from '../../../application/database/tenantsModels';
+import models from '../../../application/database/models';
 
-const { LineManagers } = tenantsModels.INIT;
+const { LineManagers } = models;
 
 const supervisorsDetails = {
   lineManagerId: 'TN234563',

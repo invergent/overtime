@@ -1,9 +1,9 @@
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
+
+const { LineManagers } = models;
 
 class LineManagerService {
-  static findOrCreateLineManager(tenant, lineManagerDetails) {
-    const { LineManagers } = tenantsModels[tenant];
-
+  static findOrCreateLineManager(lineManagerDetails) {
     return LineManagers.findOrCreate({
       where: { email: lineManagerDetails.email },
       defaults: lineManagerDetails,

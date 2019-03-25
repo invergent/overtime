@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('Staff', [{
+    tenantRef: 'INIT',
     staffId: 'TN012345',
     firstname: 'John',
     lastname: 'Doe',
@@ -17,6 +18,7 @@ module.exports = {
     updatedAt: '2018-12-30'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'TN046345',
     firstname: 'Jane',
     lastname: 'Doe',
@@ -32,6 +34,7 @@ module.exports = {
     updatedAt: '2018-12-30'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'TN032375',
     firstname: 'Mercy',
     lastname: 'Brawl',
@@ -47,6 +50,7 @@ module.exports = {
     updatedAt: '2018-12-30'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'TN046455',
     firstname: 'Molly',
     lastname: 'Dee',
@@ -62,6 +66,7 @@ module.exports = {
     updatedAt: '2018-12-30'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'TN044455',
     firstname: 'Gamolly',
     lastname: 'Zeezana',
@@ -77,6 +82,7 @@ module.exports = {
     updatedAt: '2018-12-30'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'TN042995',
     firstname: 'Ligamala',
     lastname: 'Anziba',
@@ -92,6 +98,7 @@ module.exports = {
     updatedAt: '2018-12-30'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'TN074695',
     firstname: 'Archnic',
     lastname: 'Zintra',
@@ -107,6 +114,7 @@ module.exports = {
     updatedAt: '2019-03-03'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'TN075595',
     firstname: 'Blizcan',
     lastname: 'Ablick',
@@ -122,6 +130,7 @@ module.exports = {
     updatedAt: '2019-03-03'
   },
   {
+    tenantRef: 'INIT',
     staffId: 'ADMIN001',
     firstname: 'TheAdmin',
     lastname: 'JustAdmin',

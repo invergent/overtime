@@ -6,18 +6,18 @@ const { StaffService } = services;
 class ChangePassword {
   static async processPasswordUpdate(req) {
     const {
-      currentStaff: { staffId }, body: { currentPassword, newPassword }, tenant
+      currentStaff: { staffId }, body: { currentPassword, newPassword }, tenantRef
     } = req;
 
     try {
-      const staff = await StaffService.findStaffByStaffIdOrEmail(tenant, staffId);
+      const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId);
       const isCorrect = await ChangePassword
         .currentPasswordIsCorrect(currentPassword, staff.password);
       if (!isCorrect) {
         return [401, 'Password is incorrect'];
       }
 
-      const updated = await StaffService.updatePassword(tenant, staffId, newPassword);
+      const updated = await StaffService.updateStaffInfo(tenantRef, staffId, 'password', newPassword);
       return [updated ? 200 : 500, `Password ${updated ? '' : 'not '}changed!`];
     } catch (e) {
       return [500, 'An error occurred ERR500CHGPSW'];

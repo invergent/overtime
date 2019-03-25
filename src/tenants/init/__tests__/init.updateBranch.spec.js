@@ -1,9 +1,9 @@
 import http from 'http';
 import supertest from 'supertest';
 import app from '../../../app';
-import tenantsModels from '../../../application/database/tenantsModels';
+import models from '../../../application/database/models';
 
-const { Staff } = tenantsModels.INIT;
+const { Staff } = models;
 const branchDetails = { branchId: 2 };
 
 describe('INIT: Update branch', () => {
@@ -99,7 +99,7 @@ describe('INIT: Update branch', () => {
 
     it('should respond with an error message if an error occurs', async () => {
       const err = new Error('Not working');
-      Staff.update = jest.fn(() => Promise.reject(err));
+      jest.spyOn(Staff, 'update').mockRejectedValue(err);
       const response = await request
         .put('/users/profile/branch')
         .set('cookie', token)

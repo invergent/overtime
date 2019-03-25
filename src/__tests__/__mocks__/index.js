@@ -10,7 +10,7 @@ export const mockReq = {
   currentStaff: { staffId: 'someId' },
   lineManager: {},
   params: { claimId: 'someClaim' },
-  tenant: 'INIT'
+  tenantRef: 'INIT'
 };
 
 export const mockStaff = {

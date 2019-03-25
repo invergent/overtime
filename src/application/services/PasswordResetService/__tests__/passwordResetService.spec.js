@@ -1,7 +1,7 @@
 import PasswordResetService from '../PasswordResetService';
-import tenantsModels from '../../../database/tenantsModels';
+import models from '../../../database/models';
 
-const { PasswordResetRequest } = tenantsModels.INIT;
+const { PasswordResetRequest } = models;
 
 describe('PasswordResetService Unit tests', () => {
   describe('fetchPasswordResetRequest tests', () => {

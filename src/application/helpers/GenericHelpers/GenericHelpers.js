@@ -1,5 +1,10 @@
 import { Op } from 'sequelize';
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
+import Dates from '../Dates';
+
+const {
+  Claims, Staff, Branch, Roles
+} = models;
 
 class GenericHelpers {
   static createUpdatePayload(lineManagerRole, approvalType) {
@@ -11,12 +16,11 @@ class GenericHelpers {
     return payload;
   }
 
-  static createQueryOptions(tenant, lineManager) {
-    const { Claims, Staff } = tenantsModels[tenant];
+  static createQueryOptions(tenantRef, lineManager) {
     const { lineManagerId, lineManagerRole } = lineManager;
     const bsmOrSupervisorStaff = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
 
-    const claimsWhereOptions = { status: 'Awaiting supervisor' };
+    const claimsWhereOptions = { tenantRef, status: 'Awaiting supervisor' };
     if (lineManagerRole === 'BSM') claimsWhereOptions.status = 'Awaiting BSM';
 
     const options = {
@@ -36,11 +40,26 @@ class GenericHelpers {
     return options;
   }
 
-  static adminFetchClaimOptions(tenant, period) {
-    const { Branch, Staff, Roles } = tenantsModels[tenant];
+  static periodToFetch() {
+    const { year, month } = Dates.getCurrentYearMonth();
+    const firstDayOfCurrentMonth = new Date(year, month, 1);
+    return firstDayOfCurrentMonth;
+  }
+
+  static claimStatusFilter(statusType) {
+    const statusFilter = {};
+    if (statusType === 'pending') {
+      statusFilter.status[Op.like] = '%Awaiting';
+    }
+    return statusFilter;
+  }
+
+  static adminFetchClaimOptions(tenantRef, statusType, period) {
     const options = {
       where: {
-        createdAt: { [Op.gte]: period }
+        tenantRef,
+        createdAt: { [Op.gte]: GenericHelpers.periodToFetch(period) },
+        ...GenericHelpers.claimStatusFilter(statusType)
       },
       include: [{
         model: Staff,
@@ -51,13 +70,19 @@ class GenericHelpers {
       }],
       raw: true
     };
-
     return options;
   }
 
   static createColumnHeaderKeys(header) {
     const key = header.toLowerCase().replace(/\//g, '').replace(/ id/g, 'Id').replace(/ /g, '');
     return key;
+  }
+
+  static staffUpdateQueryOptions(tenantRef, staffId, field, updatePayload) {
+    return {
+      payload: { [field]: updatePayload },
+      queryOptions: { where: { tenantRef, staffId }, returning: true }
+    };
   }
 }
 

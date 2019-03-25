@@ -1,10 +1,10 @@
 import EmailService from '../../services/EmailService';
 
 class EmailConstructor {
-  static async create(tenant, emailDetails) {
+  static async create(tenantRef, emailDetails) {
     const { email, emailTemplateName } = emailDetails;
 
-    const emailTemplate = await EmailService.fetchEmailTemplateByName(tenant, emailTemplateName);
+    const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
     const { htmlMessage, subject } = emailTemplate;
 
     const personalizedEmail = EmailConstructor.personalizeMessage(emailDetails, htmlMessage);

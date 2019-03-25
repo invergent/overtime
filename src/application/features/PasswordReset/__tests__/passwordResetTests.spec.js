@@ -78,7 +78,7 @@ describe('PasswordReset', () => {
     it('should reset password successfully', async () => {
       jest.spyOn(PasswordResetHelper, 'findAndValidateResetRequest')
         .mockImplementation(() => [200, 'valid']);
-      jest.spyOn(StaffService, 'updatePassword')
+      jest.spyOn(StaffService, 'updateStaffInfo')
         .mockReturnValue(true);
 
       const [statusCode, message] = await PasswordReset
@@ -90,7 +90,7 @@ describe('PasswordReset', () => {
     it('should respond with status 500 if new password was not saved', async () => {
       jest.spyOn(PasswordResetHelper, 'findAndValidateResetRequest')
         .mockImplementation(() => [200, 'valid']);
-      jest.spyOn(StaffService, 'updatePassword')
+      jest.spyOn(StaffService, 'updateStaffInfo')
         .mockReturnValue(false);
 
       const [statusCode, message] = await PasswordReset.resetPassword(mockReq);
@@ -101,7 +101,7 @@ describe('PasswordReset', () => {
     it('should throw an exception if an error occurs', async () => {
       jest.spyOn(PasswordResetHelper, 'findAndValidateResetRequest')
         .mockImplementation(() => [200, 'valid']);
-      jest.spyOn(StaffService, 'updatePassword').mockRejectedValue('failed');
+      jest.spyOn(StaffService, 'updateStaffInfo').mockRejectedValue('failed');
 
       const [statusCode, message] = await PasswordReset
         .resetPassword(mockReq);

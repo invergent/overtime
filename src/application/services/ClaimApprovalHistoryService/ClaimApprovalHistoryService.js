@@ -1,9 +1,12 @@
-import tenantsModels from '../../database/tenantsModels';
+import models from '../../database/models';
+
+const { ClaimApprovalHistory } = models;
 
 class ClaimApprovalHistoryService {
-  static createApprovalHistory(tenant, claimId, lineManagerId) {
-    const { ClaimApprovalHistory } = tenantsModels[tenant];
-    return ClaimApprovalHistory.create({ claimId, lineManagerId }, { include: ['lineManager'] });
+  static createApprovalHistory(tenantRef, claimId, lineManagerId) {
+    return ClaimApprovalHistory.create(
+      { tenantRef, claimId, lineManagerId }, { include: ['lineManager'] }
+    );
   }
 }
 
