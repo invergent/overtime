@@ -1,17 +1,21 @@
 import EmailNotifications from '../EmailNotifications';
 import helpers from '../../helpers';
 import { templateNames } from '../../utils/types';
-import Mailer from '../../helpers/Mailer';
 import {
   mockReq, mockStaff
 } from '../../../__tests__/__mocks__';
 
 
+jest.mock('@sendgrid/mail', () => () => ({
+  setApiKey: () => {},
+  send: () => {}
+}));
 jest.mock('../../helpers/Mailer', () => () => ({
-  send: value => value
+  send: value => value,
+  sendToMany: value => value
 }));
 
-const { PasswordResetHelper } = helpers;
+const { PasswordResetHelper, NotificationsHelpers } = helpers;
 
 describe('Notifications Unit tests', () => {
   describe('EmailNotifications', () => {
@@ -36,9 +40,38 @@ describe('Notifications Unit tests', () => {
       const { tenant } = mockReq;
       const email = 'email content';
 
-      const result = EmailNotifications.sendEmail(tenant, email);
+      const result = EmailNotifications.sender(tenant, email);
 
       expect(result).toEqual(email);
+    });
+
+    it('should send multiple emails', async () => {
+      const { tenant } = mockReq;
+      const emails = ['email content one', 'email content two'];
+
+      const result = EmailNotifications.sender(tenant, emails);
+
+      expect(result).toEqual(emails);
+    });
+
+    it('should call functions for creating and sending emails respectively', async () => {
+      const createEmailsFn = jest.spyOn(NotificationsHelpers, 'createMultipleEmails').mockReturnValue('emails');
+      const sendEmailFn = jest.spyOn(EmailNotifications, 'sender').mockReturnValue('email sent');
+
+      const result = await EmailNotifications.sendNotificationEmailToMany('tenantRef', 'reciepients', 'another');
+
+      expect(result).toEqual('email sent');
+      expect(createEmailsFn).toHaveBeenCalled();
+      expect(sendEmailFn).toHaveBeenCalled();
+    });
+
+    it('should call sendNotificationEmailToMany method', () => {
+      const sendEmailFn = jest.spyOn(EmailNotifications, 'sendNotificationEmailToMany')
+        .mockReturnValue('email sent');
+
+      EmailNotifications.remindStaffOfPendingClaim('tenantRef', 'listOfStaff');
+
+      expect(sendEmailFn).toHaveBeenCalled();
     });
   });
 });

@@ -3,6 +3,8 @@ import http from 'http';
 import app from '../../../app';
 import EmailNotifications from '../../../application/notifications/EmailNotifications';
 
+jest.mock('@sendgrid/mail');
+
 describe('INIT tests', () => {
   let server;
   let request;
@@ -13,7 +15,7 @@ describe('INIT tests', () => {
     request = supertest('http://init.overtime-api.example.com:7000');
   });
 
-  beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
+  beforeEach(() => jest.spyOn(EmailNotifications, 'sender').mockImplementation(() => {}));
 
   afterAll((done) => {
     server.close(done);

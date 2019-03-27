@@ -8,7 +8,8 @@ export const templateNames = Object.freeze({
   BSMApproved: 'BSM Approved',
   BSMDeclined: 'BSM Declined',
   Cancelled: 'Claim Cancelled',
-  Completed: 'Claim Completed'
+  Completed: 'Claim Completed',
+  Reminder: 'Pending Claim Reminder'
 });
 
 export const roleNames = Object.freeze({
@@ -23,5 +24,6 @@ export const eventNames = Object.freeze({
   SupervisorDeclined: 'SupervisorDeclined',
   BSMApproved: 'BSMApproved',
   BSMDeclined: 'BSMDeclined',
-  Cancelled: 'Cancelled'
+  Cancelled: 'Cancelled',
+  Reminder: 'Reminder'
 });

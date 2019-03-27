@@ -8,7 +8,7 @@ import services from '../../../services';
 const { StaffService } = services;
 
 jest.spyOn(krypter, 'authenticationEncryption').mockImplementation(() => 'someToken');
-
+jest.mock('@sendgrid/mail');
 
 describe('PasswordReset', () => {
   beforeAll(() => {

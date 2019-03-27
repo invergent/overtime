@@ -1,25 +1,20 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Tenants', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Settings', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    ref: {
+    tenantRef: {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
+      references: {
+        model: 'Tenants',
+        key: 'ref',
+        as: 'tenant'
+      }
     },
-    businessName: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    address: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    email: {
+    emailSchedule: {
       type: Sequelize.STRING,
       allowNull: false
     },
@@ -32,5 +27,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }, { freezeTableName: true }),
-  down: queryInterface => queryInterface.dropTable('Tenants')
+  down: queryInterface => queryInterface.dropTable('Settings')
 };

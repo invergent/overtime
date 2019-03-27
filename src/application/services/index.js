@@ -5,6 +5,7 @@ import ClaimService from './ClaimService';
 import LineManagerService from './LineManagerService';
 import NotificationService from './NotificationService';
 import PasswordResetService from './PasswordResetService';
+import SettingService from './SettingService';
 import StaffService from './StaffService';
 
 export default {
@@ -13,7 +14,8 @@ export default {
   ClaimService,
   EmailService,
   LineManagerService,
+  NotificationService,
   PasswordResetService,
-  StaffService,
-  NotificationService
+  SettingService,
+  StaffService
 };

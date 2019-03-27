@@ -3,6 +3,8 @@ import supertest from 'supertest';
 import app from '../../../app';
 import models from '../../../application/database/models';
 
+jest.mock('@sendgrid/mail');
+
 const { Staff } = models;
 const branchDetails = { branchId: 2 };
 

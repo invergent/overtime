@@ -35,3 +35,39 @@ export const mockEmail = {
   subject: 'subject',
   html: 'html'
 };
+
+export const mockSettings = [{
+  tenantRef: 'INIT',
+  emailSchedule: '* * * * *'
+}];
+
+export const mockStaffWithPendingClaims = [{
+  'Staff.firstname': 'MockJoe',
+  'Staff.email': 'mockEmail@Address.com'
+},
+{
+  'Staff.firstname': 'MockDoe',
+  'Staff.email': 'anotherMockEmail@Address.com'
+},
+{
+  'Staff.firstname': 'LastMockUser',
+  'Staff.email': 'lastMockEmail@Address.com'
+}];
+
+export const mockFilteredStaffWithPendingClaims = [{
+  firstname: 'MockJoe',
+  email: 'mockEmail@Address.com'
+},
+{
+  firstname: 'MockDoe',
+  email: 'anotherMockEmail@Address.com'
+},
+{
+  firstname: 'LastMockUser',
+  email: 'lastMockEmail@Address.com'
+}];
+
+export const mockEmailTemplate = {
+  subject: 'subject',
+  htmlMessage: 'htmlMessage'
+};

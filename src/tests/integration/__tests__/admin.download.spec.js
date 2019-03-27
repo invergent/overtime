@@ -2,6 +2,8 @@ import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
 
+jest.mock('@sendgrid/mail');
+
 describe('Admin Claim Tests', () => {
   let server;
   let request;
@@ -16,7 +18,7 @@ describe('Admin Claim Tests', () => {
     server.close(done);
   });
 
-  describe('Get submitted claims', () => {
+  describe('Excel download', () => {
     let token;
 
     beforeAll(async () => {
@@ -33,12 +35,18 @@ describe('Admin Claim Tests', () => {
       jest.resetAllMocks();
     });
 
-    it('should fetch claims submitted in the current month', async () => {
-      const response = await request.get('/admin/claims').set('cookie', token);
+    it('should fail if docType is invalid', async () => {
+      const response = await request.get('/admin/claims/export/someParam').set('cookie', token);
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('validationErrors');
+      expect(response.body.errors[0]).toEqual('Invalid! DocType can only be "excel".');
+    });
+
+    it('should return readable excel document', async () => {
+      const response = await request.get('/admin/claims/export/excel').set('cookie', token);
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('Found 3 claims');
-      expect(response.body.data.length).toEqual(3);
     });
   });
 });

@@ -1,11 +1,8 @@
 import sendgrid from '@sendgrid/mail';
 import Mailer from '../Mailer';
-import { mockEmail } from '../../../../__tests__/__mocks__';
+import { mockEmail, mockFilteredStaffWithPendingClaims } from '../../../../__tests__/__mocks__';
 
-// jest.mock('@sendgrid/mail', () => ({
-//   setApiKey: () => {},
-//   send: () => {}
-// }));
+jest.mock('@sendgrid/mail');
 
 describe('Mailer unit test', () => {
   const mailer = new Mailer('INIT');
@@ -20,16 +17,13 @@ describe('Mailer unit test', () => {
     });
   });
 
-  describe('Create', () => {
-    it('should create email in line with sendgrid schema', () => {
-      jest.spyOn(sendgrid, 'setApiKey').mockReturnValue({});
+  describe('sendToMany', () => {
+    it('should send email to multiple users', () => {
       const mockSend = jest.spyOn(sendgrid, 'send').mockReturnValue('sent');
-      jest.spyOn(mailer, 'create').mockReturnValue({});
 
-      const result = mailer.send(mockEmail);
+      mailer.sendToMany(mockFilteredStaffWithPendingClaims);
 
-      expect(result).toEqual('sent');
-      expect(mockSend).toHaveBeenCalled();
+      expect(mockSend).toHaveBeenCalledTimes(3);
     });
   });
 });
