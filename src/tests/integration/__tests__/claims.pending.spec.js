@@ -1,7 +1,9 @@
 import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
-import { supervisorHash, bsmHash, noClaimHash } from './testUtils';
+import { supervisorHash, bsmHash, noClaimHash } from '../testUtils';
+
+jest.mock('@sendgrid/mail');
 
 describe('Pending Claims Tests', () => {
   let server;

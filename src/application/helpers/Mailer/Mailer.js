@@ -20,6 +20,10 @@ class Mailer {
     const formattedEmail = this.create(email);
     return sendgrid.send(formattedEmail);
   }
+
+  sendToMany(emails) {
+    emails.forEach(email => this.send(email));
+  }
 }
 
 export default Mailer;

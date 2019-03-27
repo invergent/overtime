@@ -2,6 +2,8 @@ import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
 
+jest.mock('@sendgrid/mail');
+
 describe('Authenticator Tests', () => {
   let server;
   let request;

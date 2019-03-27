@@ -1,4 +1,6 @@
-import { Op } from 'sequelize';
+import {
+  Op, where, cast, col
+} from 'sequelize';
 import models from '../../database/models';
 import Dates from '../Dates';
 
@@ -49,7 +51,7 @@ class GenericHelpers {
   static claimStatusFilter(statusType) {
     const statusFilter = {};
     if (statusType === 'pending') {
-      statusFilter.status[Op.like] = '%Awaiting';
+      statusFilter.status = where(cast(col('Claims.status'), 'TEXT'), { [Op.iLike]: '%Awaiting%' });
     }
     return statusFilter;
   }
@@ -82,6 +84,15 @@ class GenericHelpers {
     return {
       payload: { [field]: updatePayload },
       queryOptions: { where: { tenantRef, staffId }, returning: true }
+    };
+  }
+
+  static fetchPendingClaimsOptions(tenantRef) {
+    return {
+      where: { tenantRef, ...GenericHelpers.claimStatusFilter('pending') },
+      include: [Staff],
+      plain: false,
+      raw: true
     };
   }
 }

@@ -101,6 +101,13 @@ class ClaimHelpers {
     });
   }
 
+  static filterReminderPendingClaims(queryResult) {
+    return queryResult.map((result) => {
+      const { 'Staff.firstname': firstname, 'Staff.email': email } = result;
+      return { firstname, email };
+    });
+  }
+
   static getIdsOfFilteredPendingClaims(filteredPendingClaims) {
     return filteredPendingClaims.map(claim => claim.claimId);
   }

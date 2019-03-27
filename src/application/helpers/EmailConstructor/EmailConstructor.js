@@ -2,7 +2,7 @@ import EmailService from '../../services/EmailService';
 
 class EmailConstructor {
   static async create(tenantRef, emailDetails) {
-    const { email, emailTemplateName } = emailDetails;
+    const { email: emailAddress, emailTemplateName } = emailDetails;
 
     const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
     const { htmlMessage, subject } = emailTemplate;
@@ -10,13 +10,30 @@ class EmailConstructor {
     const personalizedEmail = EmailConstructor.personalizeMessage(emailDetails, htmlMessage);
 
     return {
-      to: email,
+      to: emailAddress,
       subject,
       html: personalizedEmail
     };
   }
 
-  static personalizeMessage(emailDetails, htmlMessage) {
+  static async createForMany(tenantRef, reciepients, emailTemplateName) {
+    const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
+    const { htmlMessage, subject } = emailTemplate;
+
+    const personalizedEmails = reciepients.map((reciepient) => {
+      const { email: reciepientEmailAddress } = reciepient;
+      const personalizedEmail = EmailConstructor.personalizeMessage(reciepient, htmlMessage);
+      return {
+        to: reciepientEmailAddress,
+        subject,
+        html: personalizedEmail
+      };
+    });
+
+    return personalizedEmails;
+  }
+
+  static personalizeMessage(reciepient, htmlMessage) {
     const {
       firstname: staffFirstName,
       lastname: staffLastName,
@@ -25,7 +42,7 @@ class EmailConstructor {
       'BSM.firstname': bsmFirstName,
       'BSM.lastname': bsmLastName,
       hash
-    } = emailDetails;
+    } = reciepient;
 
     return htmlMessage
       .replace(/{{staffFirstName}}/g, staffFirstName)

@@ -5,8 +5,8 @@ import krypter from '../krypter';
 
 class NotificationsHelpers {
   static staffEmailTemplateName(lineManagerRole, notificationType) {
-    if (notificationType === 'Cancelled') return templateNames[notificationType];
     if (lineManagerRole) return templateNames[`${lineManagerRole}${notificationType}`];
+    if (notificationType) return templateNames[notificationType];
     return templateNames.NewClaimStaff;
   }
 
@@ -31,6 +31,11 @@ class NotificationsHelpers {
       hash
     };
     return EmailConstructor.create(tenantRef, emailDetails);
+  }
+
+  static createMultipleEmails(tenantRef, reciepients, notificationType) {
+    const template = NotificationsHelpers.staffEmailTemplateName(undefined, notificationType);
+    return EmailConstructor.createForMany(tenantRef, reciepients, template);
   }
 }
 

@@ -4,6 +4,8 @@ import app from '../../../app';
 import models from '../../../application/database/models';
 import EmailNotifications from '../../../application/notifications/EmailNotifications';
 
+jest.mock('@sendgrid/mail');
+
 const { Staff } = models;
 
 const getPreviousYearMonth = () => {
@@ -152,7 +154,7 @@ describe('Create Claim Tests', () => {
     });
 
     it('should successfully submit overtime request', async () => {
-      jest.spyOn(EmailNotifications, 'sendEmail').mockImplementation(() => {});
+      jest.spyOn(EmailNotifications, 'sender').mockImplementation(() => {});
 
       const amount = (20 * 150) + (8 * 800);
       const response = await request

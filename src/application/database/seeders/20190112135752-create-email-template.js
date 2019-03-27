@@ -326,6 +326,38 @@ module.exports = {
     </html>`,
     createdAt: '2019-03-04',
     updatedAt: '2018-03-04'
+  },
+  {
+    name: 'Pending Claim Reminder',
+    description: 'Notify staff of claim yet to be approved',
+    subject: 'Pending Claim Reminder',
+    htmlMessage: `<html lang="en" dir="ltr">
+      ${headerAndFooterContent('header')}
+      <body>
+        <div class="cover">
+          <div class="content-wrapper">
+            <section class="letter">
+              <div class="header">
+                <img src="https://res.cloudinary.com/invergent/image/upload/v1550692251/assets/invergent04a.png" alt="Logo">
+              </div>
+              <hr>
+              <article class="body">
+                <h2>Claim Request Pending</h2>
+                <div class="paragraphs">
+                  <p>Hi {{staffFirstName}},</p>
+                  <p>Please be reminded that your claim is yet to be approved. It is important that you follow up with your line managers for approval, so your claim can be processed.</p>
+                  <p>Time is running out.</p>
+                  <p>Thank you.</p>
+                </div>
+              </article>
+            </section>
+            ${headerAndFooterContent('footer')}
+          </div>
+        </div>
+      </body>
+    </html>`,
+    createdAt: '2019-03-04',
+    updatedAt: '2018-03-04'
   }]),
   down: queryInterface => queryInterface.dropTable('EmailTemplate')
 };

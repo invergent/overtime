@@ -22,6 +22,11 @@ class ClaimService {
     return BasicQuerier.findByPk(tenantRef, 'Claims', claimId);
   }
 
+  static fetchClaimsByTenantRef(tenantRef) {
+    const options = GenericHelpers.fetchPendingClaimsOptions(tenantRef);
+    return Claims.findAll(options);
+  }
+
   static updateClaim(tenantRef, updatePayload, claimId) {
     return Claims.update(
       updatePayload,

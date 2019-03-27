@@ -8,7 +8,7 @@ class EmailNotifications {
     const email = await NotificationsHelpers.createEmail(
       tenantRef, staff, emailTemplateName, hashedToken
     );
-    return EmailNotifications.sendEmail(tenantRef, email);
+    return EmailNotifications.sender(tenantRef, email);
   }
 
   static async sendPasswordResetEmail(tenantRef, staff) {
@@ -32,6 +32,13 @@ class EmailNotifications {
       lineManagerRole, notificationType
     );
     return EmailNotifications.sendNotificationEmail(tenantRef, staff, emailTemplateName);
+  }
+
+  static async sendNotificationEmailToMany(tenantRef, reciepients, notificationType) {
+    const emails = await NotificationsHelpers.createMultipleEmails(
+      tenantRef, reciepients, notificationType
+    );
+    return EmailNotifications.sender(tenantRef, emails);
   }
 
   static notifySupervisorOfNewClaim(data) {
@@ -67,9 +74,14 @@ class EmailNotifications {
     EmailNotifications.sendStaffNotifications(data, 'Cancelled');
   }
 
-  static sendEmail(tenantRef, email) {
+  static remindStaffOfPendingClaim(tenantRef, listOfStaff) {
+    EmailNotifications.sendNotificationEmailToMany(tenantRef, listOfStaff, 'Reminder');
+  }
+
+  static sender(tenantRef, emails) {
     const mailer = new Mailer(tenantRef);
-    return mailer.send(email);
+    if (Array.isArray(emails)) return mailer.sendToMany(emails);
+    return mailer.send(emails);
   }
 }
 

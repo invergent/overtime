@@ -1,8 +1,10 @@
 import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
-import { supervisorHash, bsmHash } from './testUtils';
+import { supervisorHash, bsmHash } from '../testUtils';
 import EmailNotifications from '../../../application/notifications/EmailNotifications';
+
+jest.mock('@sendgrid/mail');
 
 describe('Claim Approval Tests', () => {
   let server;
@@ -27,7 +29,7 @@ describe('Claim Approval Tests', () => {
       supervisorToken = supervisorVerificationResponse.header['set-cookie'];
     });
 
-    beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
+    beforeEach(() => jest.spyOn(EmailNotifications, 'sender').mockImplementation(() => {}));
 
     afterEach(() => {
       jest.resetAllMocks();
@@ -64,7 +66,7 @@ describe('Claim Approval Tests', () => {
       bsmToken = bsmVerificationResponse.header['set-cookie'];
     });
 
-    beforeEach(() => jest.spyOn(EmailNotifications, 'sendEmail'));
+    beforeEach(() => jest.spyOn(EmailNotifications, 'sender').mockImplementation(() => {}));
 
     afterEach(() => {
       jest.resetAllMocks();

@@ -2,7 +2,7 @@ import http from 'http';
 import supertest from 'supertest';
 import app from '../../../app';
 
-// This file was intentionally named with a preceeding z so it could remain at the bottom
+jest.mock('@sendgrid/mail');
 
 const changePasswordCredentials = {
   currentPassword: 'password',

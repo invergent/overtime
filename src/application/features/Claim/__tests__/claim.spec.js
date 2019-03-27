@@ -3,6 +3,7 @@ import ClaimService from '../../../services/ClaimService';
 import ClaimHelpers from '../../../helpers/ClaimHelpers';
 import { mockReq } from '../../../../__tests__/__mocks__';
 
+jest.mock('@sendgrid/mail');
 
 describe('Claim Unit Test', () => {
   describe('runClaimApproval', () => {

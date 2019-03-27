@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import subdomain from 'express-subdomain';
 import initRouter from './tenants/init';
+import Cron from './application/Cron';
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.use((req, res, next) => {
 
 // Subdomain definitions
 app.use(subdomain('init.overtime-api', initRouter));
+
+// Schedule jobs
+Cron.Scheduler.scheduleJobs();
 
 // app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('*', (req, res) => res.status(200).json({ message: 'Project started' }));

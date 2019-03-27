@@ -2,6 +2,11 @@ import ChangePassword from '../ChangePassword';
 import StaffService from '../../../services/StaffService';
 import { mockReq } from '../../../../__tests__/__mocks__';
 
+jest.mock('@sendgrid/mail', () => () => ({
+  setApiKey: () => {},
+  send: () => {}
+}));
+
 describe('ChangePassword Unit test', () => {
   it('should throw an exception if an error occurs', async () => {
     jest.spyOn(StaffService, 'findStaffByStaffIdOrEmail').mockRejectedValue('failed');
