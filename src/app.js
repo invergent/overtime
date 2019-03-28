@@ -3,8 +3,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import subdomain from 'express-subdomain';
-import initRouter from './tenants/init';
-import Cron from './application/Cron';
+import Cron from './Application/Features/Cron';
+import routes from './routes';
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 });
 
 // Subdomain definitions
-app.use(subdomain('init.overtime-api', initRouter));
+app.use(subdomain('init.overtime-api', routes));
 
 // Schedule jobs
 Cron.Scheduler.scheduleJobs();

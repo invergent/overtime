@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
-import EmailNotifications from '../../../application/notifications/EmailNotifications';
+import EmailNotifications from '../../../Application/Features/utilities/notifications/EmailNotifications';
 
 jest.mock('@sendgrid/mail');
 
