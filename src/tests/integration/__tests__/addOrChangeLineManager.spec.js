@@ -2,7 +2,7 @@ import http from 'http';
 import jwt from 'jsonwebtoken';
 import supertest from 'supertest';
 import app from '../../../app';
-import models from '../../../application/database/models';
+import models from '../../../Application/Database/models';
 
 jest.mock('@sendgrid/mail');
 

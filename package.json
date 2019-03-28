@@ -37,6 +37,7 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "cron": "^1.7.0",
+    "cronstrue": "^1.65.0",
     "cryptr": "^4.0.2",
     "dotenv": "^6.2.0",
     "exceljs": "^1.7.0",
@@ -79,8 +80,7 @@
       "<rootDir>/src/**/?(*.)(spec|test).js"
     ],
     "coveragePathIgnorePatterns": [
-      "<rootDir>/src/application/database",
-      "<rootDir>/src/middlewares/index.js"
+      "<rootDir>/src/Application/Database"
     ],
     "testEnvironment": "node"
   }
