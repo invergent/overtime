@@ -4,7 +4,7 @@ import Responder from './Responder';
 
 const {
   Authorisation, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword, Claim,
-  exportDoc, Settings
+  exportDoc, Settings, Administration
 } = features;
 
 class Controller {
@@ -75,6 +75,10 @@ class Controller {
 
   static async updateEmailSchedule(req, res) {
     return Responder.respond(req, res, Settings.updateEmailSchedule);
+  }
+
+  static async createStaff(req, res) {
+    return Responder.respond(req, res, Administration.createStaff);
   }
 }
 

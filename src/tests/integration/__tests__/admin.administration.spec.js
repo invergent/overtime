@@ -1,0 +1,114 @@
+import supertest from 'supertest';
+import http from 'http';
+import app from '../../../app';
+
+jest.mock('@sendgrid/mail');
+
+describe('Admin Administration', () => {
+  let server;
+  let request;
+
+  beforeAll((done) => {
+    server = http.createServer(app);
+    server.listen(7000, done);
+    request = supertest('http://init.overtime-api.example.com:7000');
+  });
+
+  afterAll((done) => {
+    server.close(done);
+  });
+
+  describe('Bulk Create Staff with excel upload.', () => {
+    let token;
+
+    beforeAll(async () => {
+      // signin a user
+      const response = await request
+        .post('/admin/login')
+        .send({ email: 'theadmin@init.com', password: 'password' })
+        .set('Accept', 'application/json');
+
+      token = response.header['set-cookie'];
+    });
+
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+
+    it('should fail if excelDoc field is not provided.', async () => {
+      const response = await request
+        .post('/admin/staff')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('someField', `${__dirname}/testFiles/invalidExcel.xlsx`, 'invalidExcel.xlsx')
+        .set('cookie', token);
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('The following fields are missing: excelDoc');
+    });
+
+    it('should fail if file extension is not xlsx.', async () => {
+      const response = await request
+        .post('/admin/staff')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/invalidExcel.xlsx`, 'invalidExcel.else')
+        .set('cookie', token);
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('validationErrors');
+      expect(response.body.errors[0]).toEqual('file type must be xlsx');
+    });
+
+    it('should fail if upload document is an invalid xlsx file.', async () => {
+      const response = await request
+        .post('/admin/staff')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/invalidExcel.xlsx`, 'invalidExcel.xlsx')
+        .set('cookie', token);
+
+      const message = `An error occurred while processing your request.${''
+      } This could be a problem with the file you uploaded.`;
+
+      expect(response.status).toBe(500);
+      expect(response.body.message).toEqual(message);
+    });
+
+    it('should fail if excel data set contain invalid entries.', async () => {
+      const response = await request
+        .post('/admin/staff')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/validExcelWithErrors.xlsx`, 'staff.xlsx')
+        .set('cookie', token);
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('4 rows contain errors.');
+      expect(response.body.rowsWithErrors).toHaveLength(4);
+      expect(response.body.rowsWithErrors[0]).toHaveProperty('line');
+      expect(response.body.rowsWithErrors[0]).toHaveProperty('errors');
+    });
+
+    it('should successfully create all staff listed in the excel document.', async () => {
+      const response = await request
+        .post('/admin/staff')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/validExcel.xlsx`, 'staff.xlsx')
+        .set('cookie', token);
+
+      expect(response.status).toBe(201);
+      expect(response.body.message).toEqual('10 staff created successfully.');
+      expect(response.body.data).toHaveLength(10);
+      expect(response.body.data[0]).toHaveProperty('staffId');
+      expect(response.body.data[0]).toHaveProperty('firstname');
+    });
+
+    it('should fail if staff already exists.', async () => {
+      const response = await request
+        .post('/admin/staff')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/validExcel.xlsx`, 'staff.xlsx')
+        .set('cookie', token);
+
+      expect(response.status).toBe(500);
+      expect(response.body.message).toEqual('There was an error creating staff ERR500CRTSTF.');
+    });
+  });
+});

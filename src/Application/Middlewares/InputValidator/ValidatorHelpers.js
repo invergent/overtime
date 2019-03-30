@@ -17,6 +17,12 @@ class ValidatorHelpers {
     return [];
   }
 
+  static checkFileType(excelDoc) {
+    const fileExtension = excelDoc.name.slice(-4);
+    if (fileExtension !== 'xlsx') return ['file type must be xlsx'];
+    return [];
+  }
+
   // static validateNumberParam(param, claimId) {
   //   const isInter = Number.isInteger(parseInt(param, 10));
   //   const isGreaterThanZero = parseInt(param, 10) > 0;
@@ -45,6 +51,7 @@ class ValidatorHelpers {
         methodName = path.slice(16);
         break;
       case (path.indexOf('login') !== -1):
+      case (path.indexOf('staff') !== -1):
         methodName = path.slice(7);
         break;
       default:

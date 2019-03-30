@@ -1,3 +1,4 @@
+import AdministrationHelpers from './AdministrationHelpers';
 import EmailConstructor from './EmailConstructor';
 import krypter from './krypter';
 import Mailer from './Mailer';
@@ -8,6 +9,7 @@ import ClaimHelpers from './ClaimHelpers';
 import GenericHelpers from './GenericHelpers';
 
 export default {
+  AdministrationHelpers,
   EmailConstructor,
   NotificationsHelpers,
   Mailer,

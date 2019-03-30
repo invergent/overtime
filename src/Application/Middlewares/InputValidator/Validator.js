@@ -1,4 +1,5 @@
 import ValidatorHelpers from './ValidatorHelpers';
+
 import {
   emailRegex, staffIdRegex, formProperties
 } from '../../Features/utilities/utils/inputValidator';
@@ -82,6 +83,20 @@ class Validator {
       return ['Enter a valid cron time for email scheduling.'];
     }
     return reqObject.emailSchedule.split(' ').length === 5 ? [] : ['Invalid cronTime.'];
+  }
+
+  static staff(rowValues) {
+    // eslint-disable-next-line
+    const [emptyCell, staffId, firstname, lastname, middleName, emailAddress] = rowValues;
+    const errors = [];
+    
+    errors.push(...ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('Email Address', emailAddress, emailRegex));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Firstname', firstname));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Lastname', lastname));
+
+    if (errors.length) return { rowIsValid: false, errors };
+    return { rowIsValid: true };
   }
 }
 

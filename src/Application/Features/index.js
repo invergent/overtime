@@ -1,3 +1,4 @@
+import Administration from './Administration';
 import Authorisation from './Authorisation';
 import addOrChangeLineManager from './addOrChangeLineManager';
 import updateBranch from './updateBranch';
@@ -8,6 +9,7 @@ import exportDoc from './exportDoc';
 import Settings from './Settings';
 
 export default {
+  Administration,
   Authorisation,
   addOrChangeLineManager,
   updateBranch,

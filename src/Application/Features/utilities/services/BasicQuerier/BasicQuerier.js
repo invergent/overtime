@@ -19,6 +19,10 @@ class BasicQuerier {
     if (id) options.where.id = id;
     return models[model].update(updatePayload, options);
   }
+
+  static bulkCreate(model, list) {
+    return models[model].bulkCreate(list, { returning: true, raw: true, plain: false });
+  }
 }
 
 export default BasicQuerier;

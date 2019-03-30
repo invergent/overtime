@@ -34,6 +34,10 @@ class StaffService {
       { [lineManagerIdColumn]: lineManagerId }, { where: { tenantRef, staffId } }
     );
   }
+
+  static bulkCreateStaff(listOfStaff) {
+    return BasicQuerier.bulkCreate('Staff', listOfStaff);
+  }
 }
 
 export default StaffService;
