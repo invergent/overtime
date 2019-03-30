@@ -10,7 +10,7 @@ describe('Administration Unit Tests', () => {
   afterEach(() => jest.resetAllMocks());
 
   it('should catch errors if they occur while creating staff', async () => {
-    jest.spyOn(AdministrationHelpers, 'convertWorksheetToObjectsArray').mockReturnValue('value');
+    jest.spyOn(AdministrationHelpers, 'convertStaffWorksheetToObjectsArray').mockReturnValue('value');
     jest.spyOn(StaffService, 'bulkCreateStaff').mockRejectedValue('value');
 
     const result = await Administration.createStaff(mockReq);
