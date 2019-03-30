@@ -1,7 +1,7 @@
 import ValidatorHelpers from './ValidatorHelpers';
 
 import {
-  emailRegex, staffIdRegex, formProperties
+  emailRegex, staffIdRegex, solIdRegex, formProperties
 } from '../../Features/utilities/utils/inputValidator';
 
 class Validator {
@@ -15,6 +15,11 @@ class Validator {
       }
       return acc;
     }, '');
+  }
+
+  static errorDecider(errors) {
+    if (errors.length) return { rowIsValid: false, errors };
+    return { rowIsValid: true };
   }
 
   static signin(reqObject) {
@@ -89,14 +94,23 @@ class Validator {
     // eslint-disable-next-line
     const [emptyCell, staffId, firstname, lastname, middleName, emailAddress] = rowValues;
     const errors = [];
-    
+
     errors.push(...ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex));
     errors.push(...ValidatorHelpers.checkPatternedFields('Email Address', emailAddress, emailRegex));
     errors.push(...ValidatorHelpers.checkForEmptyFields('Firstname', firstname));
     errors.push(...ValidatorHelpers.checkForEmptyFields('Lastname', lastname));
 
-    if (errors.length) return { rowIsValid: false, errors };
-    return { rowIsValid: true };
+    return Validator.errorDecider(errors);
+  }
+
+  static branches(rowValues) {
+    const [emptyCell, branchName, solId] = rowValues; // eslint-disable-line
+    const errors = [];
+
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Branch Name', branchName));
+    errors.push(...ValidatorHelpers.checkPatternedFields('Sol ID', solId, solIdRegex));
+    
+    return Validator.errorDecider(errors);
   }
 }
 

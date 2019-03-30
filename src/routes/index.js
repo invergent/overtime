@@ -13,7 +13,7 @@ const {
   forgotPassword, authoriseStaff, authoriseAdmin, authoriseLineManager, changePassword,
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
-  submittedClaims, exportDoc, updateEmailSchedule, createStaff
+  submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps, checkDocType,
@@ -51,6 +51,8 @@ router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exp
 router.put('/admin/settings/email-schedule', authenticateAdmin, checkProps, checkEntries, updateEmailSchedule);
 
 router.post('/admin/staff', checkProps, checkFileType, validateExcelValues, createStaff);
+
+router.post('/admin/branches', checkProps, checkFileType, validateExcelValues, createBranches);
 
 router.get('/', (req, res) => res.status(200).json({ message: `${req.tenantRef} boarded` }));
 

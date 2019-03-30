@@ -80,6 +80,10 @@ class Controller {
   static async createStaff(req, res) {
     return Responder.respond(req, res, Administration.createStaff);
   }
+
+  static async createBranches(req, res) {
+    return Responder.respond(req, res, Administration.createBranches);
+  }
 }
 
 export default Controller;

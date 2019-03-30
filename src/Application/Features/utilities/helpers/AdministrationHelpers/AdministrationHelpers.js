@@ -1,5 +1,5 @@
 class AdministrationHelpers {
-  static convertWorksheetToObjectsArray(tenantRef, worksheet) {
+  static convertStaffWorksheetToObjectsArray(tenantRef, worksheet) {
     const arrayOfStaff = [];
 
     worksheet.eachRow((row) => {
@@ -11,6 +11,20 @@ class AdministrationHelpers {
     });
 
     return arrayOfStaff;
+  }
+
+  static convertBranchWorksheetToObjectsArray(tenantRef, worksheet) {
+    const arrayOfBranches = [];
+
+    worksheet.eachRow((row) => {
+      // eslint-disable-next-line
+      const [emptyCell, branchName, solId] = row.values;
+      arrayOfBranches.push({
+        tenantRef, branchName, solId
+      });
+    });
+
+    return arrayOfBranches;
   }
 }
 

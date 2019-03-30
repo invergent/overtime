@@ -7,6 +7,7 @@ jest.mock('@sendgrid/mail');
 describe('Admin Administration', () => {
   let server;
   let request;
+  let token;
 
   beforeAll((done) => {
     server = http.createServer(app);
@@ -19,8 +20,6 @@ describe('Admin Administration', () => {
   });
 
   describe('Bulk Create Staff with excel upload.', () => {
-    let token;
-
     beforeAll(async () => {
       // signin a user
       const response = await request
@@ -109,6 +108,47 @@ describe('Admin Administration', () => {
 
       expect(response.status).toBe(500);
       expect(response.body.message).toEqual('There was an error creating staff ERR500CRTSTF.');
+    });
+  });
+
+  describe('Bulk Create Branches with excel upload.', () => {
+    it('should fail if excel data set contain invalid entries.', async () => {
+      const response = await request
+        .post('/admin/branches')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/validBranchesWithErrors.xlsx`, 'branches.xlsx')
+        .set('cookie', token);
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('3 rows contain errors.');
+      expect(response.body.rowsWithErrors).toHaveLength(3);
+      expect(response.body.rowsWithErrors[0]).toHaveProperty('line');
+      expect(response.body.rowsWithErrors[0]).toHaveProperty('errors');
+    });
+
+    it('should successfully create all branches listed in the excel document.', async () => {
+      const response = await request
+        .post('/admin/branches')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/validBranches.xlsx`, 'branches.xlsx')
+        .set('cookie', token);
+
+      expect(response.status).toBe(201);
+      expect(response.body.message).toEqual('10 branches created successfully.');
+      expect(response.body.data).toHaveLength(10);
+      expect(response.body.data[0]).toHaveProperty('solId');
+      expect(response.body.data[0]).toHaveProperty('branchName');
+    });
+
+    it('should fail if branch already exists.', async () => {
+      const response = await request
+        .post('/admin/branches')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('excelDoc', `${__dirname}/testFiles/validBranches.xlsx`, 'branches.xlsx')
+        .set('cookie', token);
+
+      expect(response.status).toBe(500);
+      expect(response.body.message).toEqual('There was an error creating branches ERR500CRTBRC.');
     });
   });
 });

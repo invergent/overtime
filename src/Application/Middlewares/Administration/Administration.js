@@ -9,11 +9,11 @@ class AdministrationMiddleware {
     return worksheet;
   }
 
-  static checkRowValues(worksheet) {
+  static checkRowValues(methodName, worksheet) {
     const rowsWithErrors = [];
 
     worksheet.eachRow((row, index) => {
-      const { rowIsValid, errors } = Validator.staff(row.values);
+      const { rowIsValid, errors } = Validator[methodName](row.values);
       if (!rowIsValid) rowsWithErrors.push({ line: index, errors });
     });
 
@@ -21,11 +21,12 @@ class AdministrationMiddleware {
   }
 
   static async validateExcelValues(req, res, next) {
-    const { files: { excelDoc: { data } } } = req;
+    const { path, files: { excelDoc: { data } } } = req;
+    const methodName = path.slice(7); // take out /admin/ from path, use name as method to call
 
     try {
       const worksheet = await AdministrationMiddleware.getWorksheetFromExcelFile(data);
-      const rowsWithErrors = AdministrationMiddleware.checkRowValues(worksheet);
+      const rowsWithErrors = AdministrationMiddleware.checkRowValues(methodName, worksheet);
       if (rowsWithErrors.length) {
         return res.status(400).json({
           message: `${rowsWithErrors.length} rows contain errors.`,

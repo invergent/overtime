@@ -40,8 +40,12 @@ export const formProperties = {
   },
   staff: {
     excelDoc: 'excelDoc'
+  },
+  branches: {
+    excelDoc: 'excelDoc'
   }
 };
 
 export const staffIdRegex = /^[T][N][0-9]{6}$/;
-export const emailRegex = /\S+@\S+\.\S+/;
+export const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
+export const solIdRegex = /^\d{4}$/;

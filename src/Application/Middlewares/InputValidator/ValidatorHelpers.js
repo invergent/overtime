@@ -7,6 +7,11 @@ class ValidatorHelpers {
   }
 
   static checkPatternedFields(field, value, regex) {
+    if (field === 'Sol ID' && !value) return ['Sol ID is required'];
+
+    // this check is being made for both admin and staff login. either staff id
+    // or email would be defined at a time. this check avoid returning a valid error
+    // when either check is made.
     if (!value) return [];
     if (!regex.test(value)) return [`${field} is invalid`];
     return [];
@@ -52,6 +57,7 @@ class ValidatorHelpers {
         break;
       case (path.indexOf('login') !== -1):
       case (path.indexOf('staff') !== -1):
+      case (path.indexOf('branches') !== -1):
         methodName = path.slice(7);
         break;
       default:
