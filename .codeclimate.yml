@@ -2,3 +2,13 @@ exclude_patterns:
   - '**/Database/*'
   - '**/*.spec.js'
   - '**/__mocks__/'
+engines:
+  duplication:
+    enabled: true
+    checks:
+      Similar code:
+        enabled: false
+    config:
+      languages:
+         javascript:
+           mass_threshold: 50

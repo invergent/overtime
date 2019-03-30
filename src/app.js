@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import fileUpload from 'express-fileupload';
 import subdomain from 'express-subdomain';
 import Cron from './Application/Features/Cron';
 import routes from './routes';
@@ -11,6 +12,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(fileUpload());
 
 // Add tenant's unique identifier property
 app.use((req, res, next) => {

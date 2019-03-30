@@ -1,8 +1,9 @@
 import Excel from '../Excel';
+import ExportDocHelpers from '../../utilities/helpers/ExportDocHelpers';
 
 describe('Excel Unit Tests', () => {
   it('should fail if an error occurs', async () => {
-    jest.spyOn(Excel, 'workbookData').mockRejectedValue('err');
+    jest.spyOn(ExportDocHelpers, 'populateWorkbooksSheetWithData').mockRejectedValue('err');
     jest.spyOn(Excel, 'createExcelDocument');
 
     const result = await Excel.claimReport('req');

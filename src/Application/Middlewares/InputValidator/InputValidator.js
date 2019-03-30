@@ -7,7 +7,7 @@ import { staffIdRegex } from '../../Features/utilities/utils/inputValidator';
 class InputValidator {
   static checkProps(req, res, next) {
     const methodName = ValidatorHelpers.getMethodName(req.path);
-    const missingProps = Validator.checkProps(req.body, methodName);
+    const missingProps = Validator.checkProps(req.files || req.body, methodName);
 
     if (missingProps.trim().length) {
       return res.status(400).json({
@@ -19,7 +19,7 @@ class InputValidator {
 
   static checkEntries(req, res, next) {
     const methodName = ValidatorHelpers.getMethodName(req.path);
-    const errors = Validator[methodName](req.body);
+    const errors = Validator[methodName](req.files || req.body);
 
     return ValidatorHelpers.validatorResponder(res, errors, next);
   }
@@ -58,6 +58,12 @@ class InputValidator {
   static checkDocType(req, res, next) {
     const { params: { docType } } = req;
     const errors = ValidatorHelpers.checkDocTypeParam(docType);
+    return ValidatorHelpers.validatorResponder(res, errors, next);
+  }
+
+  static checkFileType(req, res, next) {
+    const { files: { excelDoc } } = req;
+    const errors = ValidatorHelpers.checkFileType(excelDoc);
     return ValidatorHelpers.validatorResponder(res, errors, next);
   }
 

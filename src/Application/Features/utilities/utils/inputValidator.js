@@ -37,6 +37,9 @@ export const formProperties = {
   },
   emailSchedule: {
     emailSchedule: 'emailSchedule'
+  },
+  staff: {
+    excelDoc: 'excelDoc'
   }
 };
 
