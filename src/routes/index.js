@@ -13,7 +13,8 @@ const {
   forgotPassword, authoriseStaff, authoriseAdmin, authoriseLineManager, changePassword,
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
-  submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches
+  submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
+  markClaimsAsCompleted
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps, checkDocType,
@@ -47,6 +48,7 @@ router.post('/users/profile/reset', authenticateStaff, checkEntries, resetPasswo
 
 router.get('/admin/claims', authenticateAdmin, submittedClaims);
 router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exportDoc);
+router.put('/admin/claims/completed', authenticateAdmin, markClaimsAsCompleted);
 
 router.put('/admin/settings/email-schedule', authenticateAdmin, checkProps, checkEntries, updateEmailSchedule);
 

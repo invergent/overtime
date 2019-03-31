@@ -67,6 +67,12 @@ class ClaimService {
     const options = GenericHelpers.adminFetchClaimOptions(tenantRef, statusType, period);
     return Claims.findAll(options);
   }
+
+  static markClaimsAsCompleted(tenantRef) {
+    const options = GenericHelpers.markClaimsAsCompletedQueryOptions(tenantRef);
+    const payload = { status: 'Completed' };
+    return Claims.update(payload, options);
+  }
 }
 
 export default ClaimService;

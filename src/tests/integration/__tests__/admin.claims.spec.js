@@ -39,8 +39,8 @@ describe('Admin Claim Tests', () => {
       const response = await request.get('/admin/claims').set('cookie', token);
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('Found 3 claims');
-      expect(response.body.data.length).toEqual(3);
+      expect(response.body.message).toEqual('Found 11 claims');
+      expect(response.body.data.length).toEqual(11);
     });
   });
 });

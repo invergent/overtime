@@ -48,11 +48,16 @@ class GenericHelpers {
     return firstDayOfCurrentMonth;
   }
 
+  static castStatusColumn(status) {
+    const column = col('Claims.status');
+    const colCast = cast(column, 'TEXT');
+    const whereCast = where(colCast, { [Op.iLike]: `%${status}%` });
+    return whereCast;
+  }
+
   static claimStatusFilter(statusType) {
     const statusFilter = {};
-    if (statusType === 'pending') {
-      statusFilter.status = where(cast(col('Claims.status'), 'TEXT'), { [Op.iLike]: '%Awaiting%' });
-    }
+    if (statusType) statusFilter.status = GenericHelpers.castStatusColumn(statusType);
     return statusFilter;
   }
 
@@ -89,8 +94,20 @@ class GenericHelpers {
 
   static fetchPendingClaimsOptions(tenantRef) {
     return {
-      where: { tenantRef, ...GenericHelpers.claimStatusFilter('pending') },
+      where: { tenantRef, ...GenericHelpers.claimStatusFilter('Awaiting') },
       include: [Staff],
+      plain: false,
+      raw: true
+    };
+  }
+
+  static markClaimsAsCompletedQueryOptions(tenantRef) {
+    return {
+      where: {
+        tenantRef,
+        createdAt: { [Op.gte]: GenericHelpers.periodToFetch() },
+        ...GenericHelpers.claimStatusFilter('Processing')
+      },
       plain: false,
       raw: true
     };

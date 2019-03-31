@@ -1,23 +1,23 @@
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('Roles', [{
     name: 'RPC',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Trade Developer',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Service Executive (Financial)',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Service Executive (Non-Financial)',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('Roles')
 };
