@@ -6,8 +6,8 @@ module.exports = {
     lastname: 'Johnny',
     designation: 'Oga boss',
     email: 'super.john@init.com',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     lineManagerId: 'TN176345',
@@ -16,8 +16,8 @@ module.exports = {
     lastname: 'DoeBSM',
     designation: 'Oga at the top',
     email: 'john.doiz@init.com',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     lineManagerId: 'TN176666',
@@ -26,8 +26,8 @@ module.exports = {
     lastname: 'JohnnyBSM',
     designation: 'Oga at the top',
     email: 'johnny.doey@init.com',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     lineManagerId: 'TN176374',
@@ -36,8 +36,8 @@ module.exports = {
     lastname: 'DoeBSMMy',
     designation: 'Oga at the top',
     email: 'jonz.super@init.com',
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('LineManagers')
 };

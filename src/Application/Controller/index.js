@@ -66,7 +66,7 @@ class Controller {
   }
 
   static async submittedClaims(req, res) {
-    return Responder.respond(req, res, Claim.submittedClaims);
+    return Responder.respond(req, res, Administration.submittedClaims);
   }
 
   static async exportDoc(req, res) {
@@ -83,6 +83,10 @@ class Controller {
 
   static async createBranches(req, res) {
     return Responder.respond(req, res, Administration.createBranches);
+  }
+
+  static async markClaimsAsCompleted(req, res) {
+    return Responder.respond(req, res, Administration.markClaimsAsCompleted);
   }
 }
 

@@ -94,16 +94,6 @@ class Claim {
       return [500, 'There was a problem cancelling your claim ERR500CLMCNL.'];
     }
   }
-
-  static async submittedClaims(req) {
-    const { tenantRef } = req;
-    try {
-      const claims = await ClaimHelpers.submittedClaimsForAdmin(tenantRef);
-      return [200, `Found ${claims.length} claims`, claims];
-    } catch (e) {
-      return [500, 'There was a problem fetching claims ERR500ADMCLM.'];
-    }
-  }
 }
 
 export default Claim;

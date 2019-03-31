@@ -1,6 +1,6 @@
 import Exceljs from 'exceljs';
 import GenericHelpers from '../GenericHelpers';
-import ClaimHelpers from '../ClaimHelpers';
+import AdministrationHelpers from '../AdministrationHelpers';
 import { tenantList, exportDocHeaders } from '../../utils/general';
 
 const workbook = new Exceljs.Workbook();
@@ -32,7 +32,7 @@ class ExportDocHelpers {
   }
 
   static async populateWorkbooksSheetWithData(tenantRef) {
-    const claims = await ClaimHelpers.submittedClaimsForAdmin(tenantRef);
+    const claims = await AdministrationHelpers.submittedClaimsForAdmin(tenantRef);
     const preparedWorksheet = ExportDocHelpers.setWorkBookPropertiesAndCreateSheet(tenantRef);
     const worksheetWithHeader = ExportDocHelpers.createDocColumnHeaders(preparedWorksheet);
     ExportDocHelpers.populateRowsWithClaimData(worksheetWithHeader, claims);

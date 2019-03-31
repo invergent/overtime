@@ -2,7 +2,7 @@ import helpers from '../utilities/helpers';
 import services from '../utilities/services';
 
 const { AdministrationHelpers } = helpers;
-const { StaffService, BranchService } = services;
+const { StaffService, BranchService, ClaimService } = services;
 
 class Administration {
   static async createStaff(req) {
@@ -29,8 +29,32 @@ class Administration {
       const createdBranches = results.map(result => result.dataValues);
       return [201, `${createdBranches.length} branches created successfully.`, createdBranches];
     } catch (e) {
-      console.log(e);
       return [500, 'There was an error creating branches ERR500CRTBRC.', e];
+    }
+  }
+
+  static async submittedClaims(req) {
+    const { tenantRef } = req;
+    try {
+      const claims = await AdministrationHelpers.submittedClaimsForAdmin(tenantRef);
+      return [200, `Found ${claims.length} claims`, claims];
+    } catch (e) {
+      return [500, 'There was a problem fetching claims ERR500ADMCLM.'];
+    }
+  }
+
+  static async markClaimsAsCompleted(req) {
+    const { tenantRef } = req;
+    try {
+      const [updated] = await ClaimService.markClaimsAsCompleted(tenantRef);
+      return [
+        200,
+        updated
+          ? `Successfully marked ${updated} claims as completed.`
+          : 'No claims were marked as completed.'
+      ];
+    } catch (e) {
+      return [500, 'An error occurred while marking claims as completed ERR500CLMMCC.', e];
     }
   }
 }

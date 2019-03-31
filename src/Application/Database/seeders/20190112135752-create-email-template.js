@@ -20,8 +20,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-01-12',
-    updatedAt: '2018-01-12'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'New Claim Supervisor',
@@ -56,8 +56,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-02-23',
-    updatedAt: '2018-02-23'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'New Claim BSM',
@@ -92,8 +92,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-02-23',
-    updatedAt: '2018-02-23'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'New Claim Staff',
@@ -128,8 +128,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-03',
-    updatedAt: '2018-03-03'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Supervisor Approved',
@@ -164,8 +164,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-03',
-    updatedAt: '2018-03-03'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'BSM Approved',
@@ -200,8 +200,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-04',
-    updatedAt: '2018-03-04'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Supervisor Declined',
@@ -231,8 +231,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-04',
-    updatedAt: '2018-03-04'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'BSM Declined',
@@ -262,8 +262,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-04',
-    updatedAt: '2018-03-04'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Claim Cancelled',
@@ -293,8 +293,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-04',
-    updatedAt: '2018-03-04'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Claim Completed',
@@ -324,8 +324,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-04',
-    updatedAt: '2018-03-04'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Pending Claim Reminder',
@@ -356,8 +356,8 @@ module.exports = {
         </div>
       </body>
     </html>`,
-    createdAt: '2019-03-04',
-    updatedAt: '2018-03-04'
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.dropTable('EmailTemplate')
 };

@@ -1,3 +1,5 @@
+import ClaimService from '../../services/ClaimService';
+
 class AdministrationHelpers {
   static convertStaffWorksheetToObjectsArray(tenantRef, worksheet) {
     const arrayOfStaff = [];
@@ -25,6 +27,46 @@ class AdministrationHelpers {
     });
 
     return arrayOfBranches;
+  }
+
+  static filterAdminClaimsQueryResult(queryResult) {
+    return queryResult.map((result) => {
+      const {
+        weekday,
+        weekend,
+        shift,
+        amount,
+        status,
+        monthOfClaim: monthofclaim,
+        'Staff.staffId': staffId,
+        'Staff.firstname': firstname,
+        'Staff.lastname': lastname,
+        'Staff.middleName': middlename,
+        'Staff.Branch.solId': solId,
+        'Staff.Branch.branchName': branch,
+        'Staff.staffRole.name': role
+      } = result;
+      return {
+        weekday,
+        weekend,
+        shift,
+        amount,
+        status,
+        staffId,
+        firstname,
+        lastname,
+        middlename,
+        solId,
+        branch,
+        monthofclaim,
+        role
+      };
+    });
+  }
+
+  static async submittedClaimsForAdmin(tenantRef) {
+    const claims = await ClaimService.fetchSubmittedClaims(tenantRef);
+    return AdministrationHelpers.filterAdminClaimsQueryResult(claims);
   }
 }
 

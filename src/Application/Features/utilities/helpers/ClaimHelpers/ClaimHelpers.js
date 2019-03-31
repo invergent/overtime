@@ -66,41 +66,6 @@ class ClaimHelpers {
     });
   }
 
-  static filterAdminClaimsQueryResult(queryResult) {
-    return queryResult.map((result) => {
-      const {
-        weekday,
-        weekend,
-        shift,
-        amount,
-        status,
-        monthOfClaim: monthofclaim,
-        'Staff.staffId': staffId,
-        'Staff.firstname': firstname,
-        'Staff.lastname': lastname,
-        'Staff.middleName': middlename,
-        'Staff.Branch.solId': solId,
-        'Staff.Branch.branchName': branch,
-        'Staff.staffRole.name': role
-      } = result;
-      return {
-        weekday,
-        weekend,
-        shift,
-        amount,
-        status,
-        staffId,
-        firstname,
-        lastname,
-        middlename,
-        solId,
-        branch,
-        monthofclaim,
-        role
-      };
-    });
-  }
-
   static filterReminderPendingClaims(queryResult) {
     return queryResult.map((result) => {
       const { 'Staff.firstname': firstname, 'Staff.email': email } = result;
@@ -110,11 +75,6 @@ class ClaimHelpers {
 
   static getIdsOfFilteredPendingClaims(filteredPendingClaims) {
     return filteredPendingClaims.map(claim => claim.claimId);
-  }
-
-  static async submittedClaimsForAdmin(tenantRef) {
-    const claims = await ClaimService.fetchSubmittedClaims(tenantRef);
-    return ClaimHelpers.filterAdminClaimsQueryResult(claims);
   }
 
   static async pendingClaimsForlineManager(tenantRef, lineManager) {

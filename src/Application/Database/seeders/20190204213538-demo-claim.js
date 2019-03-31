@@ -8,8 +8,8 @@ module.exports = {
     amount: 7200,
     requester: 1,
     status: 'Awaiting BSM',
-    createdAt: '2019-02-06',
-    updatedAt: '2019-02-06'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -20,8 +20,8 @@ module.exports = {
     amount: 7400,
     requester: 3,
     status: 'Awaiting BSM',
-    createdAt: '2019-02-06',
-    updatedAt: '2019-02-06'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -32,8 +32,8 @@ module.exports = {
     amount: 7350,
     requester: 3,
     status: 'Awaiting supervisor',
-    createdAt: '2019-02-06',
-    updatedAt: '2019-02-06'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -44,8 +44,8 @@ module.exports = {
     amount: 6850,
     requester: 4,
     status: 'Awaiting supervisor',
-    createdAt: '2019-02-24',
-    updatedAt: '2019-02-24'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -56,8 +56,8 @@ module.exports = {
     amount: 6900,
     requester: 5,
     status: 'Awaiting supervisor',
-    createdAt: '2019-02-26',
-    updatedAt: '2019-02-26'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -68,8 +68,8 @@ module.exports = {
     amount: 6150,
     requester: 6,
     status: 'Awaiting supervisor',
-    createdAt: '2019-02-26',
-    updatedAt: '2019-02-26'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -80,8 +80,8 @@ module.exports = {
     amount: 2950,
     requester: 7,
     status: 'Awaiting supervisor',
-    createdAt: '2019-03-03',
-    updatedAt: '2019-03-03'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -92,8 +92,32 @@ module.exports = {
     amount: 6400,
     requester: 8,
     status: 'Processing',
-    createdAt: '2019-03-03',
-    updatedAt: '2019-03-03'
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    tenantRef: 'INIT',
+    monthOfClaim: 'March, 2019',
+    weekday: 12,
+    weekend: 8,
+    shift: null,
+    amount: 8200,
+    requester: 6,
+    status: 'Processing',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    tenantRef: 'INIT',
+    monthOfClaim: 'March, 2019',
+    weekday: 20,
+    weekend: 8,
+    shift: null,
+    amount: 9400,
+    requester: 6,
+    status: 'Processing',
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('Claims')
 };

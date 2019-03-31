@@ -14,8 +14,8 @@ module.exports = {
     supervisorId: 4,
     bsmId: 2,
     role: 1,
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -30,8 +30,8 @@ module.exports = {
     supervisorId: 1,
     bsmId: 2,
     role: 2,
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -46,8 +46,8 @@ module.exports = {
     supervisorId: 4,
     bsmId: 2,
     role: 3,
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -62,8 +62,8 @@ module.exports = {
     supervisorId: 4,
     bsmId: 2,
     role: 2,
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -78,8 +78,8 @@ module.exports = {
     supervisorId: 4,
     bsmId: 2,
     role: 2,
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -94,8 +94,8 @@ module.exports = {
     supervisorId: 4,
     bsmId: 2,
     role: 2,
-    createdAt: '2018-12-30',
-    updatedAt: '2018-12-30'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -110,8 +110,8 @@ module.exports = {
     supervisorId: 1,
     bsmId: 3,
     role: 4,
-    createdAt: '2019-03-03',
-    updatedAt: '2019-03-03'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -126,8 +126,8 @@ module.exports = {
     supervisorId: 1,
     bsmId: 3,
     role: 3,
-    createdAt: '2019-03-03',
-    updatedAt: '2019-03-03'
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     tenantRef: 'INIT',
@@ -139,8 +139,8 @@ module.exports = {
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
     role: 3,
-    createdAt: '2019-03-07',
-    updatedAt: '2019-03-07'
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('Staff')
 };
