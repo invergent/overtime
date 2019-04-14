@@ -83,11 +83,11 @@ class Validator {
   }
 
   static emailSchedule(reqObject) {
-    const cronTime = reqObject.emailSchedule;
+    const cronTime = reqObject.emailSchedule.trim();
     if (!cronTime) {
       return ['Enter a valid cron time for email scheduling.'];
     }
-    return reqObject.emailSchedule.split(' ').length === 5 ? [] : ['Invalid cronTime.'];
+    return cronTime.split(' ').length === 5 ? [] : ['Invalid cronTime.'];
   }
 
   static staff(rowValues) {
@@ -109,7 +109,7 @@ class Validator {
 
     errors.push(...ValidatorHelpers.checkForEmptyFields('Branch Name', branchName));
     errors.push(...ValidatorHelpers.checkPatternedFields('Sol ID', solId, solIdRegex));
-    
+
     return Validator.errorDecider(errors);
   }
 }

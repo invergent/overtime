@@ -12,7 +12,7 @@ const app = express();
 const allowedOrigins = [
   'localhost:8000',
   'localhost:4200',
-  'overtime.invergent-technologies.com'
+  'invergent-technologies.com'
 ];
 
 app.use(bodyParser.urlencoded({ extended: true }));
