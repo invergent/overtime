@@ -3,7 +3,8 @@ module.exports = {
     ref: 'INIT',
     businessName: 'Invergent Technologies Limited',
     address: 'This is the address.',
-    email: 'init@init.com',
+    emailAddress: 'info@invergent-technologies.com',
+    url: 'overtime.invergent-technologies.com',
     createdAt: new Date(),
     updatedAt: new Date()
   }]),

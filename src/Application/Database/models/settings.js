@@ -11,7 +11,7 @@ const settings = (sequelize, DataTypes) => {
   }, { freezeTableName: true });
 
   Settings.associate = (models) => {
-    Settings.belongsTo(models.Tenants, { as: 'tenant', foreignKey: 'tenantRef' });
+    Settings.belongsTo(models.Tenants, { as: 'tenant', foreignKey: 'tenantRef', targetKey: 'ref' });
   };
   return Settings;
 };

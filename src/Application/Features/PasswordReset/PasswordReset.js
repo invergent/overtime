@@ -10,12 +10,12 @@ class PasswordReset {
   static async forgotPassword(req) {
     const { body: { staffId }, tenantRef } = req;
 
-    const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId);
+    const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId, ['company']);
     if (!staff) {
       return [404, 'Staff does not exist'];
     }
 
-    notifications.emit(eventNames.passwordReset, [tenantRef, staff]);
+    notifications.emit(eventNames.PasswordReset, [tenantRef, staff]);
     return [200, `We just sent an email to ${staff.email}`];
   }
 

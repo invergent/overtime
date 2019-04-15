@@ -16,10 +16,6 @@ export const authRoleName = {
   lineManager: 'lineManager'
 };
 
-export const tenantList = {
-  INIT: 'Invergent Technologies Limited'
-};
-
 export const exportDocHeaders = [
   'S/N', 'Staff ID', 'FirstName', 'LastName', 'MiddleName', 'Role', 'Branch', 'Sol ID',
   'Weekday', 'Weekend', 'Shift', 'Amount', 'Status', 'Month of Claim'
@@ -33,3 +29,5 @@ export const notificationActivities = {
   adminProcessed: 'Your claim has been processed. It is now being processed for payment.',
   adminPaid: 'Your claim has been paid.'
 };
+
+export const tenantsInfo = {};

@@ -7,6 +7,7 @@ import NotificationService from './NotificationService';
 import PasswordResetService from './PasswordResetService';
 import SettingService from './SettingService';
 import StaffService from './StaffService';
+import TenantService from './TenantService';
 
 export default {
   BasicQuerier,
@@ -17,5 +18,6 @@ export default {
   NotificationService,
   PasswordResetService,
   SettingService,
-  StaffService
+  StaffService,
+  TenantService
 };

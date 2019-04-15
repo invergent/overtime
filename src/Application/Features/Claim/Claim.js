@@ -66,7 +66,7 @@ class Claim {
     const [statusCode, message, data] = await Claim.runClaimApproval(req, approvalType);
     if (statusCode !== 200) return [statusCode, message];
 
-    const staff = await StaffService.fetchStaffByPk(tenantRef, data.requester, ['supervisor', 'BSM']);
+    const staff = await StaffService.fetchStaffByPk(tenantRef, data.requester, ['supervisor', 'BSM', 'company']);
     notifications.emit(
       eventNames[`${lineManagerRole}${approvalType}`], [{
         tenantRef, staff, lineManagerRole, claimId
