@@ -2,6 +2,7 @@ import helpers from '../utilities/helpers';
 import services from '../utilities/services';
 import notifications from '../utilities/notifications';
 import { eventNames } from '../utilities/utils/types';
+import { staffIncludes } from '../utilities/utils/general';
 
 const { ClaimService, StaffService } = services;
 const { ClaimHelpers } = helpers;
@@ -11,7 +12,7 @@ class Claim {
     const { currentStaff: { staffId }, body, tenantRef } = req;
 
     try {
-      const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId, ['supervisor', 'BSM']);
+      const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId, staffIncludes);
       const overtimeRequest = ClaimHelpers.createOvertimeRequestObject(body, staff.id);
       const { messageWhenCreated, messageWhenNotCreated } = ClaimHelpers.responseMessage(
         overtimeRequest
@@ -66,7 +67,7 @@ class Claim {
     const [statusCode, message, data] = await Claim.runClaimApproval(req, approvalType);
     if (statusCode !== 200) return [statusCode, message];
 
-    const staff = await StaffService.fetchStaffByPk(tenantRef, data.requester, ['supervisor', 'BSM']);
+    const staff = await StaffService.fetchStaffByPk(tenantRef, data.requester, ['supervisor', 'BSM', 'company']);
     notifications.emit(
       eventNames[`${lineManagerRole}${approvalType}`], [{
         tenantRef, staff, lineManagerRole, claimId

@@ -1,5 +1,6 @@
 import sendgrid from '@sendgrid/mail';
 import Mailer from '../Mailer';
+import { tenantsInfo } from '../../../utils/general';
 import {
   mockEmail, mockFilteredStaffWithPendingClaims
 } from '../../../../../../__tests__/__mocks__';
@@ -7,6 +8,7 @@ import {
 jest.mock('@sendgrid/mail');
 
 describe('Mailer unit test', () => {
+  tenantsInfo.INIT = { emailAddress: 'someEmailAddress' };
   const mailer = new Mailer('INIT');
   describe('Create', () => {
     it('should create email in line with sendgrid schema', () => {

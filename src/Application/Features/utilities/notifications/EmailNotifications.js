@@ -8,6 +8,7 @@ class EmailNotifications {
     const email = await NotificationsHelpers.createEmail(
       tenantRef, staff, emailTemplateName, hashedToken
     );
+
     return EmailNotifications.sender(tenantRef, email);
   }
 

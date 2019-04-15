@@ -1,6 +1,7 @@
 import EmailNotifications from '../EmailNotifications';
 import helpers from '../../helpers';
 import { templateNames } from '../../utils/types';
+import { tenantsInfo } from '../../utils/general';
 import {
   mockReq, mockStaff
 } from '../../../../../__tests__/__mocks__';
@@ -18,6 +19,8 @@ jest.mock('../../helpers/Mailer', () => () => ({
 const { PasswordResetHelper, NotificationsHelpers } = helpers;
 
 describe('Notifications Unit tests', () => {
+  tenantsInfo.INIT = { emailAddress: 'someEmailAddress' };
+  
   describe('EmailNotifications', () => {
     it('should send Reset password email', async () => {
       const passwordResetHash = 'passwordResetHash';

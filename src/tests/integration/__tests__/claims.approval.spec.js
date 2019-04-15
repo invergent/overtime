@@ -25,7 +25,7 @@ describe('Claim Approval Tests', () => {
 
     beforeAll(async () => {
       // verify line manager
-      const supervisorVerificationResponse = await request.get(`/verify?hash=${supervisorHash}`);
+      const supervisorVerificationResponse = await request.get(`/line-manager/verify?hash=${supervisorHash}`);
       supervisorToken = supervisorVerificationResponse.header['set-cookie'];
     });
 
@@ -62,7 +62,7 @@ describe('Claim Approval Tests', () => {
     let bsmToken;
 
     beforeAll(async () => {
-      const bsmVerificationResponse = await request.get(`/verify?hash=${bsmHash}`);
+      const bsmVerificationResponse = await request.get(`/line-manager/verify?hash=${bsmHash}`);
       bsmToken = bsmVerificationResponse.header['set-cookie'];
     });
 

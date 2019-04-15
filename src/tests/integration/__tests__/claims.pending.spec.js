@@ -26,13 +26,13 @@ describe('Pending Claims Tests', () => {
 
     beforeAll(async () => {
       // verify line manager
-      const response1 = await request.get(`/verify?hash=${supervisorHash}`);
+      const response1 = await request.get(`/line-manager/verify?hash=${supervisorHash}`);
       token1 = response1.header['set-cookie'];
 
-      const response2 = await request.get(`/verify?hash=${bsmHash}`);
+      const response2 = await request.get(`/line-manager/verify?hash=${bsmHash}`);
       token2 = response2.header['set-cookie'];
 
-      const response3 = await request.get(`/verify?hash=${noClaimHash}`);
+      const response3 = await request.get(`/line-manager/verify?hash=${noClaimHash}`);
       token3 = response3.header['set-cookie'];
     });
 

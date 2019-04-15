@@ -47,5 +47,12 @@ class Authenticator {
       return res.status(401).json({ message: `Authentication error ${errorCode}.` });
     }
   }
+
+  static destroyToken(req, res) {
+    res.clearCookie('staffToken');
+    res.clearCookie('adminToken');
+    return res.status(200).json({ message: 'Token destroyed successfully.' });
+  }
 }
+
 export default Authenticator;

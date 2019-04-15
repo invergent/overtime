@@ -141,6 +141,19 @@ module.exports = {
     role: 3,
     createdAt: new Date(),
     updatedAt: new Date()
+  },
+  {
+    tenantRef: 'INIT',
+    staffId: 'TN098432',
+    firstname: 'King',
+    lastname: 'James',
+    middleName: 'Oche',
+    email: 'james@invergent-technologies.com',
+    password: bcrypt.hashSync('password', 7),
+    image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
+    role: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('Staff')
 };

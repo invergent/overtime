@@ -9,13 +9,25 @@ module.exports = {
       ${headerAndFooterContent('header')}
       <body>
         <div class="cover">
-          <div class="wrapper">
-            <h2>Aaaah! You forgot your password!</h2>
-            <p>Not a problem, {{staffFirstName}}. Click the button below to reset it</p>
-            <a href="http://init.overtime-api.example.com:7000/confirm-reset-request?hash={{hash}}" target="_blank">
-              <button>Reset password</button>
-            </a>
-          </div>
+          <div class="content-wrapper">
+            <section class="letter">
+              <div class="header">
+                <img src="https://res.cloudinary.com/invergent/image/upload/v1550692251/assets/invergent04a.png" alt="Logo">
+              </div>
+              <hr>
+              <article class="body">
+                <h2>Password Reset</h2>
+                <div class="paragraphs">
+                  <p>Hi {{staffFirstName}},</p>
+                  <p>You requested for a password reset. Let's help you regain access to your account. Please click the button below.</p>
+                </div>
+                <div class="button-wrapper">
+                  <a href="{{url}}/confirm-reset-request?hash={{hash}}" target="_blank">
+                    <button>Reset password</button>
+                  </a>
+                </div>
+              </article>
+            </section>
           ${headerAndFooterContent('footer')}
         </div>
       </body>
@@ -45,7 +57,7 @@ module.exports = {
                   <p>Click the button below to access all pending claims awaiting your approval.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="http://init.overtime-api.example.com:7000/approvals?hash={{hash}}" target="_blank">
+                  <a href="{{url}}/approvals?hash={{hash}}" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>
@@ -81,7 +93,7 @@ module.exports = {
                   <p>Click the button below to access all pending claims awaiting your approval.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="http://init.overtime-api.example.com:7000/approvals?hash={{hash}}" target="_blank">
+                  <a href="{{url}}/approvals?hash={{hash}}" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>
@@ -117,7 +129,7 @@ module.exports = {
                   <p>You can click the button below to see the progress of your pending claim.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="http://init.overtime-api.example.com:7000/users/claims/pending" target="_blank">
+                  <a href="{{url}}/users/claims/pending" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>
@@ -153,7 +165,7 @@ module.exports = {
                   <p>You can click the button below to see the progress of your pending claim.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="http://init.overtime-api.example.com:7000/users/claims/pending" target="_blank">
+                  <a href="{{url}}/users/claims/pending" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>
@@ -189,7 +201,7 @@ module.exports = {
                   <p>You can click the button below to see the progress of your pending claim.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="http://init.overtime-api.example.com:7000/users/claims/pending" target="_blank">
+                  <a href="{{url}}/users/claims/pending" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>

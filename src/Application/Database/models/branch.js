@@ -7,7 +7,8 @@ const branch = (sequelize, DataTypes) => {
     },
     branchName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     }
   }, { freezeTableName: true });
 

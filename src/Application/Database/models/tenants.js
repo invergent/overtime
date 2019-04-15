@@ -13,14 +13,19 @@ const tenants = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    email: {
+    emailAddress: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     }
   });
 
   Tenants.associate = (models) => {
-    Tenants.hasMany(models.Staff, { as: 'companyStaff', foreignKey: 'tenantRef' });
+    Tenants.hasMany(models.Staff, { as: 'companyStaff', foreignKey: 'tenantRef', sourceKey: 'ref' });
     Tenants.hasMany(models.Claims, { as: 'companyClaims', foreignKey: 'tenantRef' });
     Tenants.hasMany(models.Settings, { as: 'settings', foreignKey: 'tenantRef', sourceKey: 'ref' });
   };

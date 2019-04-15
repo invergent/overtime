@@ -52,7 +52,7 @@ const staff = (sequelize, DataTypes) => {
   }, { freezeTableName: true });
 
   Staff.associate = (models) => {
-    Staff.belongsTo(models.Tenants, { as: 'company', foreignKey: 'tenantRef' });
+    Staff.belongsTo(models.Tenants, { as: 'company', foreignKey: 'tenantRef', targetKey: 'ref' });
     Staff.belongsTo(models.LineManagers, { as: 'supervisor', foreignKey: 'supervisorId' });
     Staff.belongsTo(models.LineManagers, { as: 'BSM', foreignKey: 'bsmId' });
     Staff.belongsTo(models.Branch, { foreignKey: 'branchId' });

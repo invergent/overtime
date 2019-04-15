@@ -1,4 +1,5 @@
 import services from '../../Features/utilities/services';
+import { staffIncludes } from '../../Features/utilities/utils/general';
 
 const { ClaimService, StaffService } = services;
 
@@ -8,7 +9,7 @@ class ClaimAccessControl {
     const claim = await ClaimService.findClaimByPk(tenantRef, claimId);
     if (!claim) return res.status(404).json({ message: 'Claim does not exist.' });
 
-    const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId, ['supervisor', 'BSM']);
+    const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId, staffIncludes);
     if (claim.requester !== staff.id) {
       return res.status(401).json({ message: 'You do not have access to this claim.' });
     }

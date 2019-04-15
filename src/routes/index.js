@@ -21,16 +21,17 @@ const {
   checkOvertimeValues, checkFileType
 } = InputValidator;
 const {
-  authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager
+  authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager,
+  destroyToken
 } = Authenticator;
 
 router.post('/signin', checkProps, checkEntries, authoriseStaff);
 router.post('/admin/login', checkProps, checkEntries, authoriseAdmin);
-router.get('/verify', verifyLineManager, authoriseLineManager);
-
 router.post('/forgot-password', checkProps, checkStaffId, forgotPassword);
 router.get('/confirm-reset-request', confirmPasswordResetRequest);
+router.get('/destroy-token', destroyToken);
 
+router.get('/line-manager/verify', verifyLineManager, authoriseLineManager);
 router.get('/line-manager/claims/pending', authenticateLineManager, pendingClaimsForlineManagers);
 router.get('/line-manager/claims/pending/:claimId/approve', authenticateLineManager, approveClaim);
 router.get('/line-manager/claims/pending/:claimId/decline', authenticateLineManager, declineClaim);

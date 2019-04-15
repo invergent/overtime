@@ -1,15 +1,16 @@
 import sendgrid from '@sendgrid/mail';
+import { tenantsInfo } from '../../utils/general';
 
 class Mailer {
-  constructor(client) {
-    this.from = process.env[`${client}_EMAIL_ADDRESS`];
+  constructor(tenantRef) {
+    this.from = tenantsInfo[tenantRef].emailAddress;
   }
 
   create(email) {
     const { to, subject, html } = email;
     return {
       from: this.from,
-      to: 'invergenttechnologies@gmail.com',
+      to,
       subject,
       html
     };
