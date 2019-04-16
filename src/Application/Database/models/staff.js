@@ -48,6 +48,9 @@ const staff = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    changedPassword: {
+      type: DataTypes.BOOLEAN
     }
   }, { freezeTableName: true });
 

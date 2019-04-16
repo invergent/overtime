@@ -10,16 +10,18 @@ class ChangePassword {
     const {
       currentStaff: { staffId }, body: { currentPassword, newPassword }, tenantRef
     } = req;
+    const updatePayload = {};
 
     try {
       const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId);
       const isCorrect = await ChangePassword
         .currentPasswordIsCorrect(currentPassword, staff.password);
-      if (!isCorrect) {
-        return [401, 'Password is incorrect'];
-      }
+      if (!isCorrect) return [401, 'Password is incorrect'];
 
-      const updated = await StaffService.updateStaffInfo(tenantRef, staffId, 'password', newPassword);
+      if (currentPassword === 'password') updatePayload.changedPassword = true;
+      updatePayload.password = newPassword;
+
+      const updated = await StaffService.updateStaffInfo(tenantRef, staffId, updatePayload);
 
       if (updated) {
         notifications.emit(eventNames.LogEvent, [activityNames.ChangePassword, staffId]);

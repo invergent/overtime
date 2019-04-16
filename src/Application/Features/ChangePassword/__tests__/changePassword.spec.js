@@ -20,10 +20,11 @@ describe('ChangePassword Unit test', () => {
 
   it('should return a status of 500 if update fails', async () => {
     jest.spyOn(StaffService, 'findStaffByStaffIdOrEmail').mockResolvedValue('good');
-    jest.spyOn(StaffService, 'findStaffByStaffIdOrEmail').mockResolvedValue(false);
+    jest.spyOn(StaffService, 'updateStaffInfo').mockResolvedValue(false);
     jest.spyOn(ChangePassword, 'currentPasswordIsCorrect').mockReturnValue(true);
+    const mockRequest = { body: { currentPassword: 'passworded' }, currentStaff: {} };
 
-    const [status, message] = await ChangePassword.processPasswordUpdate(mockReq);
+    const [status, message] = await ChangePassword.processPasswordUpdate(mockRequest);
 
     expect(status).toBe(500);
     expect(message).toBe('Password not changed!');

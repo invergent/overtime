@@ -1,14 +1,11 @@
 import models from '../../../../Database/models';
 import BasicQuerier from '../BasicQuerier';
-import GenericHelpers from '../../helpers/GenericHelpers';
 
 const { Staff } = models;
 
 class StaffService {
-  static async updateStaffInfo(tenantRef, staffId, field, payloadToUpdate) {
-    const { payload, queryOptions } = GenericHelpers.staffUpdateQueryOptions(
-      tenantRef, staffId, field, payloadToUpdate
-    );
+  static async updateStaffInfo(tenantRef, staffId, payload) {
+    const queryOptions = { where: { tenantRef, staffId }, returning: true };
     const [updated] = await Staff.update(payload, queryOptions);
     return !!updated;
   }

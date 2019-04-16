@@ -12,7 +12,7 @@ export default async (req) => {
 
     if (!branch) return [404, 'Branch does not exist.'];
 
-    await StaffService.updateStaffInfo(tenantRef, staffId, 'branchId', branchId);
+    await StaffService.updateStaffInfo(tenantRef, staffId, { branchId });
     notifications.emit(eventNames.LogActivity, [activityNames.ChangeBranch, staffId, branch]);
     return [200, 'Branch updated successfully.', branch];
   } catch (e) {

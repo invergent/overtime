@@ -85,13 +85,6 @@ class GenericHelpers {
     return key;
   }
 
-  static staffUpdateQueryOptions(tenantRef, staffId, field, updatePayload) {
-    return {
-      payload: { [field]: updatePayload },
-      queryOptions: { where: { tenantRef, staffId }, returning: true }
-    };
-  }
-
   static fetchPendingClaimsOptions(tenantRef) {
     return {
       where: { tenantRef, ...GenericHelpers.claimStatusFilter('Awaiting') },
