@@ -10,17 +10,17 @@ notify.register(eventNames.NewClaim, EmailNotifications.notifySupervisorOfNewCla
 notify.register(eventNames.NewClaim, EmailNotifications.notifyStaffOfClaimSubmission);
 notify.register(eventNames.NewClaim, ActivityLogger.logClaimActivity);
 
-notify.register(eventNames.SupervisorApproved, EmailNotifications.notifyBSMSupervisorApproved);
-notify.register(eventNames.SupervisorApproved, EmailNotifications.notifyStaffSupervisorApproved);
-notify.register(eventNames.SupervisorApproved, InAppNotifications.notifyStaffSupervisorApproved);
+notify.register(eventNames.supervisorApproved, EmailNotifications.notifyBSMSupervisorApproved);
+notify.register(eventNames.supervisorApproved, EmailNotifications.notifyStaffSupervisorApproved);
+notify.register(eventNames.supervisorApproved, InAppNotifications.notifyStaffSupervisorApproved);
 
 notify.register(eventNames.BSMApproved, EmailNotifications.notifyStaffBSMApproved);
 notify.register(eventNames.BSMApproved, InAppNotifications.notifyStaffBSMApproved);
 // notify.register(eventNames.BSMApproved, EmailNotifications.notifyAdminOfApprovedClaim);
 
-notify.register(eventNames.SupervisorDeclined, EmailNotifications.notifyStaffSupervisorDeclined);
+notify.register(eventNames.supervisorDeclined, EmailNotifications.notifyStaffSupervisorDeclined);
 notify.register(eventNames.BSMDeclined, EmailNotifications.notifyStaffBSMDeclined);
-notify.register(eventNames.SupervisorDeclined, InAppNotifications.notifyStaffSupervisorDeclined);
+notify.register(eventNames.supervisorDeclined, InAppNotifications.notifyStaffSupervisorDeclined);
 notify.register(eventNames.BSMDeclined, InAppNotifications.notifyStaffBSMDeclined);
 
 notify.register(eventNames.Cancelled, EmailNotifications.notifyStaffCancelled);

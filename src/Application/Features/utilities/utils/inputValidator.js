@@ -9,10 +9,8 @@ export const formProperties = {
   },
   lineManager: {
     lineManagerRole: 'lineManagerRole',
-    lineManagerId: 'lineManagerId',
     firstname: 'firstname',
     lastname: 'lastname',
-    designation: 'designation',
     email: 'email'
   },
   branch: {

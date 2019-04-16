@@ -57,7 +57,7 @@ module.exports = {
                   <p>Click the button below to access all pending claims awaiting your approval.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="{{url}}/approvals?hash={{hash}}" target="_blank">
+                  <a href="{{url}}/line-manager/verify?hash={{hash}}" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>
@@ -93,7 +93,7 @@ module.exports = {
                   <p>Click the button below to access all pending claims awaiting your approval.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="{{url}}/approvals?hash={{hash}}" target="_blank">
+                  <a href="{{url}}/line-manager/verify?hash={{hash}}" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>

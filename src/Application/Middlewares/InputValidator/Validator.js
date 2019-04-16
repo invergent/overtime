@@ -34,7 +34,7 @@ class Validator {
 
   static lineManager(reqObject) {
     const {
-      lineManagerRole, lineManagerId, firstname, lastname, designation, email
+      lineManagerRole, firstname, lastname, email
     } = reqObject;
     const errors = [];
 
@@ -43,11 +43,9 @@ class Validator {
     }
 
     errors.push(...ValidatorHelpers.checkLineManagerRole(lineManagerRole));
-    errors.push(...ValidatorHelpers.checkPatternedFields('lineManagerId', lineManagerId, staffIdRegex));
     errors.push(...ValidatorHelpers.checkPatternedFields('email', email, emailRegex));
     errors.push(...ValidatorHelpers.checkForEmptyFields('firstname', firstname));
     errors.push(...ValidatorHelpers.checkForEmptyFields('lastname', lastname));
-    errors.push(...ValidatorHelpers.checkForEmptyFields('designation', designation));
 
     return errors;
   }

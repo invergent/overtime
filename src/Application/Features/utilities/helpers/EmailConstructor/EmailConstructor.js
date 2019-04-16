@@ -2,14 +2,13 @@ import EmailService from '../../services/EmailService';
 
 class EmailConstructor {
   static async create(tenantRef, emailDetails) {
-    const { email: emailAddress, emailTemplateName } = emailDetails;
-
+    const { email: emailAddress, lineManagerEmailAddress, emailTemplateName, hash } = emailDetails;
     const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
     const { htmlMessage, subject } = emailTemplate;
 
     const personalizedEmail = EmailConstructor.personalizeMessage(emailDetails, htmlMessage);
     return {
-      to: emailAddress,
+      to: hash ? lineManagerEmailAddress : emailAddress,
       subject,
       html: personalizedEmail
     };

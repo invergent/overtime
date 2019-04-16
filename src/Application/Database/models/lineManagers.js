@@ -1,10 +1,5 @@
 const lineManagers = (sequelize, DataTypes) => {
   const LineManagers = sequelize.define('LineManagers', {
-    lineManagerId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
     lineManagerRole: {
       type: DataTypes.ENUM('Supervisor', 'BSM'),
       allowNull: false
@@ -14,10 +9,6 @@ const lineManagers = (sequelize, DataTypes) => {
       allowNull: false
     },
     lastname: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    designation: {
       type: DataTypes.STRING,
       allowNull: false
     },
