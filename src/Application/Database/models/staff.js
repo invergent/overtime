@@ -59,6 +59,7 @@ const staff = (sequelize, DataTypes) => {
     Staff.belongsTo(models.Roles, { as: 'staffRole', foreignKey: 'role' });
     Staff.hasMany(models.Claims, { foreignKey: 'requester' });
     Staff.hasMany(models.Notifications, { as: 'notifications', foreignKey: 'userId' });
+    Staff.hasMany(models.Activities, { as: 'activities', foreignKey: 'staffId' });
   };
 
   Staff.beforeValidate((user) => {

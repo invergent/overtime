@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
 import services from '../utilities/services';
+import { eventNames, activityNames } from '../utilities/utils/types';
+import notifications from '../utilities/notifications';
 
 const { StaffService } = services;
 
@@ -18,6 +20,11 @@ class ChangePassword {
       }
 
       const updated = await StaffService.updateStaffInfo(tenantRef, staffId, 'password', newPassword);
+
+      if (updated) {
+        notifications.emit(eventNames.LogEvent, [activityNames.ChangePassword, staffId]);
+      }
+
       return [updated ? 200 : 500, `Password ${updated ? '' : 'not '}changed!`];
     } catch (e) {
       return [500, 'An error occurred ERR500CHGPSW'];

@@ -88,6 +88,18 @@ class Controller {
   static async markClaimsAsCompleted(req, res) {
     return Responder.respond(req, res, Administration.markClaimsAsCompleted);
   }
+
+  static async staffClaimStats(req, res) {
+    return Responder.respond(req, res, Claim.staffDashboardData);
+  }
+
+  static async staffPendingClaim(req, res) {
+    return Responder.respond(req, res, Claim.staffDashboardData);
+  }
+
+  static async staffActivities(req, res) {
+    return Responder.respond(req, res, Administration.staffActivities);
+  }
 }
 
 export default Controller;

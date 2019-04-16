@@ -22,6 +22,16 @@ describe('INIT tests', () => {
   });
 
   describe('Forgot password test', () => {
+    it('should fail if neither staffId nor email is provided', async () => {
+      const response = await request
+        .post('/forgot-password')
+        .send({});
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual('validationErrors');
+      expect(response.body.errors[0]).toEqual('Please provide either email or password');
+    });
+
     it('should fail if staffId is incorrect', async () => {
       const response = await request
         .post('/forgot-password')
@@ -32,13 +42,22 @@ describe('INIT tests', () => {
       expect(response.body.errors[0]).toEqual('Staff ID is invalid');
     });
 
-    it('should send a password reset email', async () => {
+    it('should send a password reset email for staff', async () => {
       const response = await request
         .post('/forgot-password')
         .send({ staffId: 'TN012345' });
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('We just sent an email to john.doe@init.com');
+    });
+
+    it('should send a password reset email for admin', async () => {
+      const response = await request
+        .post('/forgot-password')
+        .send({ email: 'theadmin@init.com' });
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('We just sent an email to theadmin@init.com');
     });
   });
 

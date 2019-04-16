@@ -2,7 +2,7 @@ import Validator from './Validator';
 import ValidatorHelpers from './ValidatorHelpers';
 import OvertimeRequestValidator from './OvertimeRequestValidator';
 import Dates from '../../Features/utilities/helpers/Dates';
-import { staffIdRegex } from '../../Features/utilities/utils/inputValidator';
+import { staffIdRegex, emailRegex } from '../../Features/utilities/utils/inputValidator';
 
 class InputValidator {
   static checkProps(req, res, next) {
@@ -33,9 +33,15 @@ class InputValidator {
     return next();
   }
 
-  static checkStaffId(req, res, next) {
-    const { staffId } = req.body;
-    const error = ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex);
+  static validateForgotPasswordRequest(req, res, next) {
+    const { staffId, email } = req.body;
+    let error = ['Please provide either email or password'];
+    if (!staffId && !email) return ValidatorHelpers.validatorResponder(res, error, next);
+
+    const fieldValue = staffId || email;
+    const fieldName = staffId ? 'Staff ID' : 'Email address';
+    const regex = staffId ? staffIdRegex : emailRegex;
+    error = ValidatorHelpers.checkPatternedFields(fieldName, fieldValue, regex);
 
     return ValidatorHelpers.validatorResponder(res, error, next);
   }

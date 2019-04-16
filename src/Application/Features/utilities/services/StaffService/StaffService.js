@@ -21,9 +21,7 @@ class StaffService {
     const searchColumn = identifier.includes('.com') ? 'email' : 'staffId';
     const options = { where: { tenantRef, [searchColumn]: identifier }, raw: true };
 
-    if (includes && Array.isArray(includes)) {
-      options.include = includes;
-    }
+    if (includes && Array.isArray(includes)) options.include = includes;
 
     return Staff.findOne(options);
   }

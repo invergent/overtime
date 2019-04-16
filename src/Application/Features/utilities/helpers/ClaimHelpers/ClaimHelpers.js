@@ -89,6 +89,34 @@ class ClaimHelpers {
     const pendingClaimIds = ClaimHelpers.getIdsOfFilteredPendingClaims(filteredResults);
     return pendingClaimIds;
   }
+
+  static async getStaffClaimStats(tenantRef, staffId) {
+    const claims = await ClaimService.fetchStaffClaims(tenantRef, staffId);
+    const claimStats = {
+      total: claims.length, completed: 0, declined: 0, cancelled: 0
+    };
+    return claims.reduce(ClaimHelpers.statAccumulator, claimStats);
+  }
+
+  static statAccumulator(acc, claim) {
+    if (claim.status === 'Completed') acc.completed += 1;
+    if (claim.status === 'Declined') acc.declined += 1;
+    if (claim.status === 'Cancelled') acc.cancelled += 1;
+    return acc;
+  }
+
+  static async fetchStaffPendingClaim(tenantRef, staffId) {
+    // a hack for a claim that is either awaiting or processing
+    const [pendingClaim] = await ClaimService.fetchStaffClaims(tenantRef, staffId, 'ing');
+    if (!pendingClaim) return {};
+
+    const {
+      monthOfClaim, weekday, weekend, shift, amount, status, createdAt
+    } = pendingClaim;
+    return {
+      monthOfClaim, weekday, weekend, shift, amount, status, createdAt
+    };
+  }
 }
 
 export default ClaimHelpers;

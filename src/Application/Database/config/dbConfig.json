@@ -2,12 +2,7 @@
   "development": {
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
-    "logging": false,
-    "dialectOptions": {
-      "ssl": {
-        "required": true
-      }
-    }
+    "logging": false
   },
   "test": {
     "use_env_variable": "TEST_DATABASE_URL",

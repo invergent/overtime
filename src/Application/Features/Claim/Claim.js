@@ -89,10 +89,26 @@ class Claim {
     const { tenantRef, params: { claimId }, staff } = req;
     try {
       const [updated, claim] = await ClaimService.cancelClaim(tenantRef, claimId);
-      notifications.emit(eventNames.Cancelled, [{ tenantRef, staff, claimId }]);
+      if (updated) {
+        notifications.emit(eventNames.Cancelled, [{ tenantRef, staff, claimId }]);
+      }
       return [200, `Claim${updated ? '' : ' not'} cancelled.`, claim[0]];
     } catch (e) {
       return [500, 'There was a problem cancelling your claim ERR500CLMCNL.'];
+    }
+  }
+
+  static async staffDashboardData(req) {
+    const { currentStaff: { staffId }, tenantRef, path } = req;
+
+    try {
+      const data = path.includes('statistics')
+        ? await ClaimHelpers.getStaffClaimStats(tenantRef, staffId)
+        : await ClaimHelpers.fetchStaffPendingClaim(tenantRef, staffId);
+
+      return [200, 'Request successful', data];
+    } catch (e) {
+      return [500, 'An error occurred ERR500DSHBOD.'];
     }
   }
 }

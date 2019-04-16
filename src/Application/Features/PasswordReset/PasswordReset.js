@@ -1,21 +1,22 @@
 import helpers from '../utilities/helpers';
 import services from '../utilities/services';
 import notifications from '../utilities/notifications';
-import { eventNames } from '../utilities/utils/types';
+import { eventNames, activityNames } from '../utilities/utils/types';
 
 const { krypter, PasswordResetHelper } = helpers;
 const { StaffService } = services;
 
 class PasswordReset {
   static async forgotPassword(req) {
-    const { body: { staffId }, tenantRef } = req;
+    const { body: { staffId, email }, tenantRef } = req;
+    const identifier = staffId || email;
 
-    const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, staffId, ['company']);
+    const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['company']);
     if (!staff) {
       return [404, 'Staff does not exist'];
     }
 
-    notifications.emit(eventNames.PasswordReset, [tenantRef, staff]);
+    notifications.emit(eventNames.ForgotPassword, [tenantRef, staff]);
     return [200, `We just sent an email to ${staff.email}`];
   }
 
@@ -53,6 +54,8 @@ class PasswordReset {
       }
 
       const updated = await StaffService.updateStaffInfo(tenantRef, staffId, 'password', password);
+      if (updated) notifications.emit(eventNames.LogActivity, [activityNames.PasswordReset, staffId]);
+
       return [updated ? 200 : 500, `Password reset ${updated ? '' : 'un'}successful!`];
     } catch (e) {
       return [500, 'An error occured ERR500PSWRST'];

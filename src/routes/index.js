@@ -14,11 +14,11 @@ const {
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
   submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
-  markClaimsAsCompleted
+  markClaimsAsCompleted, staffClaimStats, staffActivities
 } = Controller;
 const {
-  checkProps, checkEntries, checkBranchId, checkStaffId, checkOvertimeProps, checkDocType,
-  checkOvertimeValues, checkFileType
+  checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
+  checkDocType, checkOvertimeValues, checkFileType
 } = InputValidator;
 const {
   authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager,
@@ -27,18 +27,21 @@ const {
 
 router.post('/signin', checkProps, checkEntries, authoriseStaff);
 router.post('/admin/login', checkProps, checkEntries, authoriseAdmin);
-router.post('/forgot-password', checkProps, checkStaffId, forgotPassword);
+router.post('/forgot-password', validateForgotPasswordRequest, forgotPassword);
 router.get('/confirm-reset-request', confirmPasswordResetRequest);
 router.get('/destroy-token', destroyToken);
 
 router.get('/line-manager/verify', verifyLineManager, authoriseLineManager);
 router.get('/line-manager/claims/pending', authenticateLineManager, pendingClaimsForlineManagers);
-router.get('/line-manager/claims/pending/:claimId/approve', authenticateLineManager, approveClaim);
-router.get('/line-manager/claims/pending/:claimId/decline', authenticateLineManager, declineClaim);
+router.put('/line-manager/claims/pending/:claimId/approve', authenticateLineManager, approveClaim);
+router.put('/line-manager/claims/pending/:claimId/decline', authenticateLineManager, declineClaim);
 
+router.get('/users/claims/statistics', authenticateStaff, staffClaimStats);
+router.get('/users/claims/pending', authenticateStaff, staffClaimStats);
 router.post('/users/claim',
   authenticateStaff, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
 router.delete('/users/claims/:claimId', authenticateStaff, validateClaimAccess, cancelClaim);
+router.get('/users/activities', authenticateStaff, staffActivities);
 
 router.post('/users/profile/change-password',
   authenticateStaff, checkProps, checkEntries, changePassword);
