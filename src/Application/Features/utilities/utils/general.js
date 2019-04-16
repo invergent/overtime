@@ -22,8 +22,8 @@ export const exportDocHeaders = [
 ];
 
 export const notificationActivities = {
-  SupervisorApproved: 'Your claim was approved by your supervisor. It is awaiting your BSM\'s approval.',
-  SupervisorDeclined: 'Your claim was declined by your supervisor.',
+  supervisorApproved: 'Your claim was approved by your supervisor. It is awaiting your BSM\'s approval.',
+  supervisorDeclined: 'Your claim was declined by your supervisor.',
   BSMApproved: 'Your claim was approved by your BSM. It is now being processed by Admin.',
   BSMDeclined: 'Your claim was declined by your BSM.',
   adminProcessed: 'Your claim has been processed. It is now being processed for payment.',

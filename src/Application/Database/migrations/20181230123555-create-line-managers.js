@@ -6,11 +6,6 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    lineManagerId: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
-    },
     lineManagerRole: {
       type: Sequelize.ENUM('Supervisor', 'BSM'),
       allowNull: false
@@ -20,10 +15,6 @@ module.exports = {
       allowNull: false
     },
     lastname: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    designation: {
       type: Sequelize.STRING,
       allowNull: false
     },

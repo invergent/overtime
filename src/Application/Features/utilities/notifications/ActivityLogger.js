@@ -3,7 +3,6 @@ import { activityNames } from '../utils/types';
 
 class ActivityLogger {
   static log(activity, staffId, data) {
-    console.log(' can you see me?');
     if (activity.includes('lineManager')) activity = ActivityLogger.refineChangeLineManagerLog(activity, data);
     if (activity.includes('{{branchName}}')) activity = ActivityLogger.refineChangeBranchLog(data);
     return ActivityService.logActivity(activity, staffId);
@@ -16,7 +15,7 @@ class ActivityLogger {
   static refineChangeLineManagerLog(activity, data) {
     const { firstname: fs, lastname: ls, lineManagerRole: lr } = data;
     if (activity.includes('Added')) return `Added ${fs} ${ls} as ${lr}`;
-    if (activity.includes('Updated')) return `Changed ${lr} to ${fs} ${ls}`;
+    return `Changed ${lr} to ${fs} ${ls}`;
   }
 
   static refineChangeBranchLog(data) {

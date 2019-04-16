@@ -17,7 +17,7 @@ class Claim {
       const { messageWhenCreated, messageWhenNotCreated } = ClaimHelpers.responseMessage(
         overtimeRequest
       );
-
+      
       const [claim, created] = await ClaimService.findOrCreateClaim(tenantRef, overtimeRequest);
       if (created) {
         notifications.emit(eventNames.NewClaim, [{ tenantRef, staff }]);

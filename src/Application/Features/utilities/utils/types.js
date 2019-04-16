@@ -3,8 +3,8 @@ export const templateNames = Object.freeze({
   NewClaimSupervisor: 'New Claim Supervisor',
   NewClaimBSM: 'New Claim BSM',
   NewClaimStaff: 'New Claim Staff',
-  SupervisorApproved: 'Supervisor Approved',
-  SupervisorDeclined: 'Supervisor Declined',
+  supervisorApproved: 'Supervisor Approved',
+  supervisorDeclined: 'Supervisor Declined',
   BSMApproved: 'BSM Approved',
   BSMDeclined: 'BSM Declined',
   Cancelled: 'Claim Cancelled',
@@ -13,15 +13,15 @@ export const templateNames = Object.freeze({
 });
 
 export const roleNames = Object.freeze({
-  Supervisor: 'Supervisor',
-  Bsm: 'BSM'
+  supervisor: 'supervisor',
+  BSM: 'BSM'
 });
 
 export const eventNames = Object.freeze({
   ForgotPassword: 'ForgotPassword',
   NewClaim: 'NewClaim',
-  SupervisorApproved: 'SupervisorApproved',
-  SupervisorDeclined: 'SupervisorDeclined',
+  supervisorApproved: 'supervisorApproved',
+  supervisorDeclined: 'supervisorDeclined',
   BSMApproved: 'BSMApproved',
   BSMDeclined: 'BSMDeclined',
   Cancelled: 'Cancelled',

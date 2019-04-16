@@ -11,20 +11,16 @@ jest.mock('@sendgrid/mail');
 const { LineManagers } = models;
 
 const supervisorsDetails = {
-  lineManagerId: 'TN234563',
   lineManagerRole: 'Supervisor',
   firstname: 'firstname',
   lastname: 'lastname',
-  designation: 'designation',
   email: 'email@email.com'
 };
 
 const supervisorsIncorrectDetails = {
-  lineManagerId: 'TN234563678',
   lineManagerRole: 'Super',
   firstname: '   ',
   lastname: '   ',
-  designation: '     ',
   email: 'email'
 };
 
@@ -82,7 +78,7 @@ describe('INIT: Add or Change Line Manager', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors.length).toEqual(7);
+      expect(response.body.errors.length).toEqual(5);
     });
 
     it('should fail if fields are missing', async () => {
@@ -115,8 +111,7 @@ describe('INIT: Add or Change Line Manager', () => {
       const bsm = {
         ...supervisorsDetails,
         email: 'newEmail@email.com',
-        lineManagerRole: 'BSM',
-        lineManagerId: 'TN054321'
+        lineManagerRole: 'BSM'
       };
       const response = await request
         .post('/users/profile/line-manager')
@@ -144,7 +139,6 @@ describe('INIT: Add or Change Line Manager', () => {
         ...supervisorsDetails,
         email: 'newEmail@email.com',
         lineManagerRole: 'BSM',
-        lineManagerId: 'TN054321'
       };
 
       const response = await request

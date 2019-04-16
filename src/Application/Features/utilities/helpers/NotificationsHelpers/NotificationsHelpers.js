@@ -11,14 +11,12 @@ class NotificationsHelpers {
   }
 
   static createLineManagerEmailDetails(staff, lineManagerRole) {
-    const emailTemplateName = lineManagerRole === roleNames.Bsm
+    const emailTemplateName = lineManagerRole === roleNames.BSM
       ? templateNames.NewClaimBSM : templateNames.NewClaimSupervisor;
-    const id = lineManagerRole === roleNames.Bsm
+    const id = lineManagerRole === roleNames.BSM
       ? staff['BSM.id'] : staff['supervisor.id'];
-    const lineManagerId = lineManagerRole === roleNames.Bsm
-      ? staff['BSM.lineManagerId'] : staff['supervisor.lineManagerId'];
 
-    const payload = { id, lineManagerId, lineManagerRole };
+    const payload = { id, lineManagerRole };
     const hashedToken = krypter.authenticationEncryption('lineManager', payload);
 
     return [hashedToken, emailTemplateName];

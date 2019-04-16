@@ -5,12 +5,12 @@ import pusher from './pusher';
 
 const { NotificationService } = services;
 const {
-  SupervisorApproved, SupervisorDeclined, BSMApproved, BSMDeclined
+  supervisorApproved, supervisorDeclined, BSMApproved, BSMDeclined
 } = eventNames;
 
 class InAppNotifications {
   static notifyStaffSupervisorApproved(data) {
-    return InAppNotifications.recordAndNotifyStaff(data, SupervisorApproved);
+    return InAppNotifications.recordAndNotifyStaff(data, supervisorApproved);
   }
 
   static notifyStaffBSMApproved(data) {
@@ -18,7 +18,7 @@ class InAppNotifications {
   }
 
   static notifyStaffSupervisorDeclined(data) {
-    return InAppNotifications.recordAndNotifyStaff(data, SupervisorDeclined);
+    return InAppNotifications.recordAndNotifyStaff(data, supervisorDeclined);
   }
 
   static notifyStaffBSMDeclined(data) {

@@ -8,7 +8,6 @@ class EmailNotifications {
     const email = await NotificationsHelpers.createEmail(
       tenantRef, staff, emailTemplateName, hashedToken
     );
-
     return EmailNotifications.sender(tenantRef, email);
   }
 
@@ -24,7 +23,13 @@ class EmailNotifications {
     const { tenantRef, staff, lineManagerRole } = data;
     const [hashedToken, emailTemplateName] = NotificationsHelpers
       .createLineManagerEmailDetails(staff, lineManagerRole);
-    return EmailNotifications.sendNotificationEmail(tenantRef, staff, emailTemplateName, hashedToken);
+
+    const newStaff = {
+      ...staff,
+      lineManagerEmailAddress: staff[`${lineManagerRole}.email`]
+    };
+
+    return EmailNotifications.sendNotificationEmail(tenantRef, newStaff, emailTemplateName, hashedToken);
   }
 
   static sendStaffNotifications(data, notificationType) {
@@ -43,12 +48,14 @@ class EmailNotifications {
   }
 
   static notifySupervisorOfNewClaim(data) {
-    EmailNotifications.sendLineManagerNotifications(data);
+    const newData = { ...data, lineManagerRole: roleNames.supervisor };
+    EmailNotifications.sendLineManagerNotifications(newData);
   }
 
   static notifyBSMSupervisorApproved(data) {
-    data.lineManagerRole = roleNames.Bsm; // set lineManager role to BSM to notify BSM
-    EmailNotifications.sendLineManagerNotifications(data);
+    // set lineManager role to BSM to notify BSM
+    const newData = { ...data, lineManagerRole: roleNames.BSM };
+    EmailNotifications.sendLineManagerNotifications(newData);
   }
 
   static notifyStaffOfClaimSubmission(data) {

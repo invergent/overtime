@@ -13,20 +13,20 @@ class GenericHelpers {
     const payload = { status: 'Declined' };
     if (approvalType === 'decline') return payload;
 
-    const status = lineManagerRole === 'Supervisor' ? 'Awaiting BSM' : 'Processing';
+    const status = lineManagerRole === 'supervisor' ? 'Awaiting BSM' : 'Processing';
     payload.status = status;
     return payload;
   }
 
   static createQueryOptions(tenantRef, lineManager) {
-    const { lineManagerId, lineManagerRole } = lineManager;
+    const { id, lineManagerRole } = lineManager;
     const bsmOrSupervisorStaff = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
 
     const claimsWhereOptions = { tenantRef, status: 'Awaiting supervisor' };
     if (lineManagerRole === 'BSM') claimsWhereOptions.status = 'Awaiting BSM';
 
     const options = {
-      where: { lineManagerId },
+      where: { id },
       include: [{
         model: Staff,
         as: bsmOrSupervisorStaff,
