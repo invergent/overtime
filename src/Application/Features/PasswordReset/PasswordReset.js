@@ -49,11 +49,9 @@ class PasswordReset {
       const [statusCode, message] = await PasswordResetHelper
         .findAndValidateResetRequest(tenantRef, staffId, hash);
 
-      if (message !== 'valid') {
-        return [statusCode, message];
-      }
+      if (message !== 'valid') return [statusCode, message];
 
-      const updated = await StaffService.updateStaffInfo(tenantRef, staffId, 'password', password);
+      const updated = await StaffService.updateStaffInfo(tenantRef, staffId, { password });
       if (updated) notifications.emit(eventNames.LogActivity, [activityNames.PasswordReset, staffId]);
 
       return [updated ? 200 : 500, `Password reset ${updated ? '' : 'un'}successful!`];
