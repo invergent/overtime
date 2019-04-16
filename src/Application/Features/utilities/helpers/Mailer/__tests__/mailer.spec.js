@@ -1,6 +1,7 @@
 import sendgrid from '@sendgrid/mail';
 import Mailer from '../Mailer';
 import { tenantsInfo } from '../../../utils/general';
+
 import {
   mockEmail, mockFilteredStaffWithPendingClaims
 } from '../../../../../../__tests__/__mocks__';

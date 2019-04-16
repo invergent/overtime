@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import supertest from 'supertest';
 import app from '../../../app';
 import models from '../../../Application/Database/models';
+import { tenantsInfo } from '../../../Application/Features/utilities/utils/general';
+import EmailNotifications from '../../../Application/Features/utilities/notifications/EmailNotifications';
 
 jest.mock('@sendgrid/mail');
 
@@ -26,6 +28,8 @@ const supervisorsIncorrectDetails = {
   email: 'email'
 };
 
+tenantsInfo.INIT = { emailAddress: 'someEmailAddress' };
+
 describe('INIT: Add or Change Line Manager', () => {
   let server;
   let request;
@@ -47,11 +51,13 @@ describe('INIT: Add or Change Line Manager', () => {
       // signin a user
       const response = await request
         .post('/signin')
-        .send({ staffId: 'TN012345', password: 'password' })
+        .send({ staffId: 'TN098432', password: 'password' })
         .set('Accept', 'application/json');
 
       token = response.header['set-cookie'];
     });
+
+    beforeEach(() => jest.spyOn(EmailNotifications, 'sender').mockImplementation(() => {}));
 
     afterEach(() => {
       jest.resetAllMocks();
@@ -131,6 +137,24 @@ describe('INIT: Add or Change Line Manager', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Supervisor updated successfully.');
+    });
+
+    it('should update BSM if BSM already exists', async () => {
+      const bsm = {
+        ...supervisorsDetails,
+        email: 'newEmail@email.com',
+        lineManagerRole: 'BSM',
+        lineManagerId: 'TN054321'
+      };
+
+      const response = await request
+        .post('/users/profile/line-manager')
+        .set('cookie', token)
+        .set('Accept', 'application/json')
+        .send(bsm);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('BSM updated successfully.');
     });
 
     it('should respond with an error message if an error occurs', async () => {

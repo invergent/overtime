@@ -3,6 +3,9 @@ import http from 'http';
 import app from '../../../app';
 import { supervisorHash, bsmHash } from '../testUtils';
 import EmailNotifications from '../../../Application/Features/utilities/notifications/EmailNotifications';
+import { tenantsInfo } from '../../../Application/Features/utilities/utils/general';
+
+tenantsInfo.INIT = { emailAddress: 'someEmailAddress' };
 
 jest.mock('@sendgrid/mail');
 
@@ -37,21 +40,21 @@ describe('Claim Approval Tests', () => {
     });
 
     it('should fail if claim is not amongst pending claims assigned to the line manager for approval.', async () => {
-      const response = await request.get('/line-manager/claims/pending/1/approve').set('cookie', supervisorToken);
+      const response = await request.put('/line-manager/claims/pending/1/approve').set('cookie', supervisorToken);
 
       expect(response.status).toBe(403);
       expect(response.body.message).toEqual('This claim is not on your pending list. Access denied.');
     });
 
     it('should approve claim.', async () => {
-      const response = await request.get('/line-manager/claims/pending/3/approve').set('cookie', supervisorToken);
+      const response = await request.put('/line-manager/claims/pending/3/approve').set('cookie', supervisorToken);
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Claim approved.');
       expect(response.body.data.status).toEqual('Awaiting BSM');
     });
 
     it('should decline claim.', async () => {
-      const response = await request.get('/line-manager/claims/pending/4/decline').set('cookie', supervisorToken);
+      const response = await request.put('/line-manager/claims/pending/4/decline').set('cookie', supervisorToken);
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Claim declined.');
       expect(response.body.data.status).toEqual('Declined');
@@ -74,14 +77,14 @@ describe('Claim Approval Tests', () => {
     });
 
     it('should approve claim.', async () => {
-      const response = await request.get('/line-manager/claims/pending/1/approve').set('cookie', bsmToken);
+      const response = await request.put('/line-manager/claims/pending/1/approve').set('cookie', bsmToken);
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Claim approved.');
       expect(response.body.data.status).toEqual('Processing');
     });
 
     it('should decline claim.', async () => {
-      const response = await request.get('/line-manager/claims/pending/2/decline').set('cookie', bsmToken);
+      const response = await request.put('/line-manager/claims/pending/2/decline').set('cookie', bsmToken);
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Claim declined.');

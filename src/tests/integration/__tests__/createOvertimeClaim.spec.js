@@ -87,6 +87,8 @@ describe('Create Claim Tests', () => {
       token = response.header['set-cookie'];
     });
 
+    beforeEach(() => jest.spyOn(EmailNotifications, 'sender').mockImplementation(() => {}));
+
     it('should fail if request is empty', async () => {
       const response = await request
         .post('/users/claim')

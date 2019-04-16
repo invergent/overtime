@@ -112,6 +112,13 @@ class GenericHelpers {
       raw: true
     };
   }
+
+  static staffPendingClaimOptions(tenantRef, staffId, statusType) {
+    return {
+      where: { tenantRef, ...GenericHelpers.claimStatusFilter(statusType) },
+      include: [{ model: Staff, where: { staffId } }]
+    };
+  }
 }
 
 export default GenericHelpers;

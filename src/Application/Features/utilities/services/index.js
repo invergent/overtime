@@ -8,8 +8,10 @@ import PasswordResetService from './PasswordResetService';
 import SettingService from './SettingService';
 import StaffService from './StaffService';
 import TenantService from './TenantService';
+import ActivityService from './ActivityService';
 
 export default {
+  ActivityService,
   BasicQuerier,
   BranchService,
   ClaimService,

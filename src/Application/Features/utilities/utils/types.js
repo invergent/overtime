@@ -18,12 +18,21 @@ export const roleNames = Object.freeze({
 });
 
 export const eventNames = Object.freeze({
-  PasswordReset: 'passwordReset',
+  ForgotPassword: 'ForgotPassword',
   NewClaim: 'NewClaim',
   SupervisorApproved: 'SupervisorApproved',
   SupervisorDeclined: 'SupervisorDeclined',
   BSMApproved: 'BSMApproved',
   BSMDeclined: 'BSMDeclined',
   Cancelled: 'Cancelled',
-  Reminder: 'Reminder'
+  Reminder: 'Reminder',
+  LogActivity: 'LogActivity'
+});
+
+export const activityNames = Object.freeze({
+  PasswordReset: 'Requested a PasswordReset.',
+  ChangePassword: 'Updated password',
+  ChangeBranch: 'Changed branch to {{branchName}}',
+  NewClaim: 'Created a new claim',
+  Cancelled: 'Cancelled claim'
 });

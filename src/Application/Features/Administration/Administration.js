@@ -2,7 +2,9 @@ import helpers from '../utilities/helpers';
 import services from '../utilities/services';
 
 const { AdministrationHelpers } = helpers;
-const { StaffService, BranchService, ClaimService } = services;
+const {
+  StaffService, BranchService, ClaimService, ActivityService
+} = services;
 
 class Administration {
   static async createStaff(req) {
@@ -56,6 +58,12 @@ class Administration {
     } catch (e) {
       return [500, 'An error occurred while marking claims as completed ERR500CLMMCC.', e];
     }
+  }
+
+  static async staffActivities(req) {
+    const { currentStaff: { staffId }, query: { limit } } = req;
+    const activities = await ActivityService.fetchActivities(staffId, limit);
+    return [200, 'Request successful', activities];
   }
 }
 
