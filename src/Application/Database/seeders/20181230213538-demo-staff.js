@@ -13,7 +13,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 4,
     bsmId: 2,
-    role: 1,
+    roleId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -29,7 +29,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 1,
     bsmId: 2,
-    role: 2,
+    roleId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -45,7 +45,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 4,
     bsmId: 2,
-    role: 3,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -61,7 +61,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 4,
     bsmId: 2,
-    role: 2,
+    roleId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -77,7 +77,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 4,
     bsmId: 2,
-    role: 2,
+    roleId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -93,7 +93,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 4,
     bsmId: 2,
-    role: 2,
+    roleId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -109,7 +109,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 1,
     bsmId: 3,
-    role: 4,
+    roleId: 4,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -125,7 +125,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 1,
     bsmId: 3,
-    role: 3,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -138,7 +138,7 @@ module.exports = {
     email: 'theadmin@init.com',
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
-    role: 3,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -151,7 +151,7 @@ module.exports = {
     email: 'james@invergent-technologies.com',
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
-    role: 3,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   }]),

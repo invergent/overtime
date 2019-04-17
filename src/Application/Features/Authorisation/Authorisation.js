@@ -10,7 +10,7 @@ class Authorisation {
     const errorCode = tokenType === 'adminToken' ? 'ADMLGN' : 'STFLGN';
 
     try {
-      const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['staffRole']);
+      const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['role']);
       if (!staff) return [404, 'Staff not found'];
 
       const [statusCode, message, data] = AuthorisationHelpers.comparePassword(password, staff);

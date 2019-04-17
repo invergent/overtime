@@ -4,7 +4,7 @@ import Responder from './Responder';
 
 const {
   Authorisation, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword, Claim,
-  exportDoc, Settings, Administration
+  exportDoc, Settings, Administration, Users
 } = features;
 
 class Controller {
@@ -90,15 +90,19 @@ class Controller {
   }
 
   static async staffClaimStats(req, res) {
-    return Responder.respond(req, res, Claim.staffDashboardData);
+    return Responder.respond(req, res, Users.Staff.dashboardData);
   }
 
   static async staffPendingClaim(req, res) {
-    return Responder.respond(req, res, Claim.staffDashboardData);
+    return Responder.respond(req, res, Users.Staff.dashboardData);
   }
 
   static async staffActivities(req, res) {
-    return Responder.respond(req, res, Administration.staffActivities);
+    return Responder.respond(req, res, Users.Staff.activities);
+  }
+
+  static async staffProfileData(req, res) {
+    return Responder.respond(req, res, Users.Staff.profileData);
   }
 }
 

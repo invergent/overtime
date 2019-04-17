@@ -7,6 +7,7 @@ import Dates from './Dates';
 import NotificationsHelpers from './NotificationsHelpers';
 import ClaimHelpers from './ClaimHelpers';
 import GenericHelpers from './GenericHelpers';
+import UsersHelpers from './UsersHelpers';
 
 export default {
   AdministrationHelpers,
@@ -17,5 +18,6 @@ export default {
   PasswordResetHelper,
   Dates,
   ClaimHelpers,
-  GenericHelpers
+  GenericHelpers,
+  UsersHelpers
 };

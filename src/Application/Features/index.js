@@ -7,6 +7,7 @@ import ChangePassword from './ChangePassword';
 import Claim from './Claim';
 import exportDoc from './exportDoc';
 import Settings from './Settings';
+import Users from './Users';
 
 export default {
   Administration,
@@ -17,5 +18,6 @@ export default {
   ChangePassword,
   Claim,
   exportDoc,
-  Settings
+  Settings,
+  Users
 };

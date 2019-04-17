@@ -45,12 +45,13 @@ const staff = (sequelize, DataTypes) => {
     bsmId: {
       type: DataTypes.INTEGER
     },
-    role: {
+    roleId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
     changedPassword: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, { freezeTableName: true });
 
@@ -58,8 +59,8 @@ const staff = (sequelize, DataTypes) => {
     Staff.belongsTo(models.Tenants, { as: 'company', foreignKey: 'tenantRef', targetKey: 'ref' });
     Staff.belongsTo(models.LineManagers, { as: 'supervisor', foreignKey: 'supervisorId' });
     Staff.belongsTo(models.LineManagers, { as: 'BSM', foreignKey: 'bsmId' });
-    Staff.belongsTo(models.Branch, { foreignKey: 'branchId' });
-    Staff.belongsTo(models.Roles, { as: 'staffRole', foreignKey: 'role' });
+    Staff.belongsTo(models.Branch, { as: 'branch', foreignKey: 'branchId' });
+    Staff.belongsTo(models.Roles, { as: 'role', foreignKey: 'roleId' });
     Staff.hasMany(models.Claims, { foreignKey: 'requester' });
     Staff.hasMany(models.Notifications, { as: 'notifications', foreignKey: 'userId' });
     Staff.hasMany(models.Activities, { as: 'activities', foreignKey: 'staffId' });
