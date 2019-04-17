@@ -17,7 +17,7 @@ class Claim {
       const { messageWhenCreated, messageWhenNotCreated } = ClaimHelpers.responseMessage(
         overtimeRequest
       );
-      
+
       const [claim, created] = await ClaimService.findOrCreateClaim(tenantRef, overtimeRequest);
       if (created) {
         notifications.emit(eventNames.NewClaim, [{ tenantRef, staff }]);
@@ -95,20 +95,6 @@ class Claim {
       return [200, `Claim${updated ? '' : ' not'} cancelled.`, claim[0]];
     } catch (e) {
       return [500, 'There was a problem cancelling your claim ERR500CLMCNL.'];
-    }
-  }
-
-  static async staffDashboardData(req) {
-    const { currentStaff: { staffId }, tenantRef, path } = req;
-
-    try {
-      const data = path.includes('statistics')
-        ? await ClaimHelpers.getStaffClaimStats(tenantRef, staffId)
-        : await ClaimHelpers.fetchStaffPendingClaim(tenantRef, staffId);
-
-      return [200, 'Request successful', data];
-    } catch (e) {
-      return [500, 'An error occurred ERR500DSHBOD.'];
     }
   }
 }

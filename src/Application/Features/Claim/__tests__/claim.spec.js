@@ -42,16 +42,4 @@ describe('Claim Unit Test', () => {
       expect(result[1]).toEqual('There was a problem cancelling your claim ERR500CLMCNL.');
     });
   });
-
-  describe('staff Dashboard details', () => {
-    it('should fail if an error occurs while attempting to fetch dashboard details.', async () => {
-      jest.spyOn(ClaimHelpers, 'fetchStaffPendingClaim').mockRejectedValue('err');
-
-      const result = await Claim.staffDashboardData(mockReq);
-
-      expect(result).toHaveLength(2);
-      expect(result[0]).toEqual(500);
-      expect(result[1]).toEqual('An error occurred ERR500DSHBOD.');
-    });
-  });
 });

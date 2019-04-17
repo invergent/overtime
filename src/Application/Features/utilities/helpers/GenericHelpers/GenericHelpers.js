@@ -70,10 +70,7 @@ class GenericHelpers {
       },
       include: [{
         model: Staff,
-        include: [
-          { model: Branch },
-          { model: Roles, as: 'staffRole' }
-        ]
+        include: ['branch', 'role']
       }],
       raw: true
     };

@@ -42,9 +42,9 @@ class AdministrationHelpers {
         'Staff.firstname': firstname,
         'Staff.lastname': lastname,
         'Staff.middleName': middlename,
-        'Staff.Branch.solId': solId,
-        'Staff.Branch.branchName': branch,
-        'Staff.staffRole.name': role
+        'Staff.branch.solId': solId,
+        'Staff.branch.branchName': branch,
+        'Staff.role.name': role
       } = result;
       return {
         weekday,

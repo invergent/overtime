@@ -93,5 +93,13 @@ describe('Staff Dashboard Info', () => {
       expect(response.body.message).toEqual('Request successful');
       expect(response.body.data.length).toBe(2);
     });
+
+    it("should return staff's profile information.", async () => {
+      const response = await request.get('/users/profile').set('cookie', token2);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Request successful');
+      expect(response.body.data.firstname).toBe('King');
+    });
   });
 });

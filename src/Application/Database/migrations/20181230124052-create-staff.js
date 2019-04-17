@@ -72,7 +72,7 @@ module.exports = {
         as: 'BSM'
       }
     },
-    role: {
+    roleId: {
       type: Sequelize.INTEGER,
       onDelete: 'SET NULL',
       references: {
@@ -82,7 +82,8 @@ module.exports = {
       }
     },
     changedPassword: {
-      type: Sequelize.BOOLEAN
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     createdAt: {
       allowNull: false,

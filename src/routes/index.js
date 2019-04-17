@@ -14,7 +14,7 @@ const {
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
   submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
-  markClaimsAsCompleted, staffClaimStats, staffActivities
+  markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
@@ -41,8 +41,9 @@ router.get('/users/claims/pending', authenticateStaff, staffClaimStats);
 router.post('/users/claim',
   authenticateStaff, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
 router.delete('/users/claims/:claimId', authenticateStaff, validateClaimAccess, cancelClaim);
-router.get('/users/activities', authenticateStaff, staffActivities);
 
+router.get('/users/activities', authenticateStaff, staffActivities);
+router.get('/users/profile', authenticateStaff, staffProfileData);
 router.post('/users/profile/change-password',
   authenticateStaff, checkProps, checkEntries, changePassword);
 router.post('/users/profile/line-manager',
