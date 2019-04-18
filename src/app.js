@@ -1,8 +1,9 @@
 import '@babel/polyfill';
 import bodyParser from 'body-parser';
+import cloudinary from 'cloudinary';
 import cookieParser from 'cookie-parser';
-import express from 'express';
 import cors from 'express-cors';
+import express from 'express';
 import fileUpload from 'express-fileupload';
 import subdomain from 'express-subdomain';
 import Cron from './Application/Features/Cron';
@@ -15,7 +16,19 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(fileUpload());
+app.use(fileUpload({
+  abortOnLimit: true,
+  responseOnLimit: 'File too large',
+  useTempFiles: true,
+  tempFileDir: `${__dirname}/uploads/`
+}));
+
+// Configuration to uploading to cloudinary
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
 
 if (!originsUpdated) {
   TenantService.mapForCors().then((allowedOrigins) => {

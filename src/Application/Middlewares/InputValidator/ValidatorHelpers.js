@@ -22,9 +22,19 @@ class ValidatorHelpers {
     return [];
   }
 
-  static checkFileType(excelDoc) {
-    const fileExtension = excelDoc.name.slice(-4);
-    if (fileExtension !== 'xlsx') return ['file type must be xlsx'];
+  static checkFileType(files) {
+    const { excelDoc, image } = files;
+    const imageTypes = '.jpg, .jpeg, .png or .svg';
+    const expectedFileType = excelDoc ? 'xlsx' : imageTypes;
+
+    const file = excelDoc || image;
+    const fileNameSplits = file.name.split('.');
+    const fileExtension = fileNameSplits[fileNameSplits.length - 1];
+
+    // if file is neither an excel doc or an image file, return an error
+    if ((fileExtension !== 'xlsx') && (!imageTypes.includes(fileExtension))) {
+      return [`file type must be ${expectedFileType}`];
+    }
     return [];
   }
 

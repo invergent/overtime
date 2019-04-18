@@ -14,7 +14,7 @@ const {
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
   submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
-  markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData
+  markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData, uploadImage
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
@@ -38,18 +38,18 @@ router.put('/line-manager/claims/pending/:claimId/decline', authenticateLineMana
 
 router.get('/users/claims/statistics', authenticateStaff, staffClaimStats);
 router.get('/users/claims/pending', authenticateStaff, staffClaimStats);
-router.post('/users/claim',
-  authenticateStaff, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
+router.post('/users/claim', authenticateStaff, checkOvertimeProps, checkOvertimeValues, createOvertimeClaim);
 router.delete('/users/claims/:claimId', authenticateStaff, validateClaimAccess, cancelClaim);
 
 router.get('/users/activities', authenticateStaff, staffActivities);
+
 router.get('/users/profile', authenticateStaff, staffProfileData);
-router.post('/users/profile/change-password',
-  authenticateStaff, checkProps, checkEntries, changePassword);
-router.post('/users/profile/line-manager',
-  authenticateStaff, checkProps, checkEntries, addOrChangeLineManager);
+router.post('/users/profile/image', authenticateStaff, checkProps, checkFileType, uploadImage);
+router.post('/users/profile/change-password', authenticateStaff, checkProps, checkEntries, changePassword);
+router.post('/users/profile/line-manager', authenticateStaff, checkProps, checkEntries, addOrChangeLineManager);
 router.put('/users/profile/branch', authenticateStaff, checkProps, checkBranchId, updateBranch);
 router.post('/users/profile/reset', authenticateStaff, checkEntries, resetPassword);
+
 
 router.get('/admin/claims', authenticateAdmin, submittedClaims);
 router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exportDoc);
@@ -57,9 +57,9 @@ router.put('/admin/claims/completed', authenticateAdmin, markClaimsAsCompleted);
 
 router.put('/admin/settings/email-schedule', authenticateAdmin, checkProps, checkEntries, updateEmailSchedule);
 
-router.post('/admin/staff', checkProps, checkFileType, validateExcelValues, createStaff);
+router.post('/admin/staff', authenticateAdmin, checkProps, checkFileType, validateExcelValues, createStaff);
 
-router.post('/admin/branches', checkProps, checkFileType, validateExcelValues, createBranches);
+router.post('/admin/branches', authenticateAdmin, checkProps, checkFileType, validateExcelValues, createBranches);
 
 router.get('/', (req, res) => res.status(200).json({ message: `${req.tenantRef} boarded` }));
 
