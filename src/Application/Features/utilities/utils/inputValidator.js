@@ -16,6 +16,9 @@ export const formProperties = {
   branch: {
     branchId: 'branchId'
   },
+  image: {
+    image: 'image'
+  },
   forgotPassword: {
     staffId: 'staffId'
   },

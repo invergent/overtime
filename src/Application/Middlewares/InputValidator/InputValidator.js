@@ -68,8 +68,7 @@ class InputValidator {
   }
 
   static checkFileType(req, res, next) {
-    const { files: { excelDoc } } = req;
-    const errors = ValidatorHelpers.checkFileType(excelDoc);
+    const errors = ValidatorHelpers.checkFileType(req.files);
     return ValidatorHelpers.validatorResponder(res, errors, next);
   }
 

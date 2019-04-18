@@ -1,6 +1,7 @@
 import Administration from './Administration';
 import Authorisation from './Authorisation';
 import addOrChangeLineManager from './addOrChangeLineManager';
+import imageUpload from './imageUpload';
 import updateBranch from './updateBranch';
 import PasswordReset from './PasswordReset';
 import ChangePassword from './ChangePassword';
@@ -19,5 +20,6 @@ export default {
   Claim,
   exportDoc,
   Settings,
-  Users
+  Users,
+  imageUpload
 };

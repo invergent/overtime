@@ -2,9 +2,9 @@ import Exceljs from 'exceljs';
 import Validator from '../InputValidator/Validator';
 
 class AdministrationMiddleware {
-  static async getWorksheetFromExcelFile(data) {
+  static async getWorksheetFromExcelFile(filePath) {
     const workbook = new Exceljs.Workbook();
-    await workbook.xlsx.load(data);
+    await workbook.xlsx.readFile(filePath);
     const worksheet = workbook.getWorksheet(1);
     return worksheet;
   }
@@ -21,11 +21,11 @@ class AdministrationMiddleware {
   }
 
   static async validateExcelValues(req, res, next) {
-    const { path, files: { excelDoc: { data } } } = req;
+    const { path, files: { excelDoc: { tempFilePath } } } = req;
     const methodName = path.slice(7); // take out /admin/ from path, use name as method to call
 
     try {
-      const worksheet = await AdministrationMiddleware.getWorksheetFromExcelFile(data);
+      const worksheet = await AdministrationMiddleware.getWorksheetFromExcelFile(tempFilePath);
       const rowsWithErrors = AdministrationMiddleware.checkRowValues(methodName, worksheet);
       if (rowsWithErrors.length) {
         return res.status(400).json({

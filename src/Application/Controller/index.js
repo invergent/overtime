@@ -4,7 +4,7 @@ import Responder from './Responder';
 
 const {
   Authorisation, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword, Claim,
-  exportDoc, Settings, Administration, Users
+  exportDoc, Settings, Administration, Users, imageUpload
 } = features;
 
 class Controller {
@@ -103,6 +103,10 @@ class Controller {
 
   static async staffProfileData(req, res) {
     return Responder.respond(req, res, Users.Staff.profileData);
+  }
+
+  static async uploadImage(req, res) {
+    return Responder.respond(req, res, imageUpload);
   }
 }
 
