@@ -10,7 +10,7 @@ class TenantService {
 
   static async mapForCors() {
     const tenants = await TenantService.fetchAllTenants();
-    const tenantOrigins = tenants.map(tenant => tenant.url.split('.').slice(1).join('.'));
+    const tenantOrigins = tenants.map(tenant => tenant.url);
     return ['localhost:8000', 'localhost:4200', ...tenantOrigins];
   }
 
