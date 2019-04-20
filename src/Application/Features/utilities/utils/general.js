@@ -7,13 +7,15 @@ export const claimTypeRates = {
 export const authErrorCodes = {
   admin: 'ERRADMAUTH',
   staff: 'ERRSTFAUTH',
-  lineManager: 'ERRLMRAUTH'
+  lineManager: 'ERRLMRAUTH',
+  passwordReset: 'ERRPSRAUTH'
 };
 
 export const authRoleName = {
   admin: 'currentAdmin',
   staff: 'currentStaff',
-  lineManager: 'lineManager'
+  lineManager: 'lineManager',
+  passwordReset: 'currentReset'
 };
 
 export const exportDocHeaders = [

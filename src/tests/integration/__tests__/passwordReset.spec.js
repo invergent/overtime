@@ -60,30 +60,4 @@ describe('INIT tests', () => {
       expect(response.body.message).toEqual('We just sent an email to theadmin@init.com');
     });
   });
-
-  describe('resetPassword tests', () => {
-    let token;
-
-    beforeAll(async () => {
-      // signin a user
-      const response = await request
-        .post('/signin')
-        .send({ staffId: 'TN012345', password: 'password' })
-        .set('Accept', 'application/json');
-
-      token = response.header['set-cookie'];
-    });
-
-    it('should fail if passwords do not match', async () => {
-      const response = await request
-        .post('/users/profile/reset')
-        .set('cookie', token)
-        .set('Accept', 'application/json')
-        .send({ password: 'password', confirmPassword: 'passwor' });
-
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors[0]).toEqual('Passwords do not match');
-    });
-  });
 });

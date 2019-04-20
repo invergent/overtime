@@ -22,7 +22,7 @@ const {
 } = InputValidator;
 const {
   authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager,
-  destroyToken
+  destroyToken, authenticatePasswordReset
 } = Authenticator;
 
 router.post('/signin', checkProps, checkEntries, authoriseStaff);
@@ -48,7 +48,7 @@ router.post('/users/profile/image', authenticateStaff, checkProps, checkFileType
 router.post('/users/profile/change-password', authenticateStaff, checkProps, checkEntries, changePassword);
 router.post('/users/profile/line-manager', authenticateStaff, checkProps, checkEntries, addOrChangeLineManager);
 router.put('/users/profile/branch', authenticateStaff, checkProps, checkBranchId, updateBranch);
-router.post('/users/profile/reset', authenticateStaff, checkEntries, resetPassword);
+router.post('/users/profile/reset', authenticatePasswordReset, checkProps, checkEntries, resetPassword);
 
 
 router.get('/admin/claims', authenticateAdmin, submittedClaims);
