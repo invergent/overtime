@@ -5,55 +5,54 @@ import cookieParser from 'cookie-parser';
 import cors from 'express-cors';
 import express from 'express';
 import fileUpload from 'express-fileupload';
+import morgan from 'morgan';
 import subdomain from 'express-subdomain';
 import Cron from './Application/Features/Cron';
 import routes from './routes';
 import TenantService from './Application/Features/utilities/services/TenantService';
 
-let originsUpdated;
 const app = express();
+TenantService.getTenantsList(); // initialise all tenants info for mailing/other operations
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(fileUpload({
-  abortOnLimit: true,
-  responseOnLimit: 'File too large',
-  useTempFiles: true,
-  tempFileDir: `${__dirname}/uploads/`
-}));
+const setupApp = async () => {
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  app.use(cookieParser());
 
-// Configuration to uploading to cloudinary
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET
-});
+  if (process.env.NODE_ENV !== 'test') {
+    app.use(cors({ allowedOrigins: await TenantService.mapForCors() }));
+  }
 
-if (!originsUpdated) {
-  TenantService.mapForCors().then((allowedOrigins) => {
-    originsUpdated = true;
-    app.use(cors({ allowedOrigins }));
+  app.use(fileUpload({
+    abortOnLimit: true,
+    responseOnLimit: 'File too large',
+    useTempFiles: true,
+    tempFileDir: `${__dirname}/uploads/`
+  }));
+  app.use(morgan('combined'));
+
+  // Configuration to uploading to cloudinary
+  cloudinary.v2.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
   });
 
-  TenantService.getTenantsList(); // initialise all tenants info for smooth operations
-}
+  // Add tenant's unique identifier property
+  app.use((req, res, next) => {
+    const [tenant] = req.headers.host.split('.overtime-api');
+    req.tenantRef = tenant.toUpperCase();
+    return next();
+  });
 
+  // Subdomain definitions
+  app.use(subdomain('*.overtime-api', routes));
+  app.get('*', (req, res) => res.status(200).json({ message: 'Project started' }));
 
-// Add tenant's unique identifier property
-app.use((req, res, next) => {
-  const [tenant] = req.headers.host.split('.overtime-api');
-  req.tenantRef = tenant.toUpperCase();
-  return next();
-});
+  // Schedule jobs
+  Cron.Scheduler.scheduleJobs();
+};
 
-// Subdomain definitions
-app.use(subdomain('*.overtime-api', routes));
-
-// Schedule jobs
-Cron.Scheduler.scheduleJobs();
-
-// app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('*', (req, res) => res.status(200).json({ message: 'Project started' }));
+setupApp();
 
 export default app;

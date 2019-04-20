@@ -48,6 +48,7 @@
     "express-subdomain": "^1.0.5",
     "fs-extra": "^7.0.1",
     "jsonwebtoken": "^8.4.0",
+    "morgan": "^1.9.1",
     "pg": "^7.7.1",
     "pg-hstore": "^2.3.2",
     "pusher": "^2.2.0",
