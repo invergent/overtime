@@ -8,7 +8,7 @@ class EmailConstructor {
 
     const personalizedEmail = EmailConstructor.personalizeMessage(emailDetails, htmlMessage);
     return {
-      to: hash ? lineManagerEmailAddress : emailAddress,
+      to: lineManagerEmailAddress || emailAddress,
       subject,
       html: personalizedEmail
     };
