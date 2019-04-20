@@ -2,6 +2,7 @@ import krypter from '../../Features/utilities/helpers/krypter';
 import { authErrorCodes, authRoleName } from '../../Features/utilities/utils/general';
 
 const errorToStaff = 'Please login first.';
+const passwordResetError = 'Action unauthorised!';
 const errorToLineManager = `Your request was unauthorised.${
   ''
 } Be sure to have clicked the button in the email you recieved.`;
@@ -17,6 +18,10 @@ class Authenticator {
 
   static authenticateLineManager(req, res, next) {
     return Authenticator.authenticate(req, res, next, 'lineManager', errorToLineManager);
+  }
+
+  static authenticatePasswordReset(req, res, next) {
+    return Authenticator.authenticate(req, res, next, 'passwordReset', passwordResetError);
   }
 
   static authenticate(req, res, next, requester, message) {

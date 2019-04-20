@@ -50,16 +50,24 @@ describe('PasswordReset', () => {
     });
 
     it('should fail if reset password hash is Invalid', async () => {
-      const request = { ...mockReq };
-      delete request.query.hash;
+      const request = { ...mockReq, query: {} };
       const [statusCode, message] = await PasswordReset
         .confirmPasswordResetRequest(request);
       expect(statusCode).toBe(403);
       expect(message).toBe('Invalid reset link');
     });
+
+    it('should fail if decryption error occurs', async () => {
+      jest.spyOn(krypter, 'decryptCryptrHash').mockImplementation(() => { throw new Error('err'); });
+      const [statusCode, message] = await PasswordReset.confirmPasswordResetRequest(mockReq);
+
+      expect(statusCode).toBe(500);
+      expect(message).toBe('Decryption unsuccessful!');
+    });
   });
 
   describe('Reset password tests', () => {
+    const request = { ...mockReq, currentReset: { staffId: 'someId' } };
     afterEach(() => {
       jest.resetAllMocks();
     });
@@ -69,7 +77,7 @@ describe('PasswordReset', () => {
         .mockImplementation(() => [403, 'invalid']);
 
       const [statusCode, message] = await PasswordReset
-        .resetPassword(mockReq);
+        .resetPassword(request);
 
       expect(statusCode).toBe(403);
       expect(message).toBe('invalid');
@@ -82,7 +90,7 @@ describe('PasswordReset', () => {
         .mockReturnValue(true);
 
       const [statusCode, message] = await PasswordReset
-        .resetPassword(mockReq);
+        .resetPassword(request);
       expect(statusCode).toBe(200);
       expect(message).toBe('Password reset successful!');
     });
@@ -93,7 +101,7 @@ describe('PasswordReset', () => {
       jest.spyOn(StaffService, 'updateStaffInfo')
         .mockReturnValue(false);
 
-      const [statusCode, message] = await PasswordReset.resetPassword(mockReq);
+      const [statusCode, message] = await PasswordReset.resetPassword(request);
       expect(statusCode).toBe(500);
       expect(message).toBe('Password reset unsuccessful!');
     });
@@ -104,7 +112,7 @@ describe('PasswordReset', () => {
       jest.spyOn(StaffService, 'updateStaffInfo').mockRejectedValue('failed');
 
       const [statusCode, message] = await PasswordReset
-        .resetPassword(mockReq);
+        .resetPassword(request);
       expect(statusCode).toBe(500);
       expect(message).toBe('An error occured ERR500PSWRST');
     });

@@ -19,9 +19,6 @@ export const formProperties = {
   image: {
     image: 'image'
   },
-  forgotPassword: {
-    staffId: 'staffId'
-  },
   reset: {
     password: 'password',
     confirmPassword: 'confirmPassword'

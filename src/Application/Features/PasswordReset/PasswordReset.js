@@ -23,26 +23,30 @@ class PasswordReset {
   static confirmPasswordResetRequest(req) {
     const { hash } = req.query;
     const data = {};
-
+    console.log(hash);
     if (!hash) {
       return [403, 'Invalid reset link'];
     }
 
-    const decrypted = krypter.decryptCryptrHash(hash);
-    const [secret, staffId] = decrypted.split(' ');
+    try {
+      const decrypted = krypter.decryptCryptrHash(hash);
+      const [secret, staffId] = decrypted.split(' ');
 
-    if (secret !== process.env.RESET_SECRET) {
-      return [403, 'Decryption failed!'];
+      if (secret !== process.env.RESET_SECRET) {
+        return [403, 'Decryption failed!'];
+      }
+
+      const hashedToken = krypter.authenticationEncryption('passwordResetToken', { staffId });
+      data.hashedToken = hashedToken;
+      return [200, 'Decryption successful!', data];
+    } catch (e) {
+      return [500, 'Decryption unsuccessful!'];
     }
-
-    const hashedToken = krypter.authenticationEncryption('staff', { staffId });
-    data.hashedToken = hashedToken;
-    return [200, 'Decryption successful!', data];
   }
 
   static async resetPassword(req) {
     const {
-      currentStaff: { staffId }, query: { hash }, body: { password }, tenantRef
+      currentReset: { staffId }, query: { hash }, body: { password }, tenantRef
     } = req;
 
     try {
