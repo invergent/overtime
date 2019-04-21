@@ -7,8 +7,8 @@ class BasicQuerier {
     return models[model].findByPk(pk, options);
   }
 
-  static passwordResetQueries(tenantRef, method, staffId, data) {
-    let options = { where: { tenantRef, staffId }, raw: true };
+  static passwordResetQueries(method, staffId, data) {
+    let options = { where: { staffId }, raw: true };
     if (method === 'destroy') options.returning = true;
     if (data) options = data;
     return models.PasswordResetRequest[method](options);
