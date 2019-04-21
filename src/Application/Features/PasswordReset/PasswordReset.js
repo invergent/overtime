@@ -9,7 +9,7 @@ const { StaffService } = services;
 class PasswordReset {
   static async forgotPassword(req) {
     const { body: { staffId, email }, tenantRef } = req;
-    const identifier = staffId || email;
+    const identifier = staffId ? staffId.toUpperCase() : email.toLowerCase();
 
     const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['company']);
     if (!staff) {
@@ -23,7 +23,7 @@ class PasswordReset {
   static confirmPasswordResetRequest(req) {
     const { hash } = req.query;
     const data = {};
-    console.log(hash);
+
     if (!hash) {
       return [403, 'Invalid reset link'];
     }
@@ -36,9 +36,9 @@ class PasswordReset {
         return [403, 'Decryption failed!'];
       }
 
-      const hashedToken = krypter.authenticationEncryption('passwordResetToken', { staffId });
+      const hashedToken = krypter.authenticationEncryption('passwordReset', { staffId });
       data.hashedToken = hashedToken;
-      return [200, 'Decryption successful!', data];
+      return [200, 'Decryption successful!', data, 'passwordResetToken'];
     } catch (e) {
       return [500, 'Decryption unsuccessful!'];
     }

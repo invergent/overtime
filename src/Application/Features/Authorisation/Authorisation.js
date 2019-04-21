@@ -6,7 +6,7 @@ const { StaffService } = services;
 class Authorisation {
   static async runAuthorisation(req, tokenType) {
     const { body: { staffId, email, password }, tenantRef } = req;
-    const identifier = staffId || email;
+    const identifier = staffId ? staffId.toUpperCase() : email.toLowerCase();
     const errorCode = tokenType === 'adminToken' ? 'ADMLGN' : 'STFLGN';
 
     try {
