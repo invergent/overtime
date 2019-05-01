@@ -28,7 +28,7 @@ export const notificationActivities = {
   supervisorDeclined: 'Your claim was declined by your supervisor.',
   BSMApproved: 'Your claim was approved by your BSM. It is now being processed by Admin.',
   BSMDeclined: 'Your claim was declined by your BSM.',
-  adminProcessed: 'Your claim has been processed. It is now being processed for payment.',
+  adminProcessed: 'Your claim has been processed. It would be credited on payday.',
   adminPaid: 'Your claim has been paid.'
 };
 

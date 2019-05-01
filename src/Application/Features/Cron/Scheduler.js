@@ -24,7 +24,7 @@ class Scheduler {
   }
 
   static async checkPendingClaims(tenantRef) {
-    const pendingClaims = await ClaimService.fetchClaimsByTenantRef(tenantRef[0]);
+    const pendingClaims = await ClaimService.fetchClaimsByTenantRef(tenantRef[0], 'Awaiting');
     if (pendingClaims.length) {
       Scheduler.triggerEmailNotification(tenantRef[0], pendingClaims);
     }

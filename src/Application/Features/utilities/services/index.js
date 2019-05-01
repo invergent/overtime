@@ -2,6 +2,7 @@ import BasicQuerier from './BasicQuerier';
 import BranchService from './BranchService';
 import EmailService from './EmailService';
 import ClaimService from './ClaimService';
+import ClaimApprovalHistoryService from './ClaimApprovalHistoryService';
 import LineManagerService from './LineManagerService';
 import NotificationService from './NotificationService';
 import PasswordResetService from './PasswordResetService';
@@ -15,6 +16,7 @@ export default {
   BasicQuerier,
   BranchService,
   ClaimService,
+  ClaimApprovalHistoryService,
   EmailService,
   LineManagerService,
   NotificationService,

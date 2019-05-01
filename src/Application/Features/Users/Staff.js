@@ -16,6 +16,7 @@ class Staff {
 
       return [200, 'Request successful', data];
     } catch (e) {
+      console.log(e);
       return [500, 'An error occurred ERR500DSHBOD.'];
     }
   }

@@ -2,8 +2,10 @@ import services from '../services';
 import { notificationActivities } from '../utils/general';
 import { eventNames } from '../utils/types';
 import pusher from './pusher';
+import helpers from '../helpers';
 
-const { NotificationService } = services;
+const { ClaimHelpers } = helpers;
+const { NotificationService, ClaimService } = services;
 const {
   supervisorApproved, supervisorDeclined, BSMApproved, BSMDeclined
 } = eventNames;
@@ -25,6 +27,10 @@ class InAppNotifications {
     return InAppNotifications.recordAndNotifyStaff(data, BSMDeclined);
   }
 
+  static notifyStaffCompleted(data) {
+    return InAppNotifications.recordAndNotifyManyStaff(data);
+  }
+
   static recordAndNotifyStaff(data, notificationSource) {
     const { tenantRef, staff, claimId } = data;
     const message = notificationActivities[notificationSource];
@@ -33,6 +39,16 @@ class InAppNotifications {
 
     const notification = { activity: message, userId: staff.id, claimId };
     return NotificationService.createNotification(tenantRef, notification);
+  }
+
+  static async recordAndNotifyManyStaff(data) {
+    const completedClaimsWithStaff = await ClaimService.fetchClaimsByTenantRef(data.tenantRef, 'Completed');
+    const filteredListOfStaff = ClaimHelpers.filterCompletedClaims(completedClaimsWithStaff);
+
+    return filteredListOfStaff.forEach((staff) => {
+      const newData = { ...data, staff, claimId: staff.claimId };
+      InAppNotifications.recordAndNotifyStaff(newData, 'adminProcessed');
+    });
   }
 }
 

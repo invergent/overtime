@@ -1,7 +1,7 @@
 import helpers from '../utilities/helpers';
 import services from '../utilities/services';
 import notifications from '../utilities/notifications';
-import { eventNames } from '../utilities/utils/types';
+import { eventNames, activityNames } from '../utilities/utils/types';
 import { staffIncludes } from '../utilities/utils/general';
 
 const { ClaimService, StaffService } = services;
@@ -20,7 +20,7 @@ class Claim {
 
       const [claim, created] = await ClaimService.findOrCreateClaim(tenantRef, overtimeRequest);
       if (created) {
-        notifications.emit(eventNames.NewClaim, [{ tenantRef, staff }]);
+        notifications.emit(eventNames.NewClaim, [{ tenantRef, staff }, activityNames.NewClaim]);
       }
 
       return created ? [201, messageWhenCreated, claim] : [409, messageWhenNotCreated, claim];
@@ -90,7 +90,7 @@ class Claim {
     try {
       const [updated, claim] = await ClaimService.cancelClaim(tenantRef, claimId);
       if (updated) {
-        notifications.emit(eventNames.Cancelled, [{ tenantRef, staff, claimId }]);
+        notifications.emit(eventNames.Cancelled, [{ tenantRef, staff, claimId }, activityNames.Cancelled]);
       }
       return [200, `Claim${updated ? '' : ' not'} cancelled.`, claim[0]];
     } catch (e) {

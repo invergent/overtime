@@ -4,9 +4,7 @@ import {
 import models from '../../../../Database/models';
 import Dates from '../Dates';
 
-const {
-  Claims, Staff, Branch, Roles
-} = models;
+const { Claims, Staff } = models;
 
 class GenericHelpers {
   static createUpdatePayload(lineManagerRole, approvalType) {
@@ -55,6 +53,13 @@ class GenericHelpers {
     return whereCast;
   }
 
+  static notCancelledOrDeclined() {
+    const column = col('Claims.status');
+    const colCast = cast(column, 'TEXT');
+    const whereCast = where(colCast, { [Op.like]: { [Op.any]: ['Completed', 'Processing', 'Awaiting%'] } });
+    return whereCast;
+  }
+
   static claimStatusFilter(statusType) {
     const statusFilter = {};
     if (statusType) statusFilter.status = GenericHelpers.castStatusColumn(statusType);
@@ -82,9 +87,9 @@ class GenericHelpers {
     return key;
   }
 
-  static fetchPendingClaimsOptions(tenantRef) {
+  static fetchPendingClaimsOptions(tenantRef, statusType) {
     return {
-      where: { tenantRef, ...GenericHelpers.claimStatusFilter('Awaiting') },
+      where: { tenantRef, ...GenericHelpers.claimStatusFilter(statusType) },
       include: [Staff],
       plain: false,
       raw: true
@@ -92,11 +97,21 @@ class GenericHelpers {
   }
 
   static markClaimsAsCompletedQueryOptions(tenantRef) {
+    return GenericHelpers.adminBulkSortQueryOptions(tenantRef, 'Processing');
+  }
+
+  static fetchCompletedClaimsQueryOptions(tenantRef) {
+    const options = GenericHelpers.adminBulkSortQueryOptions(tenantRef, 'Completed');
+    options.include = [Staff];
+    return options;
+  }
+
+  static adminBulkSortQueryOptions(tenantRef, statusType) {
     return {
       where: {
         tenantRef,
         createdAt: { [Op.gte]: GenericHelpers.periodToFetch() },
-        ...GenericHelpers.claimStatusFilter('Processing')
+        ...GenericHelpers.claimStatusFilter(statusType)
       },
       plain: false,
       raw: true
@@ -106,7 +121,7 @@ class GenericHelpers {
   static staffPendingClaimOptions(tenantRef, staffId, statusType) {
     return {
       where: { tenantRef, ...GenericHelpers.claimStatusFilter(statusType) },
-      include: [{ model: Staff, where: { staffId } }]
+      include: [{ model: Staff, where: { staffId } }, 'approvalHistory']
     };
   }
 }

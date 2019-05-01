@@ -16,7 +16,7 @@ class TenantService {
 
   static async getTenantsList() {
     const tenants = await TenantService.fetchAllTenants();
-
+    
     const reducer = (acc, tenant) => {
       const { businessName, emailAddress } = tenant;
       acc[tenant.ref] = { businessName, emailAddress };

@@ -68,9 +68,18 @@ class ClaimHelpers {
 
   static filterReminderPendingClaims(queryResult) {
     return queryResult.map((result) => {
-      const { 'Staff.firstname': firstname, 'Staff.email': email } = result;
-      return { firstname, email };
+      const {
+        id: claimId, monthOfClaim, amount, 'Staff.firstname': firstname, 'Staff.email': email,
+        'Staff.staffId': staffId
+      } = result;
+      return {
+        claimId, staffId, monthOfClaim, amount, firstname, email
+      };
     });
+  }
+
+  static filterCompletedClaims(queryResult) {
+    return ClaimHelpers.filterReminderPendingClaims(queryResult);
   }
 
   static getIdsOfFilteredPendingClaims(filteredPendingClaims) {
@@ -107,14 +116,14 @@ class ClaimHelpers {
 
   static async fetchStaffPendingClaim(tenantRef, staffId) {
     // a hack for a claim that is either awaiting or processing
-    const [pendingClaim] = await ClaimService.fetchStaffClaims(tenantRef, staffId, 'ing');
-    if (!pendingClaim) return {};
+    const pendingClaim = await ClaimService.fetchStaffClaims(tenantRef, staffId, 'ing');
+    if (!pendingClaim.length) return {};
 
     const {
-      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt
-    } = pendingClaim;
+      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
+    } = pendingClaim[0];
     return {
-      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt
+      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
     };
   }
 }

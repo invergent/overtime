@@ -18,7 +18,7 @@ class Dates {
     let numberOfWeekdays = 0;
     let numberOfWeekdends = 0;
 
-    for (let i = 0; i < numberOfDaysInPreviousMonth; i += 1) {
+    for (let i = 1; i <= numberOfDaysInPreviousMonth; i += 1) {
       const day = new Date(yearOfPreviousMonth, previousMonth, i).getDay();
       if ([0, 6].includes(day)) {
         numberOfWeekdends += 1;

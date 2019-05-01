@@ -20,7 +20,7 @@ const { PasswordResetHelper, NotificationsHelpers } = helpers;
 
 describe('Notifications Unit tests', () => {
   tenantsInfo.INIT = { emailAddress: 'someEmailAddress' };
-  
+
   describe('EmailNotifications', () => {
     it('should send Reset password email', async () => {
       const passwordResetHash = 'passwordResetHash';
@@ -46,6 +46,16 @@ describe('Notifications Unit tests', () => {
       const result = EmailNotifications.sender(tenant, email);
 
       expect(result).toEqual(email);
+    });
+
+    it('should NOT send an to line manager is staff\'s lineManager is not set', async () => {
+      const sendToLineManager = jest.spyOn(EmailNotifications, 'sendLineManagerNotifications');
+      const data = { staff: { 'supervisor.email': null, 'BSM.email': null } };
+
+      EmailNotifications.notifySupervisorOfNewClaim(data);
+      EmailNotifications.notifyBSMSupervisorApproved(data);
+
+      expect(sendToLineManager).not.toHaveBeenCalled();
     });
 
     it('should send multiple emails', async () => {
