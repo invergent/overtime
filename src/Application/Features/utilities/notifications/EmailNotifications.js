@@ -1,7 +1,11 @@
 import helpers from '../helpers';
+import services from '../services';
 import { templateNames, roleNames } from '../utils/types';
 
-const { Mailer, NotificationsHelpers, PasswordResetHelper } = helpers;
+const {
+  Mailer, NotificationsHelpers, PasswordResetHelper, ClaimHelpers
+} = helpers;
+const { ClaimService, ClaimApprovalHistoryService } = services;
 
 class EmailNotifications {
   static async sendNotificationEmail(tenantRef, staff, emailTemplateName, hashedToken) {
@@ -48,14 +52,20 @@ class EmailNotifications {
   }
 
   static notifySupervisorOfNewClaim(data) {
-    const newData = { ...data, lineManagerRole: roleNames.supervisor };
-    EmailNotifications.sendLineManagerNotifications(newData);
+    // if supervisor email address is set
+    if (data.staff['supervisor.email']) {
+      const newData = { ...data, lineManagerRole: roleNames.supervisor };
+      EmailNotifications.sendLineManagerNotifications(newData);
+    }
   }
 
   static notifyBSMSupervisorApproved(data) {
-    // set lineManager role to BSM to notify BSM
-    const newData = { ...data, lineManagerRole: roleNames.BSM };
-    EmailNotifications.sendLineManagerNotifications(newData);
+    // if supervisor email address is set
+    if (data.staff['BSM.email']) {
+      // set lineManager role to BSM to notify BSM
+      const newData = { ...data, lineManagerRole: roleNames.BSM };
+      EmailNotifications.sendLineManagerNotifications(newData);
+    }
   }
 
   static notifyStaffOfClaimSubmission(data) {
@@ -84,6 +94,15 @@ class EmailNotifications {
 
   static remindStaffOfPendingClaim(tenantRef, listOfStaff) {
     EmailNotifications.sendNotificationEmailToMany(tenantRef, listOfStaff, 'Reminder');
+  }
+
+  static async notifyStaffCompleted(data) {
+    const completedClaimsWithStaff = await ClaimService.fetchCompletedClaim(data.tenantRef, 'Completed');
+    const filteredListOfStaff = ClaimHelpers.filterCompletedClaims(completedClaimsWithStaff);
+    EmailNotifications.sendNotificationEmailToMany(data.tenantRef, filteredListOfStaff, 'Completed');
+
+    // update completed claim histories
+    ClaimApprovalHistoryService.createApprovalHistoryOnCompletion(filteredListOfStaff);
   }
 
   static sender(tenantRef, emails) {

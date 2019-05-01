@@ -2,13 +2,13 @@ import EmailService from '../../services/EmailService';
 
 class EmailConstructor {
   static async create(tenantRef, emailDetails) {
-    const { email: emailAddress, lineManagerEmailAddress, emailTemplateName, hash } = emailDetails;
+    const { email: staffEmailAddress, lineManagerEmailAddress, emailTemplateName } = emailDetails;
     const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
     const { htmlMessage, subject } = emailTemplate;
 
     const personalizedEmail = EmailConstructor.personalizeMessage(emailDetails, htmlMessage);
     return {
-      to: lineManagerEmailAddress || emailAddress,
+      to: lineManagerEmailAddress || staffEmailAddress,
       subject,
       html: personalizedEmail
     };
@@ -17,7 +17,7 @@ class EmailConstructor {
   static async createForMany(tenantRef, reciepients, emailTemplateName) {
     const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
     const { htmlMessage, subject } = emailTemplate;
-
+    console.log(reciepients);
     const personalizedEmails = reciepients.map((reciepient) => {
       const { email: reciepientEmailAddress } = reciepient;
       const personalizedEmail = EmailConstructor.personalizeMessage(reciepient, htmlMessage);
@@ -41,7 +41,9 @@ class EmailConstructor {
       'BSM.firstname': bsmFirstName,
       'BSM.lastname': bsmLastName,
       'company.url': url,
-      hash
+      hash,
+      monthOfClaim,
+      amount
     } = reciepient;
 
     return htmlMessage
@@ -52,7 +54,9 @@ class EmailConstructor {
       .replace(/{{bsmFirstName}}/g, bsmFirstName)
       .replace(/{{bsmLastName}}/g, bsmLastName)
       .replace(/{{url}}/g, url)
-      .replace(/{{hash}}/g, hash);
+      .replace(/{{hash}}/g, hash)
+      .replace(/{{amount}}/g, amount)
+      .replace(/{{monthOfClaim}}/g, monthOfClaim);
   }
 }
 

@@ -3,7 +3,7 @@ import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
 import GenericHelpers from '../../helpers/GenericHelpers';
 import BasicQuerier from '../BasicQuerier';
 
-const { Claims, LineManagers, Staff } = models;
+const { Claims, LineManagers } = models;
 
 class ClaimService {
   static findOrCreateClaim(tenantRef, overtimeRequest) {
@@ -11,7 +11,8 @@ class ClaimService {
       where: {
         tenantRef,
         monthOfClaim: overtimeRequest.monthOfClaim,
-        requester: overtimeRequest.requester
+        requester: overtimeRequest.requester,
+        status: GenericHelpers.notCancelledOrDeclined()
       },
       defaults: overtimeRequest,
       raw: true
@@ -22,8 +23,8 @@ class ClaimService {
     return BasicQuerier.findByPk(tenantRef, 'Claims', claimId);
   }
 
-  static fetchClaimsByTenantRef(tenantRef) {
-    const options = GenericHelpers.fetchPendingClaimsOptions(tenantRef);
+  static fetchClaimsByTenantRef(tenantRef, statusType) {
+    const options = GenericHelpers.fetchPendingClaimsOptions(tenantRef, statusType);
     return Claims.findAll(options);
   }
 
@@ -43,7 +44,7 @@ class ClaimService {
 
     const [updated, claim] = await ClaimService.updateClaim(tenantRef, updatePayload, claimId);
     const history = await ClaimApprovalHistoryService.createApprovalHistory(
-      tenantRef, claimId, lineManagerId
+      claimId, lineManagerId
     );
 
     const updatedClaim = { ...claim[0], history: history.dataValues };
@@ -65,6 +66,11 @@ class ClaimService {
 
   static fetchSubmittedClaims(tenantRef, statusType, period) {
     const options = GenericHelpers.adminFetchClaimOptions(tenantRef, statusType, period);
+    return Claims.findAll(options);
+  }
+
+  static fetchCompletedClaim(tenantRef) {
+    const options = GenericHelpers.fetchCompletedClaimsQueryOptions(tenantRef);
     return Claims.findAll(options);
   }
 

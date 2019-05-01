@@ -1,5 +1,7 @@
 import helpers from '../utilities/helpers';
 import services from '../utilities/services';
+import notifications from '../utilities/notifications';
+import { eventNames } from '../utilities/utils/types';
 
 const { AdministrationHelpers } = helpers;
 const { StaffService, BranchService, ClaimService } = services;
@@ -47,6 +49,9 @@ class Administration {
     const { tenantRef } = req;
     try {
       const [updated] = await ClaimService.markClaimsAsCompleted(tenantRef);
+      if (updated) {
+        notifications.emit(eventNames.Completed, [{ tenantRef }]);
+      }
       return [
         200,
         updated
@@ -54,6 +59,7 @@ class Administration {
           : 'No claims were marked as completed.'
       ];
     } catch (e) {
+      console.log(e);
       return [500, 'An error occurred while marking claims as completed ERR500CLMMCC.', e];
     }
   }

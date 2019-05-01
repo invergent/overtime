@@ -326,7 +326,7 @@ module.exports = {
                 <h2>Claim request completed</h2>
                 <div class="paragraphs">
                   <p>Hi {{staffFirstName}},</p>
-                  <p>Your claim request has been processed. Your account would be credited with the value xxxx as payment for your overtime claim for the month of xxxx, xxxx.</p>
+                  <p>Your claim request has been processed. Your account would be credited with an additional value of ₦{{amount}} as payment for your overtime claim for the month of {{monthOfClaim}}.</p>
                   <p>Thank you.</p>
                 </div>
               </article>

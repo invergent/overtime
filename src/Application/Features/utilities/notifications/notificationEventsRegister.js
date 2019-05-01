@@ -26,8 +26,9 @@ notify.register(eventNames.BSMDeclined, InAppNotifications.notifyStaffBSMDecline
 notify.register(eventNames.Cancelled, EmailNotifications.notifyStaffCancelled);
 notify.register(eventNames.Cancelled, ActivityLogger.logClaimActivity);
 
-// notify.register(eventNames.Completed, EmailNotifications.notifyStaffCompleted);
-// notify.register(eventNames.Completed, InAppNotifications.notifyStaffCompleted);
+notify.register(eventNames.Completed, EmailNotifications.notifyStaffCompleted);
+notify.register(eventNames.Completed, InAppNotifications.notifyStaffCompleted);
+notify.register(eventNames.Completed, InAppNotifications.notifyStaffCompleted);
 
 notify.register(eventNames.Reminder, EmailNotifications.remindStaffOfPendingClaim);
 

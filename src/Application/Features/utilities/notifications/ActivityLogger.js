@@ -1,5 +1,4 @@
 import ActivityService from '../services/ActivityService';
-import { activityNames } from '../utils/types';
 
 class ActivityLogger {
   static log(activity, staffId, data) {
@@ -8,8 +7,8 @@ class ActivityLogger {
     return ActivityService.logActivity(activity, staffId);
   }
 
-  static logClaimActivity(data) {
-    return ActivityLogger.log(activityNames.NewClaim, data.staff.staffId);
+  static logClaimActivity(data, activity) {
+    return ActivityLogger.log(activity, data.staff.staffId);
   }
 
   static refineChangeLineManagerLog(activity, data) {

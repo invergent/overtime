@@ -1,8 +1,9 @@
 import http from 'http';
 import supertest from 'supertest';
 import app from '../../../app';
+import EmailNotifications from '../../../Application/Features/utilities/notifications/EmailNotifications';
 
-jest.mock('@sendgrid/mail');
+jest.spyOn(EmailNotifications, 'sender').mockImplementation(() => {});
 
 const changePasswordCredentials = {
   currentPassword: 'password',
