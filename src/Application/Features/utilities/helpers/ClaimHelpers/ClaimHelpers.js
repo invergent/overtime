@@ -111,10 +111,10 @@ class ClaimHelpers {
     if (!pendingClaim) return {};
 
     const {
-      monthOfClaim, weekday, weekend, shift, amount, status, createdAt
+      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt
     } = pendingClaim;
     return {
-      monthOfClaim, weekday, weekend, shift, amount, status, createdAt
+      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt
     };
   }
 }
