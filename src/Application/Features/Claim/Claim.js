@@ -20,13 +20,11 @@ class Claim {
 
       const [claim, created] = await ClaimService.findOrCreateClaim(tenantRef, overtimeRequest);
       if (created) {
-        notifications.emit(eventNames.NewClaim, [{ tenantRef, staff }, activityNames.NewClaim]);
+        notifications.emit(eventNames.NewClaim, [{ tenantRef, staff: staff.toJSON() }, activityNames.NewClaim]);
       }
 
       return created ? [201, messageWhenCreated, claim] : [409, messageWhenNotCreated, claim];
     } catch (e) {
-      console.log(e);
-      
       return [500, 'There was a problem submitting your request ERR500CLMCRT'];
     }
   }

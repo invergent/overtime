@@ -17,7 +17,6 @@ class Staff {
 
       return [200, 'Request successful', data];
     } catch (e) {
-      console.log(e);
       return [500, 'An error occurred ERR500DSHBOD.'];
     }
   }
@@ -40,8 +39,6 @@ class Staff {
       const refinedStaffData = UsersHelpers.refineUserData(staffData);
       return [200, 'Request successful', refinedStaffData];
     } catch (e) {
-      console.log(e);
-      
       return [500, 'An error occurred ERR500PROFIL.'];
     }
   }

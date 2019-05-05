@@ -18,8 +18,10 @@ class EmailNotifications {
   static async sendPasswordResetEmail(tenantRef, staff) {
     const { staffId } = staff;
     const passwordResetHash = PasswordResetHelper.createAndSaveResetHash(tenantRef, staffId);
+    //a hack to avoid failure during email destructuring
+    const newStaff = { ...staff, supervisor: {}, BSM: {} } 
     return EmailNotifications.sendNotificationEmail(
-      tenantRef, staff, templateNames.Reset, passwordResetHash
+      tenantRef, newStaff, templateNames.Reset, passwordResetHash
     );
   }
 

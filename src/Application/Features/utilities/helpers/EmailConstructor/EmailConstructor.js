@@ -17,7 +17,7 @@ class EmailConstructor {
   static async createForMany(tenantRef, reciepients, emailTemplateName) {
     const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
     const { htmlMessage, subject } = emailTemplate;
-    console.log(reciepients);
+
     const personalizedEmails = reciepients.map((reciepient) => {
       const { email: reciepientEmailAddress } = reciepient;
       const personalizedEmail = EmailConstructor.personalizeMessage(reciepient, htmlMessage);
@@ -36,15 +36,30 @@ class EmailConstructor {
     const {
       firstname: staffFirstName,
       lastname: staffLastName,
-      'supervisor.firstname': supervisorFirstName,
-      'supervisor.lastname': supervisorLastName,
-      'BSM.firstname': bsmFirstName,
-      'BSM.lastname': bsmLastName,
-      'company.url': url,
+      supervisor,
+      BSM,
+      company,
       hash,
       monthOfClaim,
       amount
     } = reciepient;
+    let supervisorFirstName;
+    let supervisorLastName;
+    let bsmFirstName;
+    let bsmLastName;
+    let url;
+
+    if (supervisor) {
+      const { firstname, lastname } = supervisor;
+      [supervisorFirstName, supervisorLastName] = [firstname, lastname];
+    }
+    if (BSM) {
+      const { firstname, lastname } = BSM;
+      [supervisorFirstName, supervisorLastName] = [firstname, lastname];
+    }
+    if (company) {
+      url = company.url; // eslint-disable-line
+    }
 
     return htmlMessage
       .replace(/{{staffFirstName}}/g, staffFirstName)

@@ -101,5 +101,13 @@ describe('Staff Dashboard Info', () => {
       expect(response.body.message).toEqual('Request successful');
       expect(response.body.data.firstname).toBe('King');
     });
+
+    it("should return staff's claim history information.", async () => {
+      const response = await request.get('/users/claims/history').set('cookie', token2);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Request successful');
+      expect(response.body.data).toHaveLength(1);
+    });
   });
 });

@@ -6,7 +6,6 @@ import {
   mockReq, mockStaff
 } from '../../../../../__tests__/__mocks__';
 
-
 jest.mock('@sendgrid/mail', () => () => ({
   setApiKey: () => {},
   send: () => {}
