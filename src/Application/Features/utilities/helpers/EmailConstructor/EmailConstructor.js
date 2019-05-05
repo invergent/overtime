@@ -6,9 +6,17 @@ class EmailConstructor {
     const emailTemplate = await EmailService.fetchEmailTemplateByName(tenantRef, emailTemplateName);
     const { htmlMessage, subject } = emailTemplate;
 
+    let toEmailAddress;
+
+    if (emailTemplateName.includes('Staff')) {
+      toEmailAddress = staffEmailAddress;
+    } else {
+      toEmailAddress = lineManagerEmailAddress;
+    }
+
     const personalizedEmail = EmailConstructor.personalizeMessage(emailDetails, htmlMessage);
     return {
-      to: lineManagerEmailAddress || staffEmailAddress,
+      to: toEmailAddress,
       subject,
       html: personalizedEmail
     };

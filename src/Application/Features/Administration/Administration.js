@@ -49,7 +49,6 @@ class Administration {
     const { tenantRef } = req;
     try {
       const [updated] = await ClaimService.markClaimsAsCompleted(tenantRef);
-      console.log(updated, '>>>>>>>>>>>>>>');
       
       if (updated) {
         notifications.emit(eventNames.Completed, [{ tenantRef }]);
