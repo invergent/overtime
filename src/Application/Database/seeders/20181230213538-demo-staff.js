@@ -148,9 +148,12 @@ module.exports = {
     firstname: 'King',
     lastname: 'James',
     middleName: 'Oche',
-    email: 'james@invergent-technologies.com',
+    email: 'spec.en.james@gmail.com',
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
+    supervisorId: 4,
+    bsmId: 2,
+    branchId: 2,
     roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()

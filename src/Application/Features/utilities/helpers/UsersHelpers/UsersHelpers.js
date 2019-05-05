@@ -2,11 +2,11 @@ class UsersHelpers {
   static refineUserData(user) {
     const {
       staffId, firstname, lastname, middleName, email: emailAddress, image, changedPassword,
-      'supervisor.firstname': supervisorFirstName, 'supervisor.lastname': supervisorLastName,
-      'supervisor.email': supervisorEmailAddress, 'BSM.firstname': bsmFirstName,
-      'bsm.lastname': bsmLastName, 'BSM.email': bsmEmailAddress, 'role.name': role,
-      'branch.name': branch
+      branch: { name: branch }, role: { name: role },
+      supervisor: { firstname: supervisorFirstName, lastname: supervisorLastName, email: supervisorEmailAddress },
+      BSM: { firstname: bsmFirstName, lastname: bsmLastName, email: bsmEmailAddress }
     } = user;
+    
     return {
       staffId,
       firstname,

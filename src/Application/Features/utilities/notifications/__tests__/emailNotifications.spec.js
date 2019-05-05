@@ -48,9 +48,9 @@ describe('Notifications Unit tests', () => {
       expect(result).toEqual(email);
     });
 
-    it('should NOT send an to line manager is staff\'s lineManager is not set', async () => {
+    it('should NOT send an email to line manager is staff\'s lineManager is not set', async () => {
       const sendToLineManager = jest.spyOn(EmailNotifications, 'sendLineManagerNotifications');
-      const data = { staff: { 'supervisor.email': null, 'BSM.email': null } };
+      const data = { staff: { supervisor: { email: null }, BSM: { email: null } } };
 
       EmailNotifications.notifySupervisorOfNewClaim(data);
       EmailNotifications.notifyBSMSupervisorApproved(data);

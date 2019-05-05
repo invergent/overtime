@@ -48,6 +48,8 @@ class InputValidator {
 
   static checkOvertimeProps(req, res, next) {
     const { currentStaff: { staffRole }, body } = req;
+    console.log(staffRole);
+    
     const errors = OvertimeRequestValidator.checkOvertimeProps(body, staffRole);
 
     return ValidatorHelpers.validatorResponder(res, errors, next);

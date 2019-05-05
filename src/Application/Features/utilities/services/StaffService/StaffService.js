@@ -10,13 +10,13 @@ class StaffService {
     return !!updated;
   }
 
-  static fetchStaffByPk(tenantRef, staffPk, includes) {
-    return BasicQuerier.findByPk(tenantRef, 'Staff', staffPk, includes);
+  static fetchStaffByPk(tenantRef, staffPk, includes, order) {
+    return BasicQuerier.findByPk(tenantRef, 'Staff', staffPk, includes, order);
   }
 
   static findStaffByStaffIdOrEmail(tenantRef, identifier, includes) {
     const searchColumn = identifier.includes('.com') ? 'email' : 'staffId';
-    const options = { where: { tenantRef, [searchColumn]: identifier }, raw: true };
+    const options = { where: { tenantRef, [searchColumn]: identifier } };
 
     if (includes && Array.isArray(includes)) options.include = includes;
 

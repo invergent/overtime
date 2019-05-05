@@ -1,9 +1,10 @@
 import models from '../../../../Database/models';
 
 class BasicQuerier {
-  static findByPk(tenantRef, model, pk, includes) {
-    const options = { where: { tenantRef }, raw: true };
+  static findByPk(tenantRef, model, pk, includes, order) {
+    const options = { where: { tenantRef } };
     if (includes) options.include = includes;
+    if (order) options.order = order;
     return models[model].findByPk(pk, options);
   }
 

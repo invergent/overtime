@@ -1,5 +1,8 @@
 const claimHistory = (sequelize, DataTypes) => {
   const ClaimApprovalHistory = sequelize.define('ClaimApprovalHistory', {
+    approvalType: {
+      type: DataTypes.STRING
+    },
     claimId: {
       type: DataTypes.STRING
     },
