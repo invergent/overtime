@@ -63,7 +63,7 @@ class EmailConstructor {
     }
     if (BSM) {
       const { firstname, lastname } = BSM;
-      [supervisorFirstName, supervisorLastName] = [firstname, lastname];
+      [bsmFirstName, bsmFirstName] = [firstname, lastname];
     }
     if (company) {
       url = company.url; // eslint-disable-line
