@@ -49,6 +49,8 @@ class Administration {
     const { tenantRef } = req;
     try {
       const [updated] = await ClaimService.markClaimsAsCompleted(tenantRef);
+      console.log(updated, '>>>>>>>>>>>>>>');
+      
       if (updated) {
         notifications.emit(eventNames.Completed, [{ tenantRef }]);
       }
@@ -59,7 +61,6 @@ class Administration {
           : 'No claims were marked as completed.'
       ];
     } catch (e) {
-      console.log(e);
       return [500, 'An error occurred while marking claims as completed ERR500CLMMCC.', e];
     }
   }

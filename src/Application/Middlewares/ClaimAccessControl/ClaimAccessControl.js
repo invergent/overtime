@@ -20,7 +20,7 @@ class ClaimAccessControl {
         message: 'Operation failed. Only pending claims can be cancelled.'
       });
     }
-    req.staff = staff;
+    req.staff = staff.toJSON();
     return next();
   }
 }

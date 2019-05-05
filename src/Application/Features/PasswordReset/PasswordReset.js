@@ -12,11 +12,9 @@ class PasswordReset {
     const identifier = staffId ? staffId.toUpperCase() : email.toLowerCase();
 
     const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['company']);
-    if (!staff) {
-      return [404, 'Staff does not exist'];
-    }
+    if (!staff) return [404, 'Staff does not exist'];
 
-    notifications.emit(eventNames.ForgotPassword, [tenantRef, staff]);
+    notifications.emit(eventNames.ForgotPassword, [tenantRef, staff.toJSON()]);
     return [200, `We just sent an email to ${staff.email}`];
   }
 

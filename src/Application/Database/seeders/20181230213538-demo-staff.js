@@ -157,6 +157,22 @@ module.exports = {
     roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
+  },
+  {
+    tenantRef: 'INIT',
+    staffId: 'TN111111',
+    firstname: 'Esther',
+    lastname: 'Ohiorhenuan',
+    middleName: 'Omoye',
+    email: 'omoyeberry@gmail.com',
+    password: bcrypt.hashSync('password', 7),
+    image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
+    supervisorId: 5,
+    bsmId: 6,
+    branchId: 2,
+    roleId: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('Staff')
 };

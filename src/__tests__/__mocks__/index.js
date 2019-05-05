@@ -17,7 +17,10 @@ export const mockReq = {
 
 export const mockStaff = {
   password: 'password',
-  role: { name: 'someRoleName' }
+  role: { name: 'someRoleName' },
+  email: {},
+  supervisor: {},
+  BSM: {}
 };
 
 export const models = {

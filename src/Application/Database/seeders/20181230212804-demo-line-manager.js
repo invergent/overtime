@@ -30,6 +30,22 @@ module.exports = {
     email: 'jonz.super@init.com',
     createdAt: new Date(),
     updatedAt: new Date()
+  },
+  {
+    lineManagerRole: 'Supervisor',
+    firstname: 'James',
+    lastname: 'Enejo',
+    email: 'spec.en.james@gmail.com',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    lineManagerRole: 'BSM',
+    firstname: 'James',
+    lastname: 'Enejo',
+    email: 'jillandroid@gmail.com',
+    createdAt: new Date(),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('LineManagers')
 };

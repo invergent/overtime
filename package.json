@@ -18,7 +18,8 @@
     "db:seed": "sequelize db:seed:all",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo:all",
-    "db:rollmigrate": "yarn db:rollback && yarn db:migrate && yarn db:seed"
+    "db:rollmigrate": "yarn db:rollback && yarn db:migrate && yarn db:seed",
+    "switch-environment": "nvm use v11.1.0"
   },
   "repository": {
     "type": "git",
