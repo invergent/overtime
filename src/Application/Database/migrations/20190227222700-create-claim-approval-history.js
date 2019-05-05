@@ -6,6 +6,9 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
+    approvalType: {
+      type: Sequelize.STRING
+    },
     claimId: {
       type: Sequelize.INTEGER,
       onDelete: 'CASCADE',

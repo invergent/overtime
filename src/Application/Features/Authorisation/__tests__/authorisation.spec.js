@@ -22,14 +22,13 @@ describe('Authorisation Unit Tests', () => {
       expect(result[1]).toBe('An error occurred ERR500STFLGN.');
     });
 
-    it('should identify a first time signin', async () => {
+    it('should login a staff with plain text password as "password"', async () => {
       jest.spyOn(Staff, 'findOne').mockResolvedValue(mockStaff);
 
-      const [statusCode, message, data] = await Authorisation.authoriseStaff(mockReq);
+      const [statusCode, message] = await Authorisation.authoriseStaff(mockReq);
 
       expect(statusCode).toBe(200);
       expect(message).toBe('Login successful!');
-      expect(data.firstSignin).toBe(true);
     });
   });
 

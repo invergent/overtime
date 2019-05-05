@@ -44,7 +44,7 @@ class ClaimService {
 
     const [updated, claim] = await ClaimService.updateClaim(tenantRef, updatePayload, claimId);
     const history = await ClaimApprovalHistoryService.createApprovalHistory(
-      claimId, lineManagerId
+      approvalType, claimId, lineManagerId
     );
 
     const updatedClaim = { ...claim[0], history: history.dataValues };

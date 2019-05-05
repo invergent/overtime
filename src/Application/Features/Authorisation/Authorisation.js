@@ -13,11 +13,13 @@ class Authorisation {
       const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['role']);
       if (!staff) return [404, 'Staff not found'];
 
-      const [statusCode, message, data] = AuthorisationHelpers.comparePassword(password, staff);
-      if (statusCode !== 200) return [statusCode, message, data];
+      const [statusCode, message] = AuthorisationHelpers.comparePassword(password, staff);
+      if (statusCode !== 200) return [statusCode, message];
 
-      return AuthorisationHelpers.createStaffToken(staff, data, tokenType);
+      return AuthorisationHelpers.createStaffToken(staff, tokenType);
     } catch (e) {
+      console.log(e);
+      
       return [500, `An error occurred ERR500${errorCode}.`];
     }
   }

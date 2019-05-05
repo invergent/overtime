@@ -129,7 +129,7 @@ module.exports = {
                   <p>You can click the button below to see the progress of your pending claim.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="{{url}}/users/claims/pending" target="_blank">
+                  <a href="{{url}}/staff/pending-claim" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>
@@ -165,7 +165,7 @@ module.exports = {
                   <p>You can click the button below to see the progress of your pending claim.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="{{url}}/users/claims/pending" target="_blank">
+                  <a href="{{url}}/staff/pending-claim" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>
@@ -201,7 +201,7 @@ module.exports = {
                   <p>You can click the button below to see the progress of your pending claim.</p>
                 </div>
                 <div class="button-wrapper">
-                  <a href="{{url}}/users/claims/pending" target="_blank">
+                  <a href="{{url}}/staff/pending-claim" target="_blank">
                     <button>View pending claims</button>
                   </a>
                 </div>

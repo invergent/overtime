@@ -1,9 +1,10 @@
 import services from '../utilities/services';
 import helpers from '../utilities/helpers';
+import models from '../../Database/models';
 
 const { ClaimHelpers, UsersHelpers } = helpers;
-
 const { ActivityService, StaffService } = services;
+const { Claims } = models;
 
 class Staff {
   static async dashboardData(req) {
@@ -39,7 +40,19 @@ class Staff {
       const refinedStaffData = UsersHelpers.refineUserData(staffData);
       return [200, 'Request successful', refinedStaffData];
     } catch (e) {
+      console.log(e);
+      
       return [500, 'An error occurred ERR500PROFIL.'];
+    }
+  }
+
+  static async claimHistory(req) {
+    const { tenantRef, currentStaff: { id } } = req;
+    try {
+      const staffClaimsData = await StaffService.fetchStaffByPk(tenantRef, id, [Claims], [[Claims, 'createdAt', 'DESC']]);
+      return [200, 'Request successful', staffClaimsData.Claims];
+    } catch (e) {
+      return [500, 'An error occurred ERR500STFCLM.'];
     }
   }
 }

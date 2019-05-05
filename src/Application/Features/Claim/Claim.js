@@ -25,6 +25,8 @@ class Claim {
 
       return created ? [201, messageWhenCreated, claim] : [409, messageWhenNotCreated, claim];
     } catch (e) {
+      console.log(e);
+      
       return [500, 'There was a problem submitting your request ERR500CLMCRT'];
     }
   }

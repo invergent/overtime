@@ -105,6 +105,10 @@ class Controller {
     return Responder.respond(req, res, Users.Staff.profileData);
   }
 
+  static async staffClaimHistory(req, res) {
+    return Responder.respond(req, res, Users.Staff.claimHistory);
+  }
+
   static async uploadImage(req, res) {
     return Responder.respond(req, res, imageUpload);
   }

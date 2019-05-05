@@ -53,7 +53,7 @@ class EmailNotifications {
 
   static notifySupervisorOfNewClaim(data) {
     // if supervisor email address is set
-    if (data.staff['supervisor.email']) {
+    if (data.staff.supervisor.email) {
       const newData = { ...data, lineManagerRole: roleNames.supervisor };
       EmailNotifications.sendLineManagerNotifications(newData);
     }
@@ -61,7 +61,7 @@ class EmailNotifications {
 
   static notifyBSMSupervisorApproved(data) {
     // if supervisor email address is set
-    if (data.staff['BSM.email']) {
+    if (data.staff.BSM.email) {
       // set lineManager role to BSM to notify BSM
       const newData = { ...data, lineManagerRole: roleNames.BSM };
       EmailNotifications.sendLineManagerNotifications(newData);

@@ -14,7 +14,7 @@ class NotificationsHelpers {
     const emailTemplateName = lineManagerRole === roleNames.BSM
       ? templateNames.NewClaimBSM : templateNames.NewClaimSupervisor;
     const id = lineManagerRole === roleNames.BSM
-      ? staff['BSM.id'] : staff['supervisor.id'];
+      ? staff.BSM.id : staff.supervisor.id;
 
     const payload = { id, lineManagerRole };
     const hashedToken = krypter.authenticationEncryption('lineManager', payload);
