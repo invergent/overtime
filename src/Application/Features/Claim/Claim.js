@@ -70,7 +70,7 @@ class Claim {
     const staff = await StaffService.fetchStaffByPk(tenantRef, data.requester, ['supervisor', 'BSM', 'company']);
     notifications.emit(
       eventNames[`${lineManagerRole}${approvalType}`], [{
-        tenantRef, staff, lineManagerRole, claimId
+        tenantRef, staff: staff.toJSON(), lineManagerRole, claimId
       }]
     );
 

@@ -2,7 +2,7 @@ const headerAndFooterContent = require('../seederHelper/emailTemplateHeaderAndFo
 
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('EmailTemplate', [{
-    name: 'Reset',
+    name: 'Reset Staff',
     description: 'Reset passwords',
     subject: 'Password Reset',
     htmlMessage: `<html lang="en" dir="ltr">
@@ -144,7 +144,7 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    name: 'Supervisor Approved',
+    name: 'Supervisor Approved Staff',
     description: 'Notify staff when supervisor approves claim',
     subject: 'Claim Request: Supervisor Approval',
     htmlMessage: `<html lang="en" dir="ltr">
@@ -180,7 +180,7 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    name: 'BSM Approved',
+    name: 'BSM Approved Staff',
     description: 'Notify staff when BSM approves claim',
     subject: 'Claim Request: BSM Approval',
     htmlMessage: `<html lang="en" dir="ltr">
@@ -216,7 +216,7 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    name: 'Supervisor Declined',
+    name: 'Supervisor Declined Staff',
     description: 'Notify staff when Supervisor declines claim',
     subject: 'Claim Request: Supervisor Approval',
     htmlMessage: `<html lang="en" dir="ltr">
@@ -247,7 +247,7 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    name: 'BSM Declined',
+    name: 'BSM Declined Staff',
     description: 'Notify staff when BSM declines claim',
     subject: 'Claim Request: BSM Approval',
     htmlMessage: `<html lang="en" dir="ltr">
@@ -278,7 +278,7 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    name: 'Claim Cancelled',
+    name: 'Claim Cancelled Staff',
     description: 'Notify staff when staff cancels claim request',
     subject: 'Claim Request Cancelled',
     htmlMessage: `<html lang="en" dir="ltr">
@@ -309,7 +309,7 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    name: 'Claim Completed',
+    name: 'Claim Completed Staff',
     description: 'Notify staff when claim request has been processed',
     subject: 'Claim Request Completed',
     htmlMessage: `<html lang="en" dir="ltr">
@@ -340,7 +340,7 @@ module.exports = {
     updatedAt: new Date()
   },
   {
-    name: 'Pending Claim Reminder',
+    name: 'Pending Claim Reminder Staff',
     description: 'Notify staff of claim yet to be approved',
     subject: 'Pending Claim Reminder',
     htmlMessage: `<html lang="en" dir="ltr">

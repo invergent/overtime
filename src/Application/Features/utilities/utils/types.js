@@ -1,15 +1,15 @@
 export const templateNames = Object.freeze({
-  Reset: 'Reset',
+  Reset: 'Reset Staff',
   NewClaimSupervisor: 'New Claim Supervisor',
   NewClaimBSM: 'New Claim BSM',
   NewClaimStaff: 'New Claim Staff',
-  supervisorApproved: 'Supervisor Approved',
-  supervisorDeclined: 'Supervisor Declined',
-  BSMApproved: 'BSM Approved',
-  BSMDeclined: 'BSM Declined',
-  Cancelled: 'Claim Cancelled',
-  Completed: 'Claim Completed',
-  Reminder: 'Pending Claim Reminder'
+  supervisorApproved: 'Supervisor Approved Staff',
+  supervisorDeclined: 'Supervisor Declined Staff',
+  BSMApproved: 'BSM Approved Staff',
+  BSMDeclined: 'BSM Declined Staff',
+  Cancelled: 'Claim Cancelled Staff',
+  Completed: 'Claim Completed Staff',
+  Reminder: 'Pending Claim Reminder Staff'
 });
 
 export const roleNames = Object.freeze({

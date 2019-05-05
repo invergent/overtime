@@ -32,7 +32,7 @@ class EmailNotifications {
 
     const newStaff = {
       ...staff,
-      lineManagerEmailAddress: staff[`${lineManagerRole}.email`]
+      lineManagerEmailAddress: staff[lineManagerRole].email
     };
 
     return EmailNotifications.sendNotificationEmail(tenantRef, newStaff, emailTemplateName, hashedToken);
