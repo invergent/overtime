@@ -33,8 +33,7 @@ class ClaimService {
   }
 
   static fetchPendingClaimsForLineManagers(tenantRef, lineManager) {
-    const queryOptions = GenericHelpers.createQueryOptions(tenantRef, lineManager);
-
+    const queryOptions = GenericHelpers.createLineManagerQueryOptions(tenantRef, lineManager);
     return LineManagers.findOne(queryOptions);
   }
 

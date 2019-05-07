@@ -31,13 +31,13 @@ class Claim {
 
   static async sendPendingClaimsTolineManager(req) {
     const { tenantRef, lineManager } = req;
-    const filteredResults = await ClaimHelpers.pendingClaimsForlineManager(tenantRef, lineManager);
+    const results = await ClaimHelpers.pendingClaimsForlineManager(tenantRef, lineManager);
     // An empty result still returned the manager's details.
     // This checks if claims were also returned
-    if (filteredResults.length <= 1 && !filteredResults[0].staffId) {
-      return [404, 'You currently have no pending claims to approve.'];
+    if (!results.pendingClaims.length) {
+      return [404, 'You currently have no pending claims to approve.', results];
     }
-    return [200, `You have ${filteredResults.length} claims to approve.`, filteredResults];
+    return [200, `You have ${results.pendingClaims.length} claims to approve.`, results];
   }
 
   static async checkThatClaimIsAssignedToLineManager(tenantRef, lineManager, claimId) {

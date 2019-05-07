@@ -16,7 +16,7 @@ class GenericHelpers {
     return payload;
   }
 
-  static createQueryOptions(tenantRef, lineManager) {
+  static createLineManagerQueryOptions(tenantRef, lineManager) {
     const { id, lineManagerRole } = lineManager;
     const bsmOrSupervisorStaff = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
 
@@ -32,9 +32,7 @@ class GenericHelpers {
           model: Claims,
           where: claimsWhereOptions
         }]
-      }],
-      plain: false,
-      raw: true
+      }]
     };
 
     return options;
