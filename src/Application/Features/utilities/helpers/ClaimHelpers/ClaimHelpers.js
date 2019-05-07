@@ -36,27 +36,26 @@ class ClaimHelpers {
   }
 
   static filterQueryResult(queryResult, lineManagerRole) {
-    const staff = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
+    const property = lineManagerRole === 'BSM' ? 'bsmStaff' : 'supervisorStaff';
+    const pendingClaims = queryResult[property];
 
-    return queryResult.map((result) => {
+    if (!pendingClaims.length) {
+      return [];
+    }
+
+    return pendingClaims.map((result) => {
       const {
-        [`${staff}.staffId`]: staffId,
-        [`${staff}.firstname`]: staffFirstName,
-        [`${staff}.lastname`]: staffLastName,
-        [`${staff}.image`]: image,
-        [`${staff}.Claims.id`]: claimId,
-        [`${staff}.Claims.monthOfClaim`]: monthOfClaim,
-        [`${staff}.Claims.weekday`]: weekday,
-        [`${staff}.Claims.weekend`]: weekend,
-        [`${staff}.Claims.shift`]: shift,
-        [`${staff}.Claims.status`]: status
+        staffId, firstname, lastname, image, Claims
       } = result;
+      const {
+        id, monthOfClaim, weekday, weekend, shift, status
+      } = Claims[0];
       return {
         staffId,
-        staffFirstName,
-        staffLastName,
+        firstname,
+        lastname,
         image,
-        claimId,
+        id,
         monthOfClaim,
         weekday,
         weekend,
@@ -83,19 +82,20 @@ class ClaimHelpers {
   }
 
   static getIdsOfFilteredPendingClaims(filteredPendingClaims) {
-    return filteredPendingClaims.map(claim => claim.claimId);
+    return filteredPendingClaims.map(claim => claim.id);
   }
 
   static async pendingClaimsForlineManager(tenantRef, lineManager) {
     const { lineManagerRole } = lineManager;
-    const pendingClaims = await ClaimService.fetchPendingClaimsForLineManagers(tenantRef, lineManager);
-    const filteredResults = ClaimHelpers.filterQueryResult(pendingClaims, lineManagerRole);
-    return filteredResults;
+    const results = await ClaimService.fetchPendingClaimsForLineManagers(tenantRef, lineManager);
+    const { firstname, lastname } = results; // line manager details
+    const filteredResults = ClaimHelpers.filterQueryResult(results.toJSON(), lineManagerRole);
+    return { lineManager: { firstname, lastname }, pendingClaims: filteredResults };
   }
 
   static async getIdsOfClaimsAssignedToLineManager(tenantRef, lineManager) {
-    const filteredResults = await ClaimHelpers.pendingClaimsForlineManager(tenantRef, lineManager);
-    const pendingClaimIds = ClaimHelpers.getIdsOfFilteredPendingClaims(filteredResults);
+    const result = await ClaimHelpers.pendingClaimsForlineManager(tenantRef, lineManager);
+    const pendingClaimIds = ClaimHelpers.getIdsOfFilteredPendingClaims(result.pendingClaims);
     return pendingClaimIds;
   }
 
