@@ -3,8 +3,8 @@ import features from '../Features';
 import Responder from './Responder';
 
 const {
-  Authorisation, updateBranch, addOrChangeLineManager, PasswordReset, ChangePassword, Claim,
-  exportDoc, Settings, Administration, Users, imageUpload
+  Authorisation, Branch, LineManager, PasswordReset, ChangePassword, Claim,
+  exportDoc, Settings, Administration, Users, imageUpload, ProfileUpdate, Roles
 } = features;
 
 class Controller {
@@ -21,11 +21,11 @@ class Controller {
   }
 
   static async updateBranch(req, res) {
-    return Responder.respond(req, res, updateBranch);
+    return Responder.respond(req, res, Branch.update);
   }
 
   static async addOrChangeLineManager(req, res) {
-    return Responder.respond(req, res, addOrChangeLineManager);
+    return Responder.respond(req, res, LineManager.addOrChangeLineManager);
   }
 
   static async forgotPassword(req, res) {
@@ -111,6 +111,22 @@ class Controller {
 
   static async uploadImage(req, res) {
     return Responder.respond(req, res, imageUpload);
+  }
+
+  static async updateProfileInfo(req, res) {
+    return Responder.respond(req, res, ProfileUpdate.profileInfo);
+  }
+
+  static async fetchLineManagers(req, res) {
+    return Responder.respond(req, res, LineManager.fetchLineManagers);
+  }
+
+  static async fetchBranches(req, res) {
+    return Responder.respond(req, res, Branch.fetchBranches);
+  }
+
+  static async fetchRoles(req, res) {
+    return Responder.respond(req, res, Roles.fetchRoles);
   }
 }
 

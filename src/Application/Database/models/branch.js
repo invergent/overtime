@@ -5,7 +5,7 @@ const branch = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
-    branchName: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true

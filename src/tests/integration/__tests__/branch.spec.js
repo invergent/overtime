@@ -8,7 +8,7 @@ jest.mock('@sendgrid/mail');
 const { Staff } = models;
 const branchDetails = { branchId: 2 };
 
-describe('INIT: Update branch', () => {
+describe('Branch', () => {
   let server;
   let request;
 
@@ -22,7 +22,7 @@ describe('INIT: Update branch', () => {
     server.close(done);
   });
 
-  describe('Branch update tests', () => {
+  describe('Get/Create/Update branch', () => {
     let token;
 
     beforeAll(async () => {
@@ -97,6 +97,14 @@ describe('INIT: Update branch', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Branch updated successfully.');
+    });
+
+    it('should respond with a list of branches', async () => {
+      const response = await request.get('/branches').set('cookie', token);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Request successful!');
+      expect(response.body.data).toHaveLength(12);
+      expect(response.body.data[0]).toHaveProperty('name');
     });
 
     it('should respond with an error message if an error occurs', async () => {

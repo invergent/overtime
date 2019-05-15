@@ -4,9 +4,15 @@ import OvertimeRequestValidator from './OvertimeRequestValidator';
 import Dates from '../../Features/utilities/helpers/Dates';
 import { staffIdRegex, emailRegex } from '../../Features/utilities/utils/inputValidator';
 
+const {
+  getMethodName, validatorResponder, checkPatternedFields, checkDocTypeParam, checkFileType
+} = ValidatorHelpers;
+
 class InputValidator {
   static checkProps(req, res, next) {
-    const methodName = ValidatorHelpers.getMethodName(req.path);
+    const methodName = getMethodName(req.path);
+    console.log(req.files);
+    
     const missingProps = Validator.checkProps(req.files || req.body, methodName);
 
     if (missingProps.trim().length) {
@@ -18,10 +24,10 @@ class InputValidator {
   }
 
   static checkEntries(req, res, next) {
-    const methodName = ValidatorHelpers.getMethodName(req.path);
+    const methodName = getMethodName(req.path);
     const errors = Validator[methodName](req.files || req.body);
 
-    return ValidatorHelpers.validatorResponder(res, errors, next);
+    return validatorResponder(res, errors, next);
   }
 
   static checkBranchId(req, res, next) {
@@ -36,14 +42,14 @@ class InputValidator {
   static validateForgotPasswordRequest(req, res, next) {
     const { staffId, email } = req.body;
     let error = ['Please provide either email or password'];
-    if (!staffId && !email) return ValidatorHelpers.validatorResponder(res, error, next);
+    if (!staffId && !email) return validatorResponder(res, error, next);
 
     const fieldValue = staffId || email;
     const fieldName = staffId ? 'Staff ID' : 'Email address';
     const regex = staffId ? staffIdRegex : emailRegex;
-    error = ValidatorHelpers.checkPatternedFields(fieldName, fieldValue, regex);
+    error = checkPatternedFields(fieldName, fieldValue, regex);
 
-    return ValidatorHelpers.validatorResponder(res, error, next);
+    return validatorResponder(res, error, next);
   }
 
   static checkOvertimeProps(req, res, next) {
@@ -51,7 +57,7 @@ class InputValidator {
     
     const errors = OvertimeRequestValidator.checkOvertimeProps(body, staffRole);
 
-    return ValidatorHelpers.validatorResponder(res, errors, next);
+    return validatorResponder(res, errors, next);
   }
 
   static checkOvertimeValues(req, res, next) {
@@ -59,18 +65,24 @@ class InputValidator {
     const daysInAMonth = Dates.countWeekdaysAndWeekendsOfAMonth();
     const errors = OvertimeRequestValidator.checkOvertimeEntries(body, daysInAMonth);
 
-    return ValidatorHelpers.validatorResponder(res, errors, next);
+    return validatorResponder(res, errors, next);
   }
 
   static checkDocType(req, res, next) {
     const { params: { docType } } = req;
-    const errors = ValidatorHelpers.checkDocTypeParam(docType);
-    return ValidatorHelpers.validatorResponder(res, errors, next);
+    const errors = checkDocTypeParam(docType);
+    return validatorResponder(res, errors, next);
   }
 
   static checkFileType(req, res, next) {
-    const errors = ValidatorHelpers.checkFileType(req.files);
-    return ValidatorHelpers.validatorResponder(res, errors, next);
+    const errors = checkFileType(req.files);
+    return validatorResponder(res, errors, next);
+  }
+
+  static validateProfileEdit(req, res, next) {
+    if (!Object.keys(req.body).length) return validatorResponder(res, ['You sent an empty request.']);
+    const errors = Validator.profile(req.body);
+    return validatorResponder(res, errors, next);
   }
 
   // static checkParams(req, res, next) {

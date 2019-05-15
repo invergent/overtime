@@ -7,9 +7,12 @@ class LineManagerService {
     const { email } = lineManagerDetails;
     return LineManagers.findOrCreate({
       where: { email },
-      defaults: lineManagerDetails,
-      raw: true
+      defaults: lineManagerDetails
     });
+  }
+
+  static fetchLineManagers() {
+    return LineManagers.findAll();
   }
 }
 

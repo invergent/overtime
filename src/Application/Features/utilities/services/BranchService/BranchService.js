@@ -8,6 +8,10 @@ class BranchService {
   static bulkCreateBranches(listOfBranches) {
     return BasicQuerier.bulkCreate('Branch', listOfBranches);
   }
+
+  static fetchBranches() {
+    return BasicQuerier.findAll('Branch')
+  }
 }
 
 export default BranchService;

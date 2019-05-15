@@ -24,6 +24,10 @@ class BasicQuerier {
   static bulkCreate(model, list) {
     return models[model].bulkCreate(list, { returning: true, raw: true, plain: false });
   }
+
+  static findAll(model) {
+    return models[model].findAll();
+  }
 }
 
 export default BasicQuerier;

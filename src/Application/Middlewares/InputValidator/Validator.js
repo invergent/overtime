@@ -1,8 +1,10 @@
 import ValidatorHelpers from './ValidatorHelpers';
 
 import {
-  emailRegex, staffIdRegex, solIdRegex, formProperties
+  emailRegex, staffIdRegex, solIdRegex, formProperties, phoneRegex, numberRegex
 } from '../../Features/utilities/utils/inputValidator';
+
+const { checkPatternedFields, checkForEmptyFields, checkLineManagerRole } = ValidatorHelpers;
 
 class Validator {
   static checkProps(reqObject, methodName) {
@@ -102,13 +104,31 @@ class Validator {
   }
 
   static branches(rowValues) {
-    const [emptyCell, branchName, solId] = rowValues; // eslint-disable-line
+    const [emptyCell, name, solId] = rowValues; // eslint-disable-line
     const errors = [];
 
-    errors.push(...ValidatorHelpers.checkForEmptyFields('Branch Name', branchName));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Branch Name', name));
     errors.push(...ValidatorHelpers.checkPatternedFields('Sol ID', solId, solIdRegex));
 
     return Validator.errorDecider(errors);
+  }
+
+  static profile(profileInfo) {
+    const errors = [];
+    const {
+      staffId, firstname, lastname, email, phone, supervisorId, bsmId, roleId, branchId
+    } = profileInfo;
+
+    errors.push(...ValidatorHelpers.checkPatternedFields('Email Address', email, emailRegex));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Firstname', firstname, true));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Lastname', lastname, true));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Phone', phone, phoneRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('roleId', roleId, numberRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('Supervisor ID', supervisorId, numberRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('BSM ID', bsmId, numberRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('Branch ID', branchId, numberRegex));
+
+    return errors;
   }
 }
 
