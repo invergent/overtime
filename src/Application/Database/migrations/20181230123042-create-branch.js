@@ -11,7 +11,7 @@ module.exports = {
       allowNull: false,
       unique: true
     },
-    branchName: {
+    name: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true

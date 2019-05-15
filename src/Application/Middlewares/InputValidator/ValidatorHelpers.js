@@ -1,8 +1,7 @@
 class ValidatorHelpers {
-  static checkForEmptyFields(field, value) {
-    if (!value || !value.trim()) {
-      return [`${field} is required`];
-    }
+  static checkForEmptyFields(field, value, optional) {
+    if (!value && optional) return []; // do not return errors if field is optional 
+    if (!value || !value.trim()) return [`${field} is required`];
     return [];
   }
 
@@ -73,7 +72,7 @@ class ValidatorHelpers {
       default:
         methodName = path.slice(1);
     }
-    return this.convetWordToCamelCase(methodName);
+    return ValidatorHelpers.convetWordToCamelCase(methodName);
   }
 
   static convetWordToCamelCase(word) {

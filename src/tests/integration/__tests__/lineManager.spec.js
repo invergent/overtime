@@ -26,7 +26,7 @@ const supervisorsIncorrectDetails = {
 
 tenantsInfo.INIT = { emailAddress: 'someEmailAddress' };
 
-describe('INIT: Add or Change Line Manager', () => {
+describe('Line Manager', () => {
   let server;
   let request;
 
@@ -40,7 +40,7 @@ describe('INIT: Add or Change Line Manager', () => {
     server.close(done);
   });
 
-  describe('Supervisor tests', () => {
+  describe('GET/Create/Update Line managers', () => {
     let token;
 
     beforeAll(async () => {
@@ -57,6 +57,7 @@ describe('INIT: Add or Change Line Manager', () => {
 
     afterEach(() => {
       jest.resetAllMocks();
+      jest.clearAllMocks();
     });
 
     it('should fail if staff is not logged in', async () => {
@@ -151,6 +152,14 @@ describe('INIT: Add or Change Line Manager', () => {
       expect(response.body.message).toEqual('BSM updated successfully.');
     });
 
+    it('should respond with a list of line managers', async () => {
+      const response = await request.get('/line-managers').set('cookie', token);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Request successful!');
+      expect(response.body.data).toHaveLength(8);
+      expect(response.body.data[0]).toHaveProperty('lineManagerRole');
+    });
+
     it('should respond with an error message if an error occurs', async () => {
       const err = new Error('Not working');
       jest.spyOn(LineManagers, 'findOrCreate').mockRejectedValue(err);
@@ -165,7 +174,7 @@ describe('INIT: Add or Change Line Manager', () => {
     });
 
     it('should respond with an error message if authentication fails', async () => {
-      jwt.verify = jest.fn(() => { throw new Error(); });
+      jest.spyOn(jwt, 'verify').mockImplementation(() => { throw new Error(); });
 
       const response = await request
         .post('/users/profile/line-manager')

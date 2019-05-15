@@ -25,6 +25,7 @@ const setupApp = async () => {
 
   app.use(fileUpload({
     abortOnLimit: true,
+    limits: { fileSize: 5000000 },
     responseOnLimit: 'File too large',
     useTempFiles: true,
     tempFileDir: `${__dirname}/uploads/`

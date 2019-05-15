@@ -15,15 +15,15 @@ const {
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
   submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
   markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData, staffClaimHistory,
-  uploadImage
+  uploadImage, updateProfileInfo, fetchLineManagers, fetchBranches, fetchRoles
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
-  checkDocType, checkOvertimeValues, checkFileType
+  checkDocType, checkOvertimeValues, checkFileType, validateProfileEdit
 } = InputValidator;
 const {
   authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager,
-  destroyToken, authenticatePasswordReset
+  destroyToken, authenticatePasswordReset, authenticateAdminOrStaff
 } = Authenticator;
 
 router.post('/signin', checkProps, checkEntries, authoriseStaff);
@@ -32,10 +32,15 @@ router.post('/forgot-password', validateForgotPasswordRequest, forgotPassword);
 router.get('/confirm-reset-request', confirmPasswordResetRequest);
 router.get('/destroy-token', destroyToken);
 
+router.get('/line-managers', authenticateAdminOrStaff, fetchLineManagers);
 router.get('/line-manager/verify', verifyLineManager, authoriseLineManager);
 router.get('/line-manager/claims/pending', authenticateLineManager, pendingClaimsForlineManagers);
 router.put('/line-manager/claims/pending/:claimId/approve', authenticateLineManager, approveClaim);
 router.put('/line-manager/claims/pending/:claimId/decline', authenticateLineManager, declineClaim);
+
+router.get('/branches', authenticateAdminOrStaff, fetchBranches);
+
+router.get('/roles', authenticateAdminOrStaff, fetchRoles);
 
 router.get('/users/claims/statistics', authenticateStaff, staffClaimStats);
 router.get('/users/claims/pending', authenticateStaff, staffClaimStats);
@@ -46,6 +51,7 @@ router.delete('/users/claims/:claimId', authenticateStaff, validateClaimAccess, 
 router.get('/users/activities', authenticateStaff, staffActivities);
 
 router.get('/users/profile', authenticateStaff, staffProfileData);
+router.put('/users/profile', authenticateAdminOrStaff, validateProfileEdit, updateProfileInfo);
 router.post('/users/profile/image', authenticateStaff, checkProps, checkFileType, uploadImage);
 router.post('/users/profile/change-password', authenticateStaff, checkProps, checkEntries, changePassword);
 router.post('/users/profile/line-manager', authenticateStaff, checkProps, checkEntries, addOrChangeLineManager);

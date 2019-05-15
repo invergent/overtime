@@ -137,7 +137,7 @@ describe('Admin Administration', () => {
       expect(response.body.message).toEqual('10 branches created successfully.');
       expect(response.body.data).toHaveLength(10);
       expect(response.body.data[0]).toHaveProperty('solId');
-      expect(response.body.data[0]).toHaveProperty('branchName');
+      expect(response.body.data[0]).toHaveProperty('name');
     });
 
     it('should fail if branch already exists.', async () => {

@@ -6,9 +6,9 @@ class AdministrationHelpers {
 
     worksheet.eachRow((row) => {
       // eslint-disable-next-line
-      const [emptyCell, staffId, firstname, lastname, middleName, email] = row.values;
+      const [emptyCell, staffId, firstname, lastname, middleName, email, phone] = row.values;
       arrayOfStaff.push({
-        tenantRef, staffId, firstname, lastname, middleName, email
+        tenantRef, staffId, firstname, lastname, middleName, email, phone
       });
     });
 
@@ -20,9 +20,9 @@ class AdministrationHelpers {
 
     worksheet.eachRow((row) => {
       // eslint-disable-next-line
-      const [emptyCell, branchName, solId] = row.values;
+      const [emptyCell, name, solId] = row.values;
       arrayOfBranches.push({
-        tenantRef, branchName, solId
+        tenantRef, name, solId
       });
     });
 
@@ -43,7 +43,7 @@ class AdministrationHelpers {
         'Staff.lastname': lastname,
         'Staff.middleName': middlename,
         'Staff.branch.solId': solId,
-        'Staff.branch.branchName': branch,
+        'Staff.branch.name': branch,
         'Staff.role.name': role
       } = result;
       return {

@@ -13,10 +13,12 @@ export default async (req) => {
     const { url, secure_url: secureUrl } = response;
 
     // update staff data with image url
-    StaffService.updateStaffInfo(tenantRef, staffId, { image: secureUrl });
+    await StaffService.updateStaffInfo(tenantRef, staffId, { image: secureUrl });
 
     return [201, 'Image upload successful.', { url, secureUrl }];
   } catch (e) {
+    console.log(e);
+    
     return [500, 'An error occurred while uploading your image ERR500IMGUPL.'];
   } finally {
     fs.remove(image.tempFilePath.split('/tmp')[0]); // remove upload folder

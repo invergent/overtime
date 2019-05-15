@@ -1,3 +1,4 @@
+import ActivityService from './ActivityService';
 import BasicQuerier from './BasicQuerier';
 import BranchService from './BranchService';
 import EmailService from './EmailService';
@@ -6,10 +7,10 @@ import ClaimApprovalHistoryService from './ClaimApprovalHistoryService';
 import LineManagerService from './LineManagerService';
 import NotificationService from './NotificationService';
 import PasswordResetService from './PasswordResetService';
+import RoleService from './RoleService';
 import SettingService from './SettingService';
 import StaffService from './StaffService';
 import TenantService from './TenantService';
-import ActivityService from './ActivityService';
 
 export default {
   ActivityService,
@@ -21,6 +22,7 @@ export default {
   LineManagerService,
   NotificationService,
   PasswordResetService,
+  RoleService,
   SettingService,
   StaffService,
   TenantService

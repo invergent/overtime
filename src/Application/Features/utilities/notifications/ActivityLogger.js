@@ -18,7 +18,7 @@ class ActivityLogger {
   }
 
   static refineChangeBranchLog(data) {
-    return `Updated branch to ${data.branchName}`;
+    return `Updated branch to ${data.name}`;
   }
 }
 
