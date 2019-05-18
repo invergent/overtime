@@ -44,7 +44,7 @@ describe('INIT: Change Password Tests', () => {
 
     it('should fail if staff is not logged in', async () => {
       const response = await request
-        .post('/users/profile/change-password')
+        .post('/change-password')
         .set('Accept', 'application/json')
         .send(changePasswordCredentials);
 
@@ -57,7 +57,7 @@ describe('INIT: Change Password Tests', () => {
       incorrectChangePasswordCredentials.currentPassword = 'changeIt';
 
       const response = await request
-        .post('/users/profile/change-password')
+        .post('/change-password')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(incorrectChangePasswordCredentials);
@@ -71,7 +71,7 @@ describe('INIT: Change Password Tests', () => {
       incorrectChangePasswordCredentials.newPassword = 'changeIt';
 
       const response = await request
-        .post('/users/profile/change-password')
+        .post('/change-password')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(incorrectChangePasswordCredentials);
@@ -83,7 +83,7 @@ describe('INIT: Change Password Tests', () => {
 
     it('should fail if any of the fields are missing', async () => {
       const response = await request
-        .post('/users/profile/change-password')
+        .post('/change-password')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({});
@@ -96,7 +96,7 @@ describe('INIT: Change Password Tests', () => {
 
     it('should change password successfully', async () => {
       const response = await request
-        .post('/users/profile/change-password')
+        .post('/change-password')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(changePasswordCredentials);
@@ -107,7 +107,7 @@ describe('INIT: Change Password Tests', () => {
 
     it('should fail if another change password request is sent with the old credentials', async () => {
       const response = await request
-        .post('/users/profile/change-password')
+        .post('/change-password')
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send(changePasswordCredentials);
