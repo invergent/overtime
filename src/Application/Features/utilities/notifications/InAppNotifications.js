@@ -32,13 +32,17 @@ class InAppNotifications {
   }
 
   static recordAndNotifyStaff(data, notificationSource) {
-    const { tenantRef, staff, claimId } = data;
+    const { staff, claimId } = data;
+    const type = notificationSource.includes('Declined') ? 'Declined' : 'Approved';
     const message = notificationActivities[notificationSource];
-
+    console.log(notificationSource);
+    
     pusher.trigger(`${staff.staffId}`, notificationSource, { message });
 
-    const notification = { activity: message, userId: staff.id, claimId };
-    return NotificationService.createNotification(tenantRef, notification);
+    const notification = {
+      activity: message, type, userId: staff.id, claimId
+    };
+    return NotificationService.createNotification(notification);
   }
 
   static async recordAndNotifyManyStaff(data) {

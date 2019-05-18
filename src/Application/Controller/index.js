@@ -4,7 +4,8 @@ import Responder from './Responder';
 
 const {
   Authorisation, Branch, LineManager, PasswordReset, ChangePassword, Claim,
-  exportDoc, Settings, Administration, Users, imageUpload, ProfileUpdate, Roles
+  exportDoc, Settings, Administration, Users, imageUpload, ProfileUpdate, Roles,
+  Notifications
 } = features;
 
 class Controller {
@@ -127,6 +128,14 @@ class Controller {
 
   static async fetchRoles(req, res) {
     return Responder.respond(req, res, Roles.fetchRoles);
+  }
+
+  static async fetchNotifications(req, res) {
+    return Responder.respond(req, res, Notifications.getNotifications);
+  }
+
+  static async markNotificationsAsReadAndViewed(req, res) {
+    return Responder.respond(req, res, Notifications.markAsViewedAndRead);
   }
 }
 

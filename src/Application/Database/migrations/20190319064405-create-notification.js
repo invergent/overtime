@@ -10,6 +10,10 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false
     },
+    type: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     claimId: {
       type: Sequelize.INTEGER
     },
@@ -23,6 +27,10 @@ module.exports = {
       }
     },
     read: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    viewed: {
       type: Sequelize.BOOLEAN,
       defaultValue: false
     },

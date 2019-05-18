@@ -11,6 +11,7 @@ import Roles from './Roles';
 import Settings from './Settings';
 import Users from './Users';
 import ProfileUpdate from './ProfileUpdate';
+import Notifications from './Notifications';
 
 
 export default {
@@ -22,6 +23,7 @@ export default {
   ChangePassword,
   Claim,
   exportDoc,
+  Notifications,
   Roles,
   Settings,
   ProfileUpdate,

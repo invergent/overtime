@@ -4,6 +4,10 @@ const notifications = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     claimId: {
       type: DataTypes.INTEGER
     },
@@ -11,6 +15,10 @@ const notifications = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     read: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    viewed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
