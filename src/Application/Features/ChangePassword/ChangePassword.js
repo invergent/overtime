@@ -34,6 +34,9 @@ class ChangePassword {
   }
 
   static currentPasswordIsCorrect(currentPasswordFromUser, currentPasswordFromDB) {
+    if (currentPasswordFromUser === currentPasswordFromDB) {
+      return true;
+    }
     return bcrypt.compare(currentPasswordFromUser, currentPasswordFromDB);
   }
 }
