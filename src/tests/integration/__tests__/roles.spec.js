@@ -37,7 +37,7 @@ describe('Branch', () => {
       const response = await request.get('/roles').set('cookie', token);
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Request successful!');
-      expect(response.body.data).toHaveLength(4);
+      expect(response.body.data).toHaveLength(5);
       expect(response.body.data[0]).toHaveProperty('name');
     });
   });

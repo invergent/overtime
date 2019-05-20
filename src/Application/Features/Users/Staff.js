@@ -32,10 +32,12 @@ class Staff {
   }
 
   static async profileData(req) {
-    const { tenantRef, currentStaff: { id } } = req;
+    const { tenantRef, currentStaff, currentAdmin } = req;
+    const currentUser = currentStaff || currentAdmin;
     const includes = ['supervisor', 'BSM', 'role', 'branch'];
+    
     try {
-      const staffData = await StaffService.fetchStaffByPk(tenantRef, id, includes);
+      const staffData = await StaffService.fetchStaffByPk(tenantRef, currentUser.id, includes);
       const refinedStaffData = UsersHelpers.refineUserData(staffData);
       return [200, 'Request successful', refinedStaffData];
     } catch (e) {

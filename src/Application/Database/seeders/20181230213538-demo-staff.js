@@ -14,7 +14,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 4,
     bsmId: 2,
-    roleId: 1,
+    roleId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -31,7 +31,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 1,
     bsmId: 2,
-    roleId: 2,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -48,7 +48,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 4,
     bsmId: 2,
-    roleId: 3,
+    roleId: 4,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -65,7 +65,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 4,
     bsmId: 2,
-    roleId: 2,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -82,7 +82,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 4,
     bsmId: 2,
-    roleId: 2,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -99,7 +99,7 @@ module.exports = {
     branchId: 2,
     supervisorId: 4,
     bsmId: 2,
-    roleId: 2,
+    roleId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -116,7 +116,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 1,
     bsmId: 3,
-    roleId: 4,
+    roleId: 5,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -133,7 +133,7 @@ module.exports = {
     branchId: 1,
     supervisorId: 1,
     bsmId: 3,
-    roleId: 3,
+    roleId: 4,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -147,7 +147,7 @@ module.exports = {
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
     phone: '08065432122',
-    roleId: 3,
+    roleId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -164,7 +164,7 @@ module.exports = {
     supervisorId: 4,
     bsmId: 2,
     branchId: 2,
-    roleId: 3,
+    roleId: 4,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -181,7 +181,7 @@ module.exports = {
     supervisorId: 5,
     bsmId: 6,
     branchId: 2,
-    roleId: 3,
+    roleId: 4,
     createdAt: new Date(),
     updatedAt: new Date()
   }]),

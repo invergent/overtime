@@ -4,17 +4,19 @@ import AuthorisationHelpers from '../utilities/helpers/AuthorisationHelpers';
 const { StaffService } = services;
 
 class Authorisation {
-  static async runAuthorisation(req, tokenType) {
-    const { body: { staffId, email, password }, tenantRef } = req;
+  static async runAuthorisation(req) {
+    const { body: { staffId, email, password }, tenantRef, path } = req;
     const identifier = staffId ? staffId.toUpperCase() : email.toLowerCase();
-    const errorCode = tokenType === 'adminToken' ? 'ADMLGN' : 'STFLGN';
-
+    const errorCode = path.includes('admin') ? 'ADMLGN' : 'STFLGN';
+    
     try {
       const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['role']);
       if (!staff) return [404, 'Staff not found'];
-
+      
+      
       const [statusCode, message] = AuthorisationHelpers.comparePassword(password, staff);
       if (statusCode !== 200) return [statusCode, message];
+      const tokenType = staff.role.name === 'Admin' ? 'adminToken' : 'staffToken';
 
       return AuthorisationHelpers.createStaffToken(staff, tokenType);
     } catch (e) {
