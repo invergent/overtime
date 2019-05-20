@@ -2,10 +2,10 @@ import NotificationService from '../utilities/services/NotificationService';
 
 class Notifications {
   static async getNotifications(req) {
-    const { currentStaff: { id } } = req;
-
+    const { currentStaff, currentAdmin } = req;
+    const currentUser = currentStaff || currentAdmin;
     try {
-      const notifications = await NotificationService.fetchNotifications(id);
+      const notifications = await NotificationService.fetchNotifications(currentUser.id);
       return [200, 'Request successful!', notifications];
     } catch (e) {
       return [500, 'An error occurred ERR500NOTIFS'];

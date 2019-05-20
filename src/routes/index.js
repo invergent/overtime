@@ -55,7 +55,7 @@ router.delete('/users/claims/:claimId', authenticateStaff, validateClaimAccess, 
 
 router.get('/users/activities', authenticateStaff, staffActivities);
 
-router.get('/users/profile', authenticateStaff, staffProfileData);
+router.get('/users/profile', authenticateAdminOrStaff, staffProfileData);
 router.put('/users/profile', authenticateAdminOrStaff, validateProfileEdit, updateProfileInfo);
 router.post('/users/profile/image', authenticateStaff, checkProps, checkFileType, uploadImage);
 router.post('/users/profile/line-manager', authenticateStaff, checkProps, checkEntries, addOrChangeLineManager);

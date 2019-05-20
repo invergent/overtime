@@ -52,7 +52,7 @@ describe('Branch', () => {
         .put('/users/profile')
         .set('cookie', token)
         .set('Accept', 'application/json')
-        .send({ firstname: 'John', lastname: 'Doe', email: 'john.doe@init.com', roleId: 1,  branchId: 2 });
+        .send({ firstname: 'John', lastname: 'Doe', email: 'john.doe@init.com', roleId: 2,  branchId: 2 });
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Profile updated!');
