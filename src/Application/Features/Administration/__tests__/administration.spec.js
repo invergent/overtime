@@ -30,7 +30,17 @@ describe('Administration Unit Tests', () => {
 
       expect(result).toHaveLength(2);
       expect(result[0]).toEqual(500);
-      expect(result[1]).toEqual('There was a problem fetching claims ERR500ADMCLM.');
+      expect(result[1]).toEqual('There was a problem fetching claims ERR500ADMDSH.');
+    });
+
+    it('should send a 500 fail response if an error occurs while fetching chart statistics data.', async () => {
+      jest.spyOn(AdministrationHelpers, 'getChartStatistics').mockRejectedValue('err');
+
+      const result = await Administration.chartStatistics(mockReq);
+
+      expect(result).toHaveLength(2);
+      expect(result[0]).toEqual(500);
+      expect(result[1]).toEqual('There was a problem fetching claims ERR500CHRTST.');
     });
   });
 

@@ -38,10 +38,21 @@ class Administration {
   static async submittedClaims(req) {
     const { tenantRef } = req;
     try {
-      const claims = await AdministrationHelpers.submittedClaimsForAdmin(tenantRef);
-      return [200, `Found ${claims.length} claims`, claims];
+      const submittedClaims = await AdministrationHelpers.submittedClaimsForAdmin(tenantRef);
+      const statistics = await AdministrationHelpers.getClaimStatistics(submittedClaims);
+      return [200, 'Request successful', { submittedClaims, statistics }];
     } catch (e) {
-      return [500, 'There was a problem fetching claims ERR500ADMCLM.'];
+      return [500, 'There was a problem fetching claims ERR500ADMDSH.'];
+    }
+  }
+
+  static async chartStatistics(req) {
+    const { tenantRef } = req;
+    try {
+      const stats = await AdministrationHelpers.getChartStatistics(tenantRef);
+      return [200, 'Request successful', stats];
+    } catch (e) {
+      return [500, 'There was a problem fetching claims ERR500CHRTST.'];
     }
   }
 

@@ -28,6 +28,7 @@ const tenants = (sequelize, DataTypes) => {
     Tenants.hasMany(models.Staff, { as: 'companyStaff', foreignKey: 'tenantRef', sourceKey: 'ref' });
     Tenants.hasMany(models.Claims, { as: 'companyClaims', foreignKey: 'tenantRef' });
     Tenants.hasMany(models.Settings, { as: 'settings', foreignKey: 'tenantRef', sourceKey: 'ref' });
+    Tenants.hasMany(models.ClaimsStatistics, { as: 'stats', foreignKey: 'tenantRef', sourceKey: 'ref' });
   };
   return Tenants;
 };

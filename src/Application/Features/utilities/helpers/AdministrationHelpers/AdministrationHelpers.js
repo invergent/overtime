@@ -68,6 +68,25 @@ class AdministrationHelpers {
     const claims = await ClaimService.fetchSubmittedClaims(tenantRef);
     return AdministrationHelpers.filterAdminClaimsQueryResult(claims);
   }
+
+  static getClaimStatistics(filteredClaims) {
+    const claimStats = {
+      total: filteredClaims.length, approved: 0, declined: 0, pending: 0
+    };
+    return filteredClaims.reduce(AdministrationHelpers.statAccumulator, claimStats);
+  }
+
+  static statAccumulator(acc, claim) {
+    if (['Processing', 'Completed'].includes(claim.status)) acc.approved += 1;
+    if (claim.status.includes('Awaiting')) acc.pending += 1;
+    if (claim.status === 'Declined') acc.declined += 1;
+    if (claim.status === 'Cancelled') acc.total -= 1;
+    return acc;
+  }
+
+  static getChartStatistics(tenantRef) {
+    return ClaimService.getChartStatistics(tenantRef);
+  }
 }
 
 export default AdministrationHelpers;
