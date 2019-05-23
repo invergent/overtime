@@ -70,6 +70,10 @@ class Controller {
     return Responder.respond(req, res, Administration.submittedClaims);
   }
 
+  static async chartStatistics(req, res) {
+    return Responder.respond(req, res, Administration.chartStatistics);
+  }
+
   static async exportDoc(req, res) {
     return Responder.download(req, res, exportDoc);
   }

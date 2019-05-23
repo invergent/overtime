@@ -41,5 +41,15 @@ describe('Users Unit Test', () => {
       expect(result[0]).toEqual(500);
       expect(result[1]).toEqual('An error occurred ERR500PROFIL.');
     });
+
+    it('should fail if an error occurs while attempting to fetch claim history.', async () => {
+      jest.spyOn(StaffService, 'fetchStaffByPk').mockRejectedValue('err');
+
+      const result = await Staff.claimHistory(mockReq);
+
+      expect(result).toHaveLength(2);
+      expect(result[0]).toEqual(500);
+      expect(result[1]).toEqual('An error occurred ERR500CLMHTY.');
+    });
   });
 });

@@ -52,6 +52,7 @@ const setupApp = async () => {
 
   // Schedule jobs
   Cron.Scheduler.scheduleJobs();
+  Cron.Scheduler.scheduleStatsUpdateJob();
 };
 
 setupApp();

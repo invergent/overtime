@@ -3,7 +3,7 @@ import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
 import GenericHelpers from '../../helpers/GenericHelpers';
 import BasicQuerier from '../BasicQuerier';
 
-const { Claims, LineManagers } = models;
+const { Claims, LineManagers, ClaimsStatistics } = models;
 
 class ClaimService {
   static findOrCreateClaim(tenantRef, overtimeRequest) {
@@ -82,6 +82,22 @@ class ClaimService {
   static fetchStaffClaims(tenantRef, staffId, status) {
     const options = GenericHelpers.staffPendingClaimOptions(tenantRef, staffId, status);
     return Claims.findAll(options);
+  }
+
+  static getChartStatistics(tenantRef) {
+    const currentYear = new Date().getFullYear();
+    const options = { where: { tenantRef, year: currentYear } };
+    return ClaimsStatistics.findOne(options);
+  }
+
+  static updateChartStatistics(tenantRef, statPayload) {
+    const currentYear = new Date().getFullYear();
+    const options = { where: { tenantRef, year: currentYear } };
+    return ClaimsStatistics.update(statPayload, options);
+  }
+
+  static createChartStatistics(statPayload) {
+    return ClaimsStatistics.create(statPayload);
   }
 }
 

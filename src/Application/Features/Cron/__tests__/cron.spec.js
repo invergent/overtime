@@ -8,9 +8,10 @@ import { eventNames } from '../../utilities/utils/types';
 import {
   mockSettings, mockStaffWithPendingClaims, mockFilteredStaffWithPendingClaims
 } from '../../../../__tests__/__mocks__';
+import Dates from '../../utilities/helpers/Dates';
 
 const { Scheduler, ScheduledJobs } = Cron;
-const { ClaimService, SettingService } = services;
+const { ClaimService, SettingService, TenantService } = services;
 
 describe('Cron Unit Tests', () => {
   beforeEach(() => jest.resetAllMocks());
@@ -59,5 +60,31 @@ describe('Cron Unit Tests', () => {
     await Scheduler.scheduleJobs();
 
     expect(scheduleAJobFn).toHaveBeenCalledWith(tenantRef, emailSchedule);
+  });
+
+  it('should schedule a job for running and saving claim analytics on the DB[update].', async () => {
+    const tenantsList = jest.spyOn(TenantService, 'fetchAllTenants').mockReturnValue([{}]);
+    const claimservice = jest.spyOn(ClaimService, 'fetchCompletedClaim').mockReturnValue([{}]);
+    const updateStat = jest.spyOn(ClaimService, 'updateChartStatistics').mockReturnValue([{}]);
+
+    await Scheduler.updateTenantsStatistics();
+
+    expect(tenantsList).toHaveBeenCalled();
+    expect(claimservice).toHaveBeenCalled();
+    expect(updateStat).toHaveBeenCalled();
+  });
+
+  it('should schedule a job for running and saving claim analytics on the DB[create].', async () => {
+    const tenantsList = jest.spyOn(TenantService, 'fetchAllTenants').mockReturnValue([{}]);
+    const claimservice = jest.spyOn(ClaimService, 'fetchCompletedClaim').mockReturnValue([{}]);
+    const createStat = jest.spyOn(ClaimService, 'createChartStatistics').mockReturnValue([{}]);
+    const dates = jest.spyOn(Dates, 'getCurrentYearMonth').mockReturnValue({ year: 'year', month: 0 });
+
+    await Scheduler.updateTenantsStatistics();
+
+    expect(tenantsList).toHaveBeenCalled();
+    expect(claimservice).toHaveBeenCalled();
+    expect(createStat).toHaveBeenCalled();
+    expect(dates).toHaveBeenCalled();
   });
 });

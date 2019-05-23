@@ -13,4 +13,22 @@ describe('ClaimService Unit test', () => {
     expect(optionsFn).toHaveBeenCalled();
     expect(claims).toBe('found all');
   });
+
+  it('should update chart statistics', () => {
+    const findAllFn = jest.spyOn(models.ClaimsStatistics, 'update').mockReturnValue('updated');
+
+    const claims = ClaimService.updateChartStatistics('tenantRef', 'payload');
+
+    expect(findAllFn).toHaveBeenCalled();
+    expect(claims).toBe('updated');
+  });
+
+  it('should create a new chart statistics if current month is January', () => {
+    const findAllFn = jest.spyOn(models.ClaimsStatistics, 'create').mockReturnValue('created');
+
+    const claims = ClaimService.createChartStatistics('payload');
+
+    expect(findAllFn).toHaveBeenCalledWith('payload');
+    expect(claims).toBe('created');
+  });
 });

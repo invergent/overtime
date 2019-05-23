@@ -39,8 +39,18 @@ describe('Admin Claim Tests', () => {
       const response = await request.get('/admin/claims').set('cookie', token);
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('Found 14 claims');
-      expect(response.body.data.length).toEqual(14);
+      expect(response.body.message).toEqual('Request successful');
+      expect(response.body.data).toHaveProperty('submittedClaims');
+      expect(response.body.data).toHaveProperty('statistics');
+    });
+
+    it('should get claims statistics for charts on admin dashboard', async () => {
+      const response = await request.get('/admin/claims/chart-statistics').set('cookie', token);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Request successful');
+      expect(response.body.data).toHaveProperty('year');
+      expect(response.body.data).toHaveProperty('Jun');
     });
   });
 });

@@ -16,7 +16,7 @@ const {
   submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
   markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData, staffClaimHistory,
   uploadImage, updateProfileInfo, fetchLineManagers, fetchBranches, fetchRoles, fetchNotifications,
-  markNotificationsAsReadAndViewed
+  markNotificationsAsReadAndViewed, chartStatistics
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
@@ -64,6 +64,7 @@ router.post('/users/profile/reset', authenticatePasswordReset, checkProps, check
 
 
 router.get('/admin/claims', authenticateAdmin, submittedClaims);
+router.get('/admin/claims/chart-statistics', authenticateAdmin, chartStatistics);
 router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exportDoc);
 router.put('/admin/claims/completed', authenticateAdmin, markClaimsAsCompleted);
 
