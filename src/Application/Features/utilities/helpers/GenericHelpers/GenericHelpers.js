@@ -94,8 +94,9 @@ class GenericHelpers {
     };
   }
 
-  static markClaimsAsCompletedQueryOptions(tenantRef) {
-    return GenericHelpers.adminBulkSortQueryOptions(tenantRef, 'Processing');
+  static claimsInProcessingOptions(tenantRef) {
+    const options = GenericHelpers.adminBulkSortQueryOptions(tenantRef, 'Processing');
+    return options;
   }
 
   static fetchCompletedClaimsQueryOptions(tenantRef) {

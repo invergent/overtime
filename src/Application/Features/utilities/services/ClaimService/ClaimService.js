@@ -3,7 +3,9 @@ import ClaimApprovalHistoryService from '../ClaimApprovalHistoryService';
 import GenericHelpers from '../../helpers/GenericHelpers';
 import BasicQuerier from '../BasicQuerier';
 
-const { Claims, LineManagers, ClaimsStatistics } = models;
+const {
+  Claims, LineManagers, ClaimsStatistics, Staff
+} = models;
 
 class ClaimService {
   static findOrCreateClaim(tenantRef, overtimeRequest) {
@@ -73,8 +75,13 @@ class ClaimService {
     return Claims.findAll(options);
   }
 
+  static fetchClaimsInProcessingForExports(tenantRef, statusType) {
+    const options = GenericHelpers.adminFetchClaimOptions(tenantRef, statusType);
+    return Claims.findAll(options);
+  }
+
   static markClaimsAsCompleted(tenantRef) {
-    const options = GenericHelpers.markClaimsAsCompletedQueryOptions(tenantRef);
+    const options = GenericHelpers.claimsInProcessingOptions(tenantRef);
     const payload = { status: 'Completed' };
     return Claims.update(payload, options);
   }
