@@ -32,7 +32,7 @@ class ExportDocHelpers {
   }
 
   static async populateWorkbooksSheetWithData(tenantRef) {
-    const claims = await AdministrationHelpers.submittedClaimsForAdmin(tenantRef);
+    const claims = await AdministrationHelpers.exportableClaims(tenantRef);
     const preparedWorksheet = await ExportDocHelpers.setWorkBookPropertiesAndCreateSheet(tenantRef);
     const worksheetWithHeader = ExportDocHelpers.createDocColumnHeaders(preparedWorksheet);
     ExportDocHelpers.populateRowsWithClaimData(worksheetWithHeader, claims);

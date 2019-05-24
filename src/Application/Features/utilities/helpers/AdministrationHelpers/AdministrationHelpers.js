@@ -69,6 +69,11 @@ class AdministrationHelpers {
     return AdministrationHelpers.filterAdminClaimsQueryResult(claims);
   }
 
+  static async exportableClaims(tenantRef) {
+    const claims = await ClaimService.fetchClaimsInProcessingForExports(tenantRef, 'Processing');
+    return AdministrationHelpers.filterAdminClaimsQueryResult(claims);
+  }
+
   static getClaimStatistics(filteredClaims) {
     const claimStats = {
       total: filteredClaims.length, approved: 0, declined: 0, pending: 0
