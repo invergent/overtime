@@ -64,7 +64,6 @@ class Scheduler {
     const { year, month } = Dates.getCurrentYearMonth();
 
     tenants.forEach(async (tenant) => {
-      console.log(month);
       const claims = await ClaimService.fetchCompletedClaim(tenant.ref);
       const statPayload = { [months[month]]: claims.length };
       

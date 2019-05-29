@@ -19,7 +19,7 @@ class ChangePassword {
       if (!isCorrect) return [401, 'Password is incorrect'];
 
       if (currentPassword === 'password') updatePayload.changedPassword = true;
-      updatePayload.password = newPassword;
+      updatePayload.password = bcrypt.hashSync(newPassword, 8);
 
       const updated = await StaffService.updateStaffInfo(tenantRef, staffId, updatePayload);
 

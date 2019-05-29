@@ -21,6 +21,19 @@ class Administration {
     }
   }
 
+  static async createSingleStaff(req) {
+    const { tenantRef, body } = req;
+    try {
+      const [createdStaff, created] = await StaffService.findOrCreateSingleStaff(tenantRef, body);
+      return created
+        ? [201, 'Staff created Successfully.', createdStaff]
+        : [409, 'Unable to create Staff. One or more fields conflict with existing records'];
+    } catch (e) {
+      console.log(Object.keys(e))
+      return [500, 'There was an error creating staff ERR500CRTSSTF.', e];
+    }
+  }
+
   static async createBranches(req) {
     const { tenantRef, worksheet } = req;
     const worksheetConverter = AdministrationHelpers.convertBranchWorksheetToObjectsArray;
@@ -53,6 +66,18 @@ class Administration {
       return [200, 'Request successful', stats];
     } catch (e) {
       return [500, 'There was a problem fetching claims ERR500CHRTST.'];
+    }
+  }
+
+  static async fetchStaff(req) {
+    const { tenantRef } = req;
+    const attributes = ['staffId', 'firstname', 'lastname', ['email', 'emailAddress'], 'image'];
+    try {
+      const stats = await AdministrationHelpers.fetchStaff(tenantRef, attributes);
+      return [200, 'Request successful', stats];
+    } catch (e) {
+      console.log(e)
+      return [500, 'There was a problem fetching claims ERR500FETSTF.'];
     }
   }
 

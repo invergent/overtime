@@ -86,6 +86,10 @@ class Controller {
     return Responder.respond(req, res, Administration.createStaff);
   }
 
+  static async createSingleStaff(req, res) {
+    return Responder.respond(req, res, Administration.createSingleStaff);
+  }
+
   static async createBranches(req, res) {
     return Responder.respond(req, res, Administration.createBranches);
   }
@@ -136,6 +140,10 @@ class Controller {
 
   static async fetchNotifications(req, res) {
     return Responder.respond(req, res, Notifications.getNotifications);
+  }
+
+  static async fetchStaff(req, res) {
+    return Responder.respond(req, res, Administration.fetchStaff);
   }
 
   static async markNotificationsAsReadAndViewed(req, res) {

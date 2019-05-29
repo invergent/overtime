@@ -28,9 +28,6 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false
     },
-    middleName: {
-      type: Sequelize.STRING
-    },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -44,7 +41,7 @@ module.exports = {
     password: {
       type: Sequelize.STRING,
       allowNull: true,
-      defaultValue: 'initial'
+      defaultValue: 'password'
     },
     image: {
       type: Sequelize.STRING,
