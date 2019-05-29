@@ -1,4 +1,5 @@
 import ClaimService from '../../services/ClaimService';
+import StaffService from '../../services/StaffService';
 
 class AdministrationHelpers {
   static convertStaffWorksheetToObjectsArray(tenantRef, worksheet) {
@@ -6,9 +7,9 @@ class AdministrationHelpers {
 
     worksheet.eachRow((row) => {
       // eslint-disable-next-line
-      const [emptyCell, staffId, firstname, lastname, middleName, email, phone] = row.values;
+      const [emptyCell, staffId, firstname, lastname, email, phone] = row.values;
       arrayOfStaff.push({
-        tenantRef, staffId, firstname, lastname, middleName, email, phone
+        tenantRef, staffId, firstname, lastname, email, phone
       });
     });
 
@@ -41,7 +42,6 @@ class AdministrationHelpers {
         'Staff.staffId': staffId,
         'Staff.firstname': firstname,
         'Staff.lastname': lastname,
-        'Staff.middleName': middlename,
         'Staff.branch.solId': solId,
         'Staff.branch.name': branch,
         'Staff.role.name': role
@@ -55,7 +55,6 @@ class AdministrationHelpers {
         staffId,
         firstname,
         lastname,
-        middlename,
         solId,
         branch,
         monthofclaim,
@@ -91,6 +90,10 @@ class AdministrationHelpers {
 
   static getChartStatistics(tenantRef) {
     return ClaimService.getChartStatistics(tenantRef);
+  }
+
+  static fetchStaff(tenantRef, attributes) {
+    return StaffService.fetchStaff(tenantRef, attributes);
   }
 }
 

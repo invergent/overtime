@@ -19,9 +19,6 @@ const staff = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    middleName: {
-      type: DataTypes.STRING
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -35,14 +32,13 @@ const staff = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: true,
-      defaultValue: 'initial'
+      defaultValue: 'password'
     },
     image: {
       type: DataTypes.STRING
     },
     branchId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     supervisorId: {
       type: DataTypes.INTEGER
@@ -51,8 +47,7 @@ const staff = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     roleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     changedPassword: {
       type: DataTypes.BOOLEAN,
@@ -70,10 +65,6 @@ const staff = (sequelize, DataTypes) => {
     Staff.hasMany(models.Notifications, { as: 'notifications', foreignKey: 'userId' });
     Staff.hasMany(models.Activities, { as: 'activities', foreignKey: 'staffId' });
   };
-
-  Staff.beforeValidate((user) => {
-    user.password = user.password ? bcrypt.hashSync(user.password, 8) : null;
-  });
   return Staff;
 };
 

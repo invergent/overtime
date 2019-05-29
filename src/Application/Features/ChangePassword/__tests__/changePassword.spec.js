@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import ChangePassword from '../ChangePassword';
 import StaffService from '../../utilities/services/StaffService';
 import { mockReq } from '../../../../__tests__/__mocks__';
@@ -27,6 +28,7 @@ describe('ChangePassword Unit test', () => {
     jest.spyOn(StaffService, 'findStaffByStaffIdOrEmail').mockResolvedValue('good');
     jest.spyOn(StaffService, 'updateStaffInfo').mockResolvedValue(false);
     jest.spyOn(ChangePassword, 'currentPasswordIsCorrect').mockReturnValue(true);
+    jest.spyOn(bcrypt, 'hashSync').mockReturnValue('somehash');
     const mockRequest = { body: { currentPassword: 'passworded' }, currentStaff: {} };
 
     const [status, message] = await ChangePassword.processPasswordUpdate(mockRequest);

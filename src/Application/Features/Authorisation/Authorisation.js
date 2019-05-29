@@ -16,12 +16,15 @@ class Authorisation {
       
       const [statusCode, message] = AuthorisationHelpers.comparePassword(password, staff);
       if (statusCode !== 200) return [statusCode, message];
-      const tokenType = staff.role.name === 'Admin' ? 'adminToken' : 'staffToken';
+      let tokenType;
+      if (staff.role) {
+        tokenType = staff.role.name === 'Admin' ? 'adminToken' : 'staffToken';
+      } else {
+        tokenType = path.includes('admin') ? 'adminToken' : 'staffToken';
+      }
 
       return AuthorisationHelpers.createStaffToken(staff, tokenType);
     } catch (e) {
-      console.log(e);
-      
       return [500, `An error occurred ERR500${errorCode}.`];
     }
   }

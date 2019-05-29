@@ -41,6 +41,13 @@ export const formProperties = {
   },
   branches: {
     excelDoc: 'excelDoc'
+  },
+  single: {
+    staffId: 'staffId',
+    firstname: 'firstname',
+    lastname: 'lastname',
+    email: 'email',
+    phone: 'phone'
   }
 };
 

@@ -11,8 +11,6 @@ const {
 class InputValidator {
   static checkProps(req, res, next) {
     const methodName = getMethodName(req.path);
-    console.log(req.files);
-    
     const missingProps = Validator.checkProps(req.files || req.body, methodName);
 
     if (missingProps.trim().length) {
@@ -25,6 +23,7 @@ class InputValidator {
 
   static checkEntries(req, res, next) {
     const methodName = getMethodName(req.path);
+    console.log(methodName)
     const errors = Validator[methodName](req.files || req.body);
 
     return validatorResponder(res, errors, next);

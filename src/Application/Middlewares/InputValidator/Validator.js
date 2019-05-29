@@ -92,7 +92,7 @@ class Validator {
 
   static staff(rowValues) {
     // eslint-disable-next-line
-    const [emptyCell, staffId, firstname, lastname, middleName, emailAddress] = rowValues;
+    const [emptyCell, staffId, firstname, lastname, emailAddress] = rowValues;
     const errors = [];
 
     errors.push(...ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex));
@@ -127,6 +127,21 @@ class Validator {
     errors.push(...ValidatorHelpers.checkPatternedFields('Supervisor ID', supervisorId, numberRegex));
     errors.push(...ValidatorHelpers.checkPatternedFields('BSM ID', bsmId, numberRegex));
     errors.push(...ValidatorHelpers.checkPatternedFields('Branch ID', branchId, numberRegex));
+
+    return errors;
+  }
+
+  static single(staffData) {
+    const errors = [];
+    const {
+      staffId, firstname, lastname, email, phone
+    } = staffData;
+
+    errors.push(...ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex));
+    errors.push(...ValidatorHelpers.checkPatternedFields('Email Address', email, emailRegex));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Firstname', firstname, true));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Lastname', lastname, true));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Phone', phone, phoneRegex));
 
     return errors;
   }

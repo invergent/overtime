@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import models from '../../../../Database/models';
 import BasicQuerier from '../BasicQuerier';
 
@@ -32,6 +33,19 @@ class StaffService {
 
   static bulkCreateStaff(listOfStaff) {
     return BasicQuerier.bulkCreate('Staff', listOfStaff);
+  }
+
+  static findOrCreateSingleStaff(tenantRef, staff) {
+    return Staff.findOrCreate({
+      where: { tenantRef, staffId: staff.staffId },
+      defaults: staff,
+      raw: true
+    });
+  }
+
+  static fetchStaff(tenantRef, attributes) {
+    const options = { where: { tenantRef, staffId: { [Op.notLike]: 'ADMIN%' } }, attributes };
+    return Staff.findAll(options);
   }
 }
 
