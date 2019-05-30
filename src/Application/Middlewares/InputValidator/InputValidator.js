@@ -23,14 +23,17 @@ class InputValidator {
 
   static checkEntries(req, res, next) {
     const methodName = getMethodName(req.path);
-    console.log(methodName)
-    const errors = Validator[methodName](req.files || req.body);
+    const errors = Validator[methodName](req.files || req.body, req.path);
 
     return validatorResponder(res, errors, next);
   }
 
   static checkBranchId(req, res, next) {
     const { branchId } = req.body;
+
+    if (!branchId) {
+      return res.status(400).json({ message: 'branchId is required' });
+    }
 
     if (!Number.isInteger(parseInt(branchId, 10))) {
       return res.status(400).json({ message: 'branchId must be an integer' });

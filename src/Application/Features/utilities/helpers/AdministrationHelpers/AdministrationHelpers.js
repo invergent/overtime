@@ -21,9 +21,9 @@ class AdministrationHelpers {
 
     worksheet.eachRow((row) => {
       // eslint-disable-next-line
-      const [emptyCell, name, solId] = row.values;
+      const [emptyCell, name, solId, address] = row.values;
       arrayOfBranches.push({
-        tenantRef, name, solId
+        tenantRef, name, solId, address
       });
     });
 

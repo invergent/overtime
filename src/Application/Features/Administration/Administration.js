@@ -21,16 +21,18 @@ class Administration {
     }
   }
 
-  static async createSingleStaff(req) {
+  static async createSingleBranchOrStaff(req) {
     const { tenantRef, body } = req;
+    const resource = req.path.includes('branch') ? 'Branch' : 'Staff';
     try {
-      const [createdStaff, created] = await StaffService.findOrCreateSingleStaff(tenantRef, body);
-      return created
-        ? [201, 'Staff created Successfully.', createdStaff]
-        : [409, 'Unable to create Staff. One or more fields conflict with existing records'];
+      const [created, isCreated] = req.path.includes('branch')
+        ? await BranchService.findOrCreateSingleBranch(body)
+        : await StaffService.findOrCreateSingleStaff(tenantRef, body);
+      return isCreated
+        ? [201, `${resource} created successfully.`, created]
+        : [409, `Unable to create ${resource}. One or more fields conflict with existing records`];
     } catch (e) {
-      console.log(Object.keys(e))
-      return [500, 'There was an error creating staff ERR500CRTSSTF.', e];
+      return [500, 'There was an error while creating resource.', e];
     }
   }
 
@@ -73,10 +75,9 @@ class Administration {
     const { tenantRef } = req;
     const attributes = ['staffId', 'firstname', 'lastname', ['email', 'emailAddress'], 'image'];
     try {
-      const stats = await AdministrationHelpers.fetchStaff(tenantRef, attributes);
-      return [200, 'Request successful', stats];
+      const staffList = await AdministrationHelpers.fetchStaff(tenantRef, attributes);
+      return [200, 'Request successful', staffList];
     } catch (e) {
-      console.log(e)
       return [500, 'There was a problem fetching claims ERR500FETSTF.'];
     }
   }

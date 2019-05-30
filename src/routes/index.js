@@ -16,7 +16,7 @@ const {
   submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
   markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData, staffClaimHistory,
   uploadImage, updateProfileInfo, fetchLineManagers, fetchBranches, fetchRoles, fetchNotifications,
-  markNotificationsAsReadAndViewed, chartStatistics, fetchStaff, createSingleStaff
+  markNotificationsAsReadAndViewed, chartStatistics, fetchStaff, createSingleBranchOrStaff
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
@@ -59,7 +59,7 @@ router.get('/users/profile', authenticateAdminOrStaff, staffProfileData);
 router.put('/users/profile', authenticateAdminOrStaff, validateProfileEdit, updateProfileInfo);
 router.post('/users/profile/image', authenticateStaff, checkProps, checkFileType, uploadImage);
 router.post('/users/profile/line-manager', authenticateStaff, checkProps, checkEntries, addOrChangeLineManager);
-router.put('/users/profile/branch', authenticateStaff, checkProps, checkBranchId, updateBranch);
+router.put('/users/profile/branch', authenticateStaff, checkBranchId, updateBranch);
 router.post('/users/profile/reset', authenticatePasswordReset, checkProps, checkEntries, resetPassword);
 
 
@@ -72,9 +72,10 @@ router.put('/admin/settings/email-schedule', authenticateAdmin, checkProps, chec
 
 router.get('/admin/staff', authenticateAdmin, fetchStaff);
 router.post('/admin/staff', authenticateAdmin, checkProps, checkFileType, validateExcelValues, createStaff);
-router.post('/admin/staff/single', authenticateAdmin, checkProps, checkEntries, createSingleStaff);
+router.post('/admin/staff/single', authenticateAdmin, checkProps, checkEntries, createSingleBranchOrStaff);
 
-router.post('/admin/branches', authenticateAdmin, checkProps, checkFileType, validateExcelValues, createBranches);
+router.post('/admin/branch', authenticateAdmin, checkProps, checkFileType, validateExcelValues, createBranches);
+router.post('/admin/branch/single', authenticateAdmin, checkEntries, createSingleBranchOrStaff);
 
 router.get('/', (req, res) => res.status(200).json({ message: `${req.tenantRef} boarded` }));
 

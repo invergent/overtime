@@ -4,8 +4,6 @@ import {
   emailRegex, staffIdRegex, solIdRegex, formProperties, phoneRegex, numberRegex
 } from '../../Features/utilities/utils/inputValidator';
 
-const { checkPatternedFields, checkForEmptyFields, checkLineManagerRole } = ValidatorHelpers;
-
 class Validator {
   static checkProps(reqObject, methodName) {
     const expectedProps = Object.keys(formProperties[methodName]);
@@ -103,12 +101,13 @@ class Validator {
     return Validator.errorDecider(errors);
   }
 
-  static branches(rowValues) {
-    const [emptyCell, name, solId] = rowValues; // eslint-disable-line
+  static branch(rowValues) {
+    const [emptyCell, name, solId, address] = rowValues; // eslint-disable-line
     const errors = [];
 
     errors.push(...ValidatorHelpers.checkForEmptyFields('Branch Name', name));
     errors.push(...ValidatorHelpers.checkPatternedFields('Sol ID', solId, solIdRegex));
+    errors.push(...ValidatorHelpers.checkForEmptyFields('Branch address', address));
 
     return Validator.errorDecider(errors);
   }
@@ -131,17 +130,24 @@ class Validator {
     return errors;
   }
 
-  static single(staffData) {
+  static single(data, path) {
     const errors = [];
     const {
-      staffId, firstname, lastname, email, phone
-    } = staffData;
+      staffId, firstname, lastname, email, phone, solId, name, address
+    } = data;
 
-    errors.push(...ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex));
-    errors.push(...ValidatorHelpers.checkPatternedFields('Email Address', email, emailRegex));
-    errors.push(...ValidatorHelpers.checkForEmptyFields('Firstname', firstname, true));
-    errors.push(...ValidatorHelpers.checkForEmptyFields('Lastname', lastname, true));
-    errors.push(...ValidatorHelpers.checkForEmptyFields('Phone', phone, phoneRegex));
+    if (path.includes('branch')) {
+      errors.push(...ValidatorHelpers.checkPatternedFields('SOL ID', solId, solIdRegex));
+      errors.push(...ValidatorHelpers.checkForEmptyFields('Branch name', name));
+      errors.push(...ValidatorHelpers.checkForEmptyFields('Branch address', address));
+    } else {
+      errors.push(...ValidatorHelpers.checkPatternedFields('Staff ID', staffId, staffIdRegex));
+      errors.push(...ValidatorHelpers.checkPatternedFields('Email Address', email, emailRegex));
+      errors.push(...ValidatorHelpers.checkForEmptyFields('Firstname', firstname));
+      errors.push(...ValidatorHelpers.checkForEmptyFields('Lastname', lastname));
+      errors.push(...ValidatorHelpers.checkForEmptyFields('Phone', phone, phoneRegex));
+    }
+
 
     return errors;
   }
