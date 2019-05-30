@@ -114,21 +114,21 @@ describe('Admin Administration', () => {
   describe('Bulk Create Branches with excel upload.', () => {
     it('should fail if excel data set contain invalid entries.', async () => {
       const response = await request
-        .post('/admin/branches')
+        .post('/admin/branch')
         .set('Content-Type', 'multipart/form-data')
         .attach('excelDoc', `${__dirname}/testFiles/validBranchesWithErrors.xlsx`, 'branches.xlsx')
         .set('cookie', token);
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual('3 rows contain errors.');
-      expect(response.body.rowsWithErrors).toHaveLength(3);
+      expect(response.body.message).toEqual('4 rows contain errors.');
+      expect(response.body.rowsWithErrors).toHaveLength(4);
       expect(response.body.rowsWithErrors[0]).toHaveProperty('line');
       expect(response.body.rowsWithErrors[0]).toHaveProperty('errors');
     });
 
     it('should successfully create all branches listed in the excel document.', async () => {
       const response = await request
-        .post('/admin/branches')
+        .post('/admin/branch')
         .set('Content-Type', 'multipart/form-data')
         .attach('excelDoc', `${__dirname}/testFiles/validBranches.xlsx`, 'branches.xlsx')
         .set('cookie', token);
@@ -138,17 +138,51 @@ describe('Admin Administration', () => {
       expect(response.body.data).toHaveLength(10);
       expect(response.body.data[0]).toHaveProperty('solId');
       expect(response.body.data[0]).toHaveProperty('name');
+      expect(response.body.data[0]).toHaveProperty('address');
     });
 
     it('should fail if branch already exists.', async () => {
       const response = await request
-        .post('/admin/branches')
+        .post('/admin/branch')
         .set('Content-Type', 'multipart/form-data')
         .attach('excelDoc', `${__dirname}/testFiles/validBranches.xlsx`, 'branches.xlsx')
         .set('cookie', token);
 
       expect(response.status).toBe(500);
       expect(response.body.message).toEqual('There was an error creating branches ERR500CRTBRC.');
+    });
+
+    it('should create a single branch.', async () => {
+      const response = await request
+        .post('/admin/branch/single')
+        .set('cookie', token)
+        .set('Accept', 'application/json')
+        .send({ solId: '9898', name: 'Molara', address: 'this is an address' });
+
+      expect(response.status).toBe(201);
+      expect(response.body.message).toEqual('Branch created successfully.');
+    });
+
+    it('should create a single staff.', async () => {
+      const response = await request
+        .post('/admin/staff/single')
+        .set('cookie', token)
+        .set('Accept', 'application/json')
+        .send({
+          staffId: 'TN343434', firstname: 'Joana', lastname: 'Molara', email: 'this@email.com', phone: '080234567890'
+        });
+
+      expect(response.status).toBe(201);
+      expect(response.body.message).toEqual('Staff created successfully.');
+    });
+
+    it('should fetch all staff.', async () => {
+      const response = await request
+        .get('/admin/staff')
+        .set('cookie', token);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual('Request successful');
     });
   });
 

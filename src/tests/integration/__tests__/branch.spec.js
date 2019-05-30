@@ -59,7 +59,7 @@ describe('Branch', () => {
         .send(incorrectBranchDetails);
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual('branchId must be an integer');
+      expect(response.body.message).toEqual('branchId is required');
     });
 
     it('should fail if fields are missing', async () => {
@@ -69,7 +69,7 @@ describe('Branch', () => {
         .set('Accept', 'application/json')
         .send({});
 
-      const expectedMessage = 'The following fields are missing: branchId';
+      const expectedMessage = 'branchId is required';
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual(expectedMessage);
@@ -103,7 +103,7 @@ describe('Branch', () => {
       const response = await request.get('/branches').set('cookie', token);
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Request successful!');
-      expect(response.body.data).toHaveLength(12);
+      expect(response.body.data).toHaveLength(13);
       expect(response.body.data[0]).toHaveProperty('name');
     });
 

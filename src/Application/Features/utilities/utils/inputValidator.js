@@ -13,9 +13,6 @@ export const formProperties = {
     lastname: 'lastname',
     email: 'email'
   },
-  branch: {
-    branchId: 'branchId'
-  },
   image: {
     image: 'image'
   },
@@ -39,7 +36,7 @@ export const formProperties = {
   staff: {
     excelDoc: 'excelDoc'
   },
-  branches: {
+  branch: {
     excelDoc: 'excelDoc'
   },
   single: {

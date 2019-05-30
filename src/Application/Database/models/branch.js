@@ -9,6 +9,11 @@ const branch = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     }
   }, { freezeTableName: true });
 

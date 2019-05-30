@@ -86,8 +86,8 @@ class Controller {
     return Responder.respond(req, res, Administration.createStaff);
   }
 
-  static async createSingleStaff(req, res) {
-    return Responder.respond(req, res, Administration.createSingleStaff);
+  static async createSingleBranchOrStaff(req, res) {
+    return Responder.respond(req, res, Administration.createSingleBranchOrStaff);
   }
 
   static async createBranches(req, res) {
