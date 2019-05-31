@@ -59,18 +59,19 @@ describe('Staff Dashboard Info', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Request successful');
-      expect(response.body.data).toHaveProperty('monthOfClaim');
-      expect(response.body.data).toHaveProperty('amount');
+      expect(response.body.data).toHaveLength(1);
+      expect(response.body.data[0]).toHaveProperty('monthofclaim');
+      expect(response.body.data[0]).toHaveProperty('amount');
     });
 
-    it('should return an empty object if staff does not have a pending claim.', async () => {
+    it('should return an empty array if staff does not have a pending claim.', async () => {
       const response = await request
         .get('/users/claims/pending')
         .set('cookie', token2);
 
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Request successful');
-      expect(response.body.data.monthOfClaim).toBe(undefined);
+      expect(response.body.data).toHaveLength(0);
     });
 
     it("should return staff's recent activities in descending order of occurrence based on limit.", async () => {

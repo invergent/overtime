@@ -18,6 +18,16 @@ module.exports = {
     viewed: false,
     createdAt: new Date('2019-05-18'),
     updatedAt: new Date()
+  },
+  {
+    claimId: null,
+    activity: 'All claims have been approved.',
+    type: 'Approved',
+    userId: 9,
+    read: false,
+    viewed: false,
+    createdAt: new Date('2019-05-18'),
+    updatedAt: new Date()
   }]),
   down: queryInterface => queryInterface.bulkDelete('Notifications')
 };

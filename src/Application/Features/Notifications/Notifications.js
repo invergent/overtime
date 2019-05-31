@@ -13,10 +13,11 @@ class Notifications {
   }
 
   static async markAsViewedAndRead(req) {
-    const { currentStaff: { id } } = req;
+    const { currentStaff, currentAdmin } = req;
+    const currentUser = currentStaff || currentAdmin;
 
     try {
-      const [updated] = await NotificationService.updateNotificationsAsViewedAndRead(id);
+      const [updated] = await NotificationService.updateNotificationsAsViewedAndRead(currentUser.id);
       return [updated ? 200 : 500, `Request ${updated ? '' : 'un'}successful!`];
     } catch (e) {
       return [500, 'An error occurred ERR500NOTVAR'];
