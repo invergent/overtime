@@ -25,7 +25,6 @@ class Authenticator {
   }
 
   static authenticateAdminOrStaff(req, res, next) {
-    console.log(req.cookies)
     if (req.cookies.staffToken) return Authenticator.authenticateStaff(req, res, next);
     if (req.cookies.adminToken) return Authenticator.authenticateAdmin(req, res, next);
     return res.status(401).json({ message: errorToStaff });
