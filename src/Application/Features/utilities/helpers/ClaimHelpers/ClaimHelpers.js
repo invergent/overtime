@@ -117,14 +117,14 @@ class ClaimHelpers {
   static async fetchStaffPendingClaim(tenantRef, staffId) {
     // a hack for a claim that is either awaiting or processing
     const pendingClaim = await ClaimService.fetchStaffClaims(tenantRef, staffId, 'ing');
-    if (!pendingClaim.length) return {};
+    if (!pendingClaim.length) return [];
 
     const {
-      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
+      id, monthOfClaim: monthofclaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
     } = pendingClaim[0];
-    return {
-      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
-    };
+    return [{
+      id, monthofclaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
+    }];
   }
 }
 
