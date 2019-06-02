@@ -38,7 +38,7 @@ class AdministrationHelpers {
         shift,
         amount,
         status,
-        monthOfClaim: monthofclaim,
+        monthOfClaim,
         'Staff.staffId': staffId,
         'Staff.firstname': firstname,
         'Staff.lastname': lastname,
@@ -57,7 +57,7 @@ class AdministrationHelpers {
         lastname,
         solId,
         branch,
-        monthofclaim,
+        monthOfClaim,
         role
       };
     });

@@ -120,10 +120,10 @@ class ClaimHelpers {
     if (!pendingClaim.length) return [];
 
     const {
-      id, monthOfClaim: monthofclaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
+      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
     } = pendingClaim[0];
     return [{
-      id, monthofclaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
+      id, monthOfClaim, weekday, weekend, shift, amount, status, createdAt, approvalHistory
     }];
   }
 }
