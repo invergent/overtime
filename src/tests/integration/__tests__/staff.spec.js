@@ -60,7 +60,7 @@ describe('Staff Dashboard Info', () => {
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual('Request successful');
       expect(response.body.data).toHaveLength(1);
-      expect(response.body.data[0]).toHaveProperty('monthofclaim');
+      expect(response.body.data[0]).toHaveProperty('monthOfClaim');
       expect(response.body.data[0]).toHaveProperty('amount');
     });
 
