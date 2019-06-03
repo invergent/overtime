@@ -149,6 +149,10 @@ class Controller {
   static async markNotificationsAsReadAndViewed(req, res) {
     return Responder.respond(req, res, Notifications.markAsViewedAndRead);
   }
+
+  static async tenantSettings(req, res) {
+    return Responder.respond(req, res, Administration.fetchTenantSettings);
+  }
 }
 
 export default Controller;

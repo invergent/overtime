@@ -35,7 +35,6 @@ class InAppNotifications {
     const { staff, claimId } = data;
     const type = notificationSource.includes('Declined') ? 'Declined' : 'Approved';
     const message = notificationActivities[notificationSource];
-    console.log(notificationSource);
     
     pusher.trigger(`${staff.staffId}`, notificationSource, { message });
 

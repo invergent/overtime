@@ -1,8 +1,9 @@
-import BasicQuerier from "../BasicQuerier";
+import { Op } from 'sequelize';
+import models from '../../../../Database/models';
 
 class RoleService {
   static fetchRoles() {
-    return BasicQuerier.findAll('Roles');
+    return models.Roles.findAll({ where: { name: { [Op.notILike]: '%ADMIN%' } } });
   }
 }
 

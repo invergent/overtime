@@ -19,9 +19,7 @@ export default async (req) => {
     await StaffService.updateStaffInfo(tenantRef, requester.staffId, { image: secureUrl });
 
     return [201, 'Image upload successful.', { url, secureUrl }];
-  } catch (e) {
-    console.log(e);
-    
+  } catch (e) {    
     return [500, 'An error occurred while uploading your image ERR500IMGUPL.'];
   } finally {
     fs.remove(image.tempFilePath.split('/tmp')[0]); // remove upload folder

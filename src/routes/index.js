@@ -16,7 +16,8 @@ const {
   submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
   markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData, staffClaimHistory,
   uploadImage, updateProfileInfo, fetchLineManagers, fetchBranches, fetchRoles, fetchNotifications,
-  markNotificationsAsReadAndViewed, chartStatistics, fetchStaff, createSingleBranchOrStaff
+  markNotificationsAsReadAndViewed, chartStatistics, fetchStaff, createSingleBranchOrStaff,
+  tenantSettings
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
@@ -68,6 +69,7 @@ router.get('/admin/claims/chart-statistics', authenticateAdmin, chartStatistics)
 router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exportDoc);
 router.put('/admin/claims/completed', authenticateAdmin, markClaimsAsCompleted);
 
+router.get('/admin/settings', authenticateAdmin, tenantSettings);
 router.put('/admin/settings/email-schedule', authenticateAdmin, checkProps, checkEntries, updateEmailSchedule);
 
 router.get('/admin/staff', authenticateAdmin, fetchStaff);

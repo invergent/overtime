@@ -4,7 +4,9 @@ import notifications from '../utilities/notifications';
 import { eventNames } from '../utilities/utils/types';
 
 const { AdministrationHelpers } = helpers;
-const { StaffService, BranchService, ClaimService } = services;
+const {
+  StaffService, BranchService, ClaimService, SettingService
+} = services;
 
 class Administration {
   static async createStaff(req) {
@@ -98,6 +100,17 @@ class Administration {
       ];
     } catch (e) {
       return [500, 'An error occurred while marking claims as completed ERR500CLMMCC.', e];
+    }
+  }
+
+  static async fetchTenantSettings(req) {
+    const { tenantRef } = req;
+
+    try {
+      const settings = await SettingService.fetchAllSettings(tenantRef);
+      return [200, 'Request successful!', settings];
+    } catch (e) {
+      return [500, 'An error occurred while fetching settings.', e];
     }
   }
 }

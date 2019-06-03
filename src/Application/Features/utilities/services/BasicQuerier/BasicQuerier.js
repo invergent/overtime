@@ -25,8 +25,8 @@ class BasicQuerier {
     return models[model].bulkCreate(list, { returning: true, raw: true, plain: false });
   }
 
-  static findAll(model) {
-    return models[model].findAll();
+  static findAll(model, options) {
+    return models[model].findAll(options);
   }
 }
 
