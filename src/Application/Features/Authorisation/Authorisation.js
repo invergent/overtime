@@ -8,6 +8,7 @@ class Authorisation {
     const { body: { staffId, email, password }, tenantRef, path } = req;
     const identifier = staffId ? staffId.toUpperCase() : email.toLowerCase();
     const errorCode = path.includes('admin') ? 'ADMLGN' : 'STFLGN';
+    const tokenType = path.includes('admin') ? 'adminToken' : 'staffToken';
     
     try {
       const staff = await StaffService.findStaffByStaffIdOrEmail(tenantRef, identifier, ['role']);
@@ -16,12 +17,6 @@ class Authorisation {
       
       const [statusCode, message] = AuthorisationHelpers.comparePassword(password, staff);
       if (statusCode !== 200) return [statusCode, message];
-      let tokenType;
-      if (staff.role) {
-        tokenType = staff.role.name === 'Admin' ? 'adminToken' : 'staffToken';
-      } else {
-        tokenType = path.includes('admin') ? 'adminToken' : 'staffToken';
-      }
 
       return AuthorisationHelpers.createStaffToken(staff, tokenType);
     } catch (e) {

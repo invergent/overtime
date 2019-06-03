@@ -4,8 +4,10 @@ import BasicQuerier from '../BasicQuerier';
 const { Settings } = models;
 
 class SettingService {
-  static fetchAllSettings() {
-    return Settings.findAll({ raw: true });
+  static fetchAllSettings(tenantRef) {
+    const options = { raw: true };
+    if (tenantRef) options.where = { tenantRef };
+    return Settings.findAll(options);
   }
 
   static updateSettings(tenantRef, updatePayload) {
