@@ -15,10 +15,13 @@ class Administration {
 
     try {
       const staffArray = worksheetConverter(tenantRef, worksheet);
-      const results = await StaffService.bulkCreateStaff(staffArray);
+      const results = await StaffService.bulkCreaateStaff(staffArray);
       const createdStaff = results.map(result => result.dataValues);
       return [201, `${createdStaff.length} staff created successfully.`, createdStaff];
     } catch (e) {
+      if (e.name.includes('UniqueConstraint')) {
+        return [409, e.errors[0].message];
+      }
       return [500, 'There was an error creating staff ERR500CRTSTF.', e];
     }
   }
@@ -34,6 +37,9 @@ class Administration {
         ? [201, `${resource} created successfully.`, created]
         : [409, `Unable to create ${resource}. One or more fields conflict with existing records`];
     } catch (e) {
+      if (e.name.includes('UniqueConstraint')) {
+        return [409, e.errors[0].message];
+      }
       return [500, 'There was an error while creating resource.', e];
     }
   }
@@ -75,7 +81,7 @@ class Administration {
 
   static async fetchStaff(req) {
     const { tenantRef } = req;
-    const attributes = ['staffId', 'firstname', 'lastname', ['email', 'emailAddress'], 'image'];
+    const attributes = ['staffId', 'firstname', 'middlename', 'lastname', ['email', 'emailAddress'], 'image'];
     try {
       const staffList = await AdministrationHelpers.fetchStaff(tenantRef, attributes);
       return [200, 'Request successful', staffList];

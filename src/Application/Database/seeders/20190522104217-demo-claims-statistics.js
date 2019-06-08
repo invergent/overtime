@@ -7,7 +7,6 @@ module.exports = {
     Mar: '300',
     Apr: '280',
     May: '400',
-    Jun: '250',
     createdAt: new Date(),
     updatedAt: new Date()
   }]),
