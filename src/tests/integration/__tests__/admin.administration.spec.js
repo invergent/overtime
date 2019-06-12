@@ -106,8 +106,8 @@ describe('Admin Administration', () => {
         .attach('excelDoc', `${__dirname}/testFiles/validExcel.xlsx`, 'staff.xlsx')
         .set('cookie', token);
 
-      expect(response.status).toBe(500);
-      expect(response.body.message).toEqual('There was an error creating staff ERR500CRTSTF.');
+      expect(response.status).toBe(409);
+      expect(response.body.message).toEqual('staffId must be unique');
     });
   });
 
@@ -169,7 +169,7 @@ describe('Admin Administration', () => {
         .set('cookie', token)
         .set('Accept', 'application/json')
         .send({
-          staffId: 'TN343434', firstname: 'Joana', lastname: 'Molara', email: 'this@email.com', phone: '080234567890'
+          staffId: 'TN343434', firstname: 'Joana', lastname: 'Molara', middlename: 'Rolis', email: 'this@email.com', phone: '080234567890'
         });
 
       expect(response.status).toBe(201);

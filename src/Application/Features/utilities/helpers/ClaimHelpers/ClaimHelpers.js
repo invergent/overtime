@@ -45,7 +45,7 @@ class ClaimHelpers {
 
     return pendingClaims.map((result) => {
       const {
-        staffId, firstname, lastname, image, Claims
+        staffId, firstname, lastname, middlename, image, Claims
       } = result;
       const {
         id, monthOfClaim, weekday, weekend, shift, status
@@ -54,6 +54,7 @@ class ClaimHelpers {
         staffId,
         firstname,
         lastname,
+        middlename,
         image,
         id,
         monthOfClaim,
