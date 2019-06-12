@@ -1,6 +1,7 @@
 export const claimTypeRates = {
   weekday: 150,
   weekend: 800,
+  atm: 3000,
   shift: 800
 };
 
@@ -20,7 +21,7 @@ export const authRoleName = {
 
 export const exportDocHeaders = [
   'S/N', 'Staff ID', 'FirstName', 'LastName', 'MiddleName', 'Role', 'Branch', 'Sol ID',
-  'Weekday', 'Weekend', 'Shift', 'Amount', 'Status', 'Month of Claim'
+  'Weekday', 'Weekend', 'ATM Duty', 'Shift', 'Amount', 'Status', 'Month of Claim'
 ];
 
 export const notificationActivities = {

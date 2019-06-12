@@ -17,6 +17,9 @@ const claims = (sequelize, DataTypes) => {
     weekend: {
       type: DataTypes.INTEGER
     },
+    atm: {
+      type: DataTypes.INTEGER
+    },
     shift: {
       type: DataTypes.INTEGER
     },

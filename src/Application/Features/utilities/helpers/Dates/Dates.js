@@ -26,7 +26,7 @@ class Dates {
         numberOfWeekdays += 1;
       }
     }
-    return [numberOfWeekdays, numberOfWeekdends];
+    return [numberOfWeekdays, numberOfWeekdends, numberOfDaysInPreviousMonth];
   }
 
   static convertPreviousYearMonthToString() {
