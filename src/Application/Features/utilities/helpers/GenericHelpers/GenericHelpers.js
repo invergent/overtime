@@ -81,7 +81,12 @@ class GenericHelpers {
   }
 
   static createColumnHeaderKeys(header) {
-    const key = header.toLowerCase().replace(/\//g, '').replace(/ id/g, 'Id').replace(/ /g, '');
+    const key = header
+      .toLowerCase()
+      .replace(/\//g, '')
+      .replace(/ id/g, 'Id')
+      .replace(/ /g, '')
+      .replace(/monthofclaim/g, 'monthOfClaim');
     return key;
   }
 

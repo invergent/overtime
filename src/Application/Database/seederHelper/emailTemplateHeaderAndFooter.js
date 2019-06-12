@@ -15,6 +15,7 @@ module.exports = function headerAndFooterContent(section) {
           box-sizing: border-box;
         }
         .content-wrapper {
+          background-color: white;
           width: 550px;
           margin: 0 auto 50px;
           text-align: center;
@@ -27,6 +28,7 @@ module.exports = function headerAndFooterContent(section) {
         .header {
           padding: 15px 35px;
           box-sizing: border-box;
+          margin: auto;
         }
         .header img {
           width: 250px;
@@ -42,6 +44,7 @@ module.exports = function headerAndFooterContent(section) {
           color: #001E50;
           margin: 20px auto;
           box-sizing: border-box;
+          text-align: center;
         }
         .body .paragraphs p {
           color: #001E50;
@@ -51,14 +54,13 @@ module.exports = function headerAndFooterContent(section) {
         .body .button-wrapper {
           margin: 30px auto;
         }
-        .body .button-wrapper button {
+        .body .button-wrapper a {
           background-color: #001E50;
           color: white;
           font-size: 16px;
           padding: 15px;
           box-sizing: border-box;
-          border: none;
-          cursor: pointer;
+          text-decoration: none;
         }
         .footer {
           margin-top: 20px;
