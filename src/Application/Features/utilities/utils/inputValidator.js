@@ -43,6 +43,7 @@ export const formProperties = {
     staffId: 'staffId',
     firstname: 'firstname',
     lastname: 'lastname',
+    middlename: 'middlename',
     email: 'email',
     phone: 'phone'
   }

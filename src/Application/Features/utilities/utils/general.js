@@ -19,7 +19,7 @@ export const authRoleName = {
 };
 
 export const exportDocHeaders = [
-  'S/N', 'Staff ID', 'FirstName', 'LastName', 'Role', 'Branch', 'Sol ID',
+  'S/N', 'Staff ID', 'FirstName', 'LastName', 'MiddleName', 'Role', 'Branch', 'Sol ID',
   'Weekday', 'Weekend', 'Shift', 'Amount', 'Status', 'Month of Claim'
 ];
 

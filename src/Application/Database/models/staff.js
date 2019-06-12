@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 const staff = (sequelize, DataTypes) => {
   const Staff = sequelize.define('Staff', {
     tenantRef: {
@@ -18,6 +16,9 @@ const staff = (sequelize, DataTypes) => {
     lastname: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    middlename: {
+      type: DataTypes.STRING
     },
     email: {
       type: DataTypes.STRING,
