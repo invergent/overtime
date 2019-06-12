@@ -19,6 +19,9 @@ module.exports = {
     weekend: {
       type: Sequelize.INTEGER
     },
+    atm: {
+      type: Sequelize.INTEGER
+    },
     shift: {
       type: Sequelize.INTEGER
     },

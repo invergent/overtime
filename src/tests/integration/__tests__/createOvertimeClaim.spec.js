@@ -66,7 +66,7 @@ describe('Create Claim Tests', () => {
         .post('/users/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
-        .send({ shift: 25 });
+        .send({ shift: 35 });
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');

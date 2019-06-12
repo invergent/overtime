@@ -86,6 +86,7 @@ class GenericHelpers {
       .replace(/\//g, '')
       .replace(/ id/g, 'Id')
       .replace(/ /g, '')
+      .replace(/duty/g, '')
       .replace(/monthofclaim/g, 'monthOfClaim');
     return key;
   }

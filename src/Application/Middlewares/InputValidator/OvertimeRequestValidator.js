@@ -12,14 +12,16 @@ class OvertimeRequestValidator {
   }
 
   static checkOvertimeEntries(overtimeRequest, maxValues) {
-    const [numberOfWeekdays, numberOfWeekdends] = maxValues;
+    const [numberOfWeekdays, numberOfWeekdends, totalDays] = maxValues;
     const validator = helpers.validateOvertimeValues;
 
     const errors = Object.keys(overtimeRequest).reduce((acc, item) => {
       if (['weekend', 'atm'].includes(item)) {
         acc.push(...validator(overtimeRequest[item], numberOfWeekdends, item));
-      } else {
+      } else if (item === 'weekday') {
         acc.push(...validator(overtimeRequest[item], numberOfWeekdays, item));
+      } else {
+        acc.push(...validator(overtimeRequest[item], totalDays, item));
       }
       return acc;
     }, []);

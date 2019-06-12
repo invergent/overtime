@@ -42,6 +42,7 @@ class AdministrationHelpers {
       const {
         weekday,
         weekend,
+        atm,
         shift,
         amount,
         status,
@@ -57,6 +58,7 @@ class AdministrationHelpers {
       return {
         weekday,
         weekend,
+        atm,
         shift,
         amount,
         status,
