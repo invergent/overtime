@@ -113,18 +113,16 @@ describe('Create Claim Tests', () => {
       expect(response.body.errors[0]).toEqual('shift is not a recognised property');
     });
 
-    it('should fail if weekend and atm are in the same request', async () => {
+    it('should fail if weekend and atm values combined exceed total weekdays for the month', async () => {
       const response = await request
         .post('/users/claim')
         .set('cookie', token)
         .set('Accept', 'application/json')
-        .send({ weekend: 8, atm: 9 });
-
-      const errorMessage = 'Your request can contain either Weekend or ATM shifts; not both.';
+        .send({ weekend: 8, atm: 6 });
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors[0]).toEqual(errorMessage);
+      expect(response.body.errors[0]).toEqual('Total weekend days exceeded.');
     });
 
     it('should fail if props do not have values', async () => {
