@@ -7,7 +7,7 @@ describe('TenantService Unit tests', () => {
 
     const origins = await TenantService.mapForCors();
 
-    expect(origins.length).toBe(3);
-    expect(origins[2]).toBe('someUrl');
+    expect(origins.length).toBe(5);
+    expect(origins[4]).toBe('someUrl');
   });
 });

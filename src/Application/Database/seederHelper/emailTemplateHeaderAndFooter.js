@@ -29,9 +29,10 @@ module.exports = function headerAndFooterContent(section) {
           padding: 15px 35px;
           box-sizing: border-box;
           margin: auto;
+          text-align: center;
         }
         .header img {
-          width: 250px;
+          width: 80px;
         }
         hr {
           border: 1px solid #001E50;
