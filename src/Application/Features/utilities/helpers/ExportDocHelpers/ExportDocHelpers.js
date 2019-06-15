@@ -16,7 +16,9 @@ class ExportDocHelpers {
   static createDocColumnHeaders(worksheet) {
     const headerKey = GenericHelpers.createColumnHeaderKeys;
 
-    const headerCreator = header => ({ header, key: headerKey(header), width: 10 });
+    const headerCreator = header => ({
+      header, key: headerKey(header), width: 10, style: { font: { name: 'Arial', bold: true } }
+    });
     const columnHeaders = exportDocHeaders.map(headerCreator);
 
     worksheet.columns = columnHeaders;
