@@ -4,7 +4,7 @@ module.exports = {
     businessName: 'Invergent Technologies Limited',
     address: 'This is the address.',
     emailAddress: 'info@invergent-technologies.com',
-    url: 'overtime.invergent-technologies.com',
+    url: 'http://overtime.invergent-technologies.com',
     createdAt: new Date(),
     updatedAt: new Date()
   }]),

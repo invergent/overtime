@@ -18,9 +18,13 @@ const setupApp = async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use(cookieParser());
+  app.use((req, res, next) => {
+    console.log(req.headers);
+    next();
+  });
 
   if (process.env.NODE_ENV !== 'test') {
-    app.use(cors({ allowedOrigins: await TenantService.mapForCors() }));
+    app.use(cors({ allowedOrigins: ['http://overtime.invergent-technologies.com'] }));
   }
 
   app.use(fileUpload({

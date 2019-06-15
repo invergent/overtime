@@ -132,9 +132,9 @@ module.exports = {
   {
     tenantRef: 'INIT',
     staffId: 'ADMIN001',
-    firstname: 'TheAdmin',
-    lastname: 'JustAdmin',
-    email: 'theadmin@init.com',
+    firstname: 'Augustine',
+    lastname: 'Agwai',
+    email: 'augustine@viclawrence.com',
     password: bcrypt.hashSync('password', 7),
     image: 'https://res.cloudinary.com/dbsxxymfz/image/upload/v1536757459/dummy-profile.png',
     phone: '08065432122',
