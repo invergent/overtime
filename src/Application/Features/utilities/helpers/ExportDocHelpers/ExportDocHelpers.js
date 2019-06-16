@@ -17,7 +17,7 @@ class ExportDocHelpers {
     const headerKey = GenericHelpers.createColumnHeaderKeys;
 
     const headerCreator = header => ({
-      header, key: headerKey(header), width: 10, style: { font: { name: 'Arial' } }
+      header, key: headerKey(header), width: 10, style: { font: { name: 'Calibri', family: 4, bold: false } }
     });
     const columnHeaders = exportDocHeaders.map(headerCreator);
 
