@@ -20,8 +20,8 @@ export const authRoleName = {
 };
 
 export const exportDocHeaders = [
-  'S/N', 'Staff ID', 'FirstName', 'LastName', 'MiddleName', 'Role', 'Branch', 'Sol ID',
-  'Weekday', 'Weekend', 'ATM Duty', 'Shift', 'Amount', 'Status', 'Month of Claim'
+  'S/N', 'Staff ID', 'Full Name', 'Role', 'Branch', 'Sol ID', 'Weekday',
+  'Weekend', 'ATM Duty', 'Shift', 'Amount', 'Status', 'Month of Claim'
 ];
 
 export const notificationActivities = {

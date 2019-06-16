@@ -17,17 +17,21 @@ class ExportDocHelpers {
     const headerKey = GenericHelpers.createColumnHeaderKeys;
 
     const headerCreator = header => ({
-      header, key: headerKey(header), width: 10, style: { font: { name: 'Arial', bold: true } }
+      header, key: headerKey(header), width: 10, style: { font: { name: 'Arial' } }
     });
     const columnHeaders = exportDocHeaders.map(headerCreator);
 
     worksheet.columns = columnHeaders;
+    worksheet.getRow(1).font = { bold: true };
     return worksheet;
   }
 
   static populateRowsWithClaimData(worksheet, claims) {
     claims.forEach((claim, index) => {
+      const { firstname, lastname, middlename } = claim;
+      const fullname = `${lastname} ${firstname}${middlename ? ' ' : ''}${middlename || ''}`;
       claim.sn = index + 1;
+      claim.fullname = fullname;
       worksheet.addRow(claim);
     });
     return worksheet;
