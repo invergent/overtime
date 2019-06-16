@@ -37,45 +37,45 @@ describe('Admin Claim Tests', () => {
 
     it('should fail if cron time is not provided', async () => {
       const response = await request
-        .put('/admin/settings/email-schedule')
+        .put('/admin/settings/schedules')
         .send({})
         .set('cookie', token);
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual('The following fields are missing: emailSchedule');
+      expect(response.body.message).toEqual('validationErrors');
     });
 
     it('should fail if specified emailSchedule has no value', async () => {
       const response = await request
-        .put('/admin/settings/email-schedule')
+        .put('/admin/settings/schedules')
         .send({ emailSchedule: '' })
         .set('cookie', token);
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors[0]).toEqual('Enter a valid cron time for email scheduling.');
+      expect(response.body.errors[0]).toEqual('emailSchedule cron time setting is invalid.');
     });
 
     it('should fail if specified cron time is invalid', async () => {
       const response = await request
-        .put('/admin/settings/email-schedule')
+        .put('/admin/settings/schedules')
         .send({ emailSchedule: '* * * *' })
         .set('cookie', token);
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual('validationErrors');
-      expect(response.body.errors[0]).toEqual('Invalid cronTime.');
+      expect(response.body.errors[0]).toEqual('emailSchedule cron time setting is invalid.');
     });
 
     it('should update the email schedule time for the requesting tenant', async () => {
       const scheduleRequest = { emailSchedule: '* * * * *' };
       const response = await request
-        .put('/admin/settings/email-schedule')
+        .put('/admin/settings/schedules')
         .send(scheduleRequest)
         .set('cookie', token);
 
       expect(response.status).toBe(200);
-      expect(response.body.message).toEqual('Success! Pending claim reminders would now be sent Every minute.');
+      expect(response.body.message).toEqual('Update successful!');
       expect(response.body.data[0].emailSchedule).toEqual(scheduleRequest.emailSchedule);
     });
   });

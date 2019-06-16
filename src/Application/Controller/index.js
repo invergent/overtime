@@ -78,8 +78,8 @@ class Controller {
     return Responder.download(req, res, exportDoc);
   }
 
-  static async updateEmailSchedule(req, res) {
-    return Responder.respond(req, res, Settings.updateEmailSchedule);
+  static async updateSchedules(req, res) {
+    return Responder.respond(req, res, Settings.updateSchedules);
   }
 
   static async createStaff(req, res) {

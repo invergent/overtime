@@ -80,12 +80,23 @@ class Validator {
     return Validator.signin(reqObject);
   }
 
-  static emailSchedule(reqObject) {
-    const cronTime = reqObject.emailSchedule.trim();
-    if (!cronTime) {
-      return ['Enter a valid cron time for email scheduling.'];
-    }
-    return cronTime.split(' ').length === 5 ? [] : ['Invalid cronTime.'];
+  static schedules(reqObject) {
+    const expectedProps = Object.keys(formProperties.schedules);
+    const receivedProps = Object.keys(reqObject).filter(prop => (!expectedProps.includes(prop)));
+
+    if (receivedProps.length) return ['Request contains unrecognised props.'];
+
+    const {
+      emailSchedule, overtimeWindowStart, overtimeWindowEnd, overtimeWindowIsActive
+    } = reqObject;
+    const errors = [];
+
+    errors.push(...ValidatorHelpers.checkCronTime('emailSchedule', emailSchedule));
+    errors.push(...ValidatorHelpers.checkCronTime('overtimeWindowStart', overtimeWindowStart));
+    errors.push(...ValidatorHelpers.checkCronTime('overtimeWindowEnd', overtimeWindowEnd));
+    errors.push(...ValidatorHelpers.checkBooleanField('overtimeWindowIsActive', overtimeWindowIsActive, true));
+
+    return errors;
   }
 
   static staff(rowValues) {

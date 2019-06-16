@@ -1,6 +1,6 @@
 class ValidatorHelpers {
   static checkForEmptyFields(field, value, optional) {
-    if (!value && optional) return []; // do not return errors if field is optional 
+    if (!value && optional) return []; // do not return errors if field is optional
     if (!value || !value.trim()) return [`${field} is required`];
     return [];
   }
@@ -51,6 +51,16 @@ class ValidatorHelpers {
     if (!lineManagerRoles.includes(lineManagerRole)) {
       return ['Line Manager role can only be Supervisor or BSM'];
     }
+    return [];
+  }
+
+  static checkCronTime(field, cronTime) {
+    if (typeof cronTime === 'undefined') return [];
+    return cronTime.trim().split(' ').length === 5 ? [] : [`${field} cron time setting is invalid.`];
+  }
+
+  static checkBooleanField(field, value, optional) {
+    if (typeof value !== 'boolean' && !optional) return [`${field} must be a boolean`];
     return [];
   }
 

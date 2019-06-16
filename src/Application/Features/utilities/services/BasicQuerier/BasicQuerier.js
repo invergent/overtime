@@ -15,7 +15,7 @@ class BasicQuerier {
     return models.PasswordResetRequest[method](options);
   }
 
-  static update(tenantRef, model, updatePayload, id, ) {
+  static update(tenantRef, model, updatePayload, id) {
     const options = { where: { tenantRef }, returning: true, raw: true };
     if (id) options.where.id = id;
     return models[model].update(updatePayload, options);

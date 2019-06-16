@@ -93,6 +93,12 @@ class InputValidator {
   //   const error = ValidatorHelpers.validateNumberParam(claimId, 'claimId');
   //   return ValidatorHelpers.validatorResponder(res, error, next);
   // }
+
+  static checkScheduleProps(req, res, next) {
+    if (!Object.keys(req.body).length) return validatorResponder(res, ['You sent an empty request.']);
+    const errors = Validator.schedules(req.body);
+    return validatorResponder(res, errors, next);
+  }
 }
 
 export default InputValidator;

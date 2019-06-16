@@ -1,5 +1,3 @@
-import sinon from 'sinon';
-
 import Cron from '../Scheduler';
 import services from '../../utilities/services';
 import ClaimHelpers from '../../utilities/helpers/ClaimHelpers';
@@ -10,7 +8,7 @@ import {
 } from '../../../../__tests__/__mocks__';
 import Dates from '../../utilities/helpers/Dates';
 
-const { Scheduler, ScheduledJobs } = Cron;
+const { Scheduler } = Cron;
 const { ClaimService, SettingService, TenantService } = services;
 
 describe('Cron Unit Tests', () => {
@@ -53,13 +51,12 @@ describe('Cron Unit Tests', () => {
   });
 
   it('should scheduleJobs based on schedule received from SettingService', async () => {
-    const { tenantRef, emailSchedule } = mockSettings[0];
     const scheduleAJobFn = jest.spyOn(Scheduler, 'scheduleAJob').mockImplementation(() => {});
     jest.spyOn(Scheduler, 'fetchAllSettings').mockResolvedValue(mockSettings);
 
     await Scheduler.scheduleJobs();
 
-    expect(scheduleAJobFn).toHaveBeenCalledWith(tenantRef, emailSchedule);
+    expect(scheduleAJobFn).toHaveBeenCalledTimes(3);
   });
 
   it('should schedule a job for running and saving claim analytics on the DB[update].', async () => {

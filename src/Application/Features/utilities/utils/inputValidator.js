@@ -30,8 +30,11 @@ export const formProperties = {
     weekend: 'weekend',
     atm: 'atm'
   },
-  emailSchedule: {
-    emailSchedule: 'emailSchedule'
+  schedules: {
+    emailSchedule: 'emailSchedule',
+    overtimeWindowStart: 'overtimeWindowStart',
+    overtimeWindowEnd: 'overtimeWindowEnd',
+    overtimeWindowIsActive: 'overtimeWindowIsActive'
   },
   staff: {
     excelDoc: 'excelDoc'
