@@ -10,17 +10,17 @@ describe('Settings Unit Test', () => {
   it('should send a fail message if cron time was not updated.', async () => {
     jest.spyOn(SettingService, 'updateSettings').mockResolvedValue([false, {}]);
 
-    const result = await Settings.updateEmailSchedule(mockReq);
+    const result = await Settings.updateSchedules(mockReq);
 
     expect(result).toHaveLength(3);
     expect(result[0]).toEqual(500);
-    expect(result[1]).toEqual('Cron Time was not updated.');
+    expect(result[1]).toEqual('Schedule was not updated.');
   });
 
   it('should send a 500 response if an error occurs.', async () => {
     jest.spyOn(SettingService, 'updateSettings').mockRejectedValue([false, {}]);
 
-    const result = await Settings.updateEmailSchedule(mockReq);
+    const result = await Settings.updateSchedules(mockReq);
 
     expect(result).toHaveLength(2);
     expect(result[0]).toEqual(500);

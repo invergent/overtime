@@ -1,5 +1,4 @@
 import { CronJob } from 'cron';
-import cronstrue from 'cronstrue';
 import services from '../utilities/services';
 import ClaimHelpers from '../utilities/helpers/ClaimHelpers';
 import notifications from '../utilities/notifications';
@@ -19,8 +18,12 @@ class Scheduler {
     const settings = await Scheduler.fetchAllSettings();
 
     settings.forEach((setting) => {
-      const { tenantRef, emailSchedule } = setting;
-      Scheduler.scheduleAJob(tenantRef, emailSchedule);
+      const {
+        tenantRef, emailSchedule, overtimeWindowStart, overtimeWindowEnd
+      } = setting;
+      Scheduler.scheduleAJob(tenantRef, 'emailSchedule', emailSchedule);
+      Scheduler.scheduleAJob(tenantRef, 'overtimeWindowStart', overtimeWindowStart);
+      Scheduler.scheduleAJob(tenantRef, 'overtimeWindowEnd', overtimeWindowEnd);
     });
   }
 
@@ -36,26 +39,41 @@ class Scheduler {
     notifications.emit(eventNames.Reminder, [tenantRef, filteredStaff]);
   }
 
-  static updateCronJob(tenantRef, cronTime) {
-    Scheduler.stopJobIfRunning(tenantRef);
-    ScheduledJobs[tenantRef] = Scheduler.scheduleAJob(tenantRef, cronTime);
-
-    // convert cron time to words
-    return cronstrue.toString(cronTime);
+  static updateCronJob(tenantRef, scheduleType, schedule) {
+    Scheduler.stopJobIfRunning(tenantRef, scheduleType);
+    if (scheduleType.emailSchedule) {
+      ScheduledJobs[tenantRef].emailSchedule = Scheduler.scheduleAJob(tenantRef, scheduleType, schedule.emailSchedule);
+    } else if (scheduleType.overtimeWindowStart) {
+      ScheduledJobs[tenantRef].overtimeWindowStart = SettingService.updateOvertimeWindow(tenantRef, scheduleType, schedule.overtimeWindowStart);
+    } else {
+      ScheduledJobs[tenantRef].overtimeWindowEnd = SettingService.updateOvertimeWindow(tenantRef, scheduleType, schedule.overtimeWindowEnd);
+    }
   }
 
-  static scheduleAJob(tenantRef, cronTime) {
-    Scheduler.stopJobIfRunning(tenantRef);
-    const job = new CronJob(cronTime, Scheduler.checkPendingClaims, [tenantRef]);
+  static scheduleAJob(tenantRef, scheduleType, cronTime) {
+    // initialise tenant property
+    if (!ScheduledJobs[tenantRef]) ScheduledJobs[tenantRef] = {}; // clear jobs
+
+    console.log(cronTime)
+
+    let job;
+
+    if (scheduleType === 'emailSchedule') {
+      job = new CronJob(cronTime, Scheduler.checkPendingClaims, [tenantRef]);
+    } else {
+      job = new CronJob(cronTime, SettingService.updateOvertimeWindow, [tenantRef, scheduleType]);
+    }
     job.start();
 
     // store jobs for future reference
-    ScheduledJobs[tenantRef] = job;
+    ScheduledJobs[tenantRef][scheduleType] = job;
   }
 
-  static stopJobIfRunning(tenantRef) {
-    const runningJob = ScheduledJobs[tenantRef];
-    if (runningJob) runningJob.stop();
+  static stopJobIfRunning(tenantRef, scheduleType) {
+    const runningJobs = ScheduledJobs[tenantRef];
+
+    if (!runningJobs) return;
+    runningJobs[scheduleType].stop();
   }
 
   static async updateTenantsStatistics() {
@@ -68,6 +86,7 @@ class Scheduler {
       const statPayload = { [months[month]]: claims.length };
       
       if (month === 0) {
+        // if it is a new year, create a new record
         statPayload.tenantRef = tenant.ref;
         statPayload.year = year;
         return ClaimService.createChartStatistics(statPayload);
@@ -77,7 +96,7 @@ class Scheduler {
   }
 
   static scheduleStatsUpdateJob() {
-    // run statistics update on the 27th of every month
+    // run statistics update by 2:00 on the 27th of every month
     const job = new CronJob('0 2 27 * *', Scheduler.updateTenantsStatistics);
     job.start();
   }

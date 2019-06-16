@@ -15,8 +15,20 @@ module.exports = {
       }
     },
     emailSchedule: {
-      type: Sequelize.STRING,
-      allowNull: false
+      type: Sequelize.STRING
+    },
+    overtimeWindowStart: {
+      type: Sequelize.STRING
+    },
+    overtimeWindowEnd: {
+      type: Sequelize.STRING
+    },
+    overtimeWindow: {
+      type: Sequelize.STRING
+    },
+    overtimeWindowIsActive: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     createdAt: {
       allowNull: false,

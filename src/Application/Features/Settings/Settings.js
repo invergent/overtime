@@ -4,18 +4,18 @@ import Cron from '../Cron';
 const { SettingService } = services;
 
 class Settings {
-  static async updateEmailSchedule(req) {
+  static async updateSchedules(req) {
     const { body, tenantRef } = req;
-    let newCronTime;
+    const scheduleType = body.emailSchedule ? 'emailSchedule' : 'overtimeWindowSchedule';
 
     try {
       const [updated, settings] = await SettingService.updateSettings(tenantRef, body);
       if (updated) {
-        newCronTime = Cron.Scheduler.updateCronJob(tenantRef, settings[0].emailSchedule);
+        Cron.Scheduler.updateCronJob(tenantRef, scheduleType, settings[0]);
       }
       return [
         updated ? 200 : 500,
-        updated ? `Success! Pending claim reminders would now be sent ${newCronTime}.` : 'Cron Time was not updated.',
+        updated ? 'Update successful!' : 'Schedule was not updated.',
         settings
       ];
     } catch (e) {

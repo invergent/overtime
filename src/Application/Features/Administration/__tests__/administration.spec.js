@@ -2,6 +2,7 @@ import Administration from '../Administration';
 import helpers from '../../utilities/helpers';
 import services from '../../utilities/services';
 import { mockReq } from '../../../../__tests__/__mocks__';
+import SettingService from '../../utilities/services/SettingService';
 
 const { AdministrationHelpers } = helpers;
 const { StaffService, ClaimService } = services;
@@ -50,6 +51,30 @@ describe('Administration Unit Tests', () => {
 
       const result = await Administration.markClaimsAsCompleted(mockReq);
       const message = 'An error occurred while marking claims as completed ERR500CLMMCC.';
+
+      expect(result).toHaveLength(3);
+      expect(result[0]).toEqual(500);
+      expect(result[1]).toEqual(message);
+    });
+  });
+
+  describe('fetch Tenant settings', () => {
+    it('should send a 200 response on successful claim fetch.', async () => {
+      jest.spyOn(SettingService, 'fetchAllSettings').mockResolvedValueOnce({});
+
+      const result = await Administration.fetchTenantSettings(mockReq);
+      const message = 'Request successful!';
+
+      expect(result).toHaveLength(3);
+      expect(result[0]).toEqual(200);
+      expect(result[1]).toEqual(message);
+    });
+
+    it('should send a 500 fail response if an error occurs while fetching claims.', async () => {
+      jest.spyOn(SettingService, 'fetchAllSettings').mockRejectedValueOnce('err');
+
+      const result = await Administration.fetchTenantSettings(mockReq);
+      const message = 'An error occurred while fetching settings.';
 
       expect(result).toHaveLength(3);
       expect(result[0]).toEqual(500);

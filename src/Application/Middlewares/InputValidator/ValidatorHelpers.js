@@ -54,6 +54,16 @@ class ValidatorHelpers {
     return [];
   }
 
+  static checkCronTime(field, cronTime) {
+    if (typeof cronTime === 'undefined') return [];
+    return cronTime.trim().split(' ').length === 5 ? [] : [`${field} cron time setting is invalid.`];
+  }
+
+  static checkBooleanField(field, value, optional) {
+    if (typeof value !== 'boolean' && !optional) return [`${field} must be a boolean`];
+    return [];
+  }
+
   static getMethodName(path) {
     let methodName;
 

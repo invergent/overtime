@@ -13,6 +13,11 @@ class SettingService {
   static updateSettings(tenantRef, updatePayload) {
     return BasicQuerier.update(tenantRef, 'Settings', updatePayload);
   }
+
+  static async updateOvertimeWindow([tenantRef, scheduleType]) {
+    const overtimeWindow = scheduleType.includes('Start') ? 'Open' : 'Close';
+    return BasicQuerier.update(tenantRef, 'Settings', { overtimeWindow });
+  }
 }
 
 export default SettingService;

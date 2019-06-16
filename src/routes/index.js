@@ -13,7 +13,7 @@ const {
   forgotPassword, authoriseStaff, authoriseAdmin, authoriseLineManager, changePassword,
   updateBranch, confirmPasswordResetRequest, resetPassword, addOrChangeLineManager,
   createOvertimeClaim, pendingClaimsForlineManagers, approveClaim, declineClaim, cancelClaim,
-  submittedClaims, exportDoc, updateEmailSchedule, createStaff, createBranches,
+  submittedClaims, exportDoc, updateSchedules, createStaff, createBranches,
   markClaimsAsCompleted, staffClaimStats, staffActivities, staffProfileData, staffClaimHistory,
   uploadImage, updateProfileInfo, fetchLineManagers, fetchBranches, fetchRoles, fetchNotifications,
   markNotificationsAsReadAndViewed, chartStatistics, fetchStaff, createSingleBranchOrStaff,
@@ -21,7 +21,7 @@ const {
 } = Controller;
 const {
   checkProps, checkEntries, checkBranchId, validateForgotPasswordRequest, checkOvertimeProps,
-  checkDocType, checkOvertimeValues, checkFileType, validateProfileEdit
+  checkDocType, checkOvertimeValues, checkFileType, validateProfileEdit, checkScheduleProps
 } = InputValidator;
 const {
   authenticateAdmin, authenticateStaff, authenticateLineManager, verifyLineManager,
@@ -70,7 +70,7 @@ router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exp
 router.put('/admin/claims/completed', authenticateAdmin, markClaimsAsCompleted);
 
 router.get('/admin/settings', authenticateAdmin, tenantSettings);
-router.put('/admin/settings/email-schedule', authenticateAdmin, checkProps, checkEntries, updateEmailSchedule);
+router.put('/admin/settings/schedules', authenticateAdmin, checkScheduleProps, updateSchedules);
 
 router.get('/admin/staff', authenticateAdmin, fetchStaff);
 router.post('/admin/staff', authenticateAdmin, checkProps, checkFileType, validateExcelValues, createStaff);
