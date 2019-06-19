@@ -69,7 +69,7 @@ router.get('/admin/claims/chart-statistics', authenticateAdmin, chartStatistics)
 router.get('/admin/claims/export/:docType', authenticateAdmin, checkDocType, exportDoc);
 router.put('/admin/claims/completed', authenticateAdmin, markClaimsAsCompleted);
 
-router.get('/admin/settings', authenticateAdmin, tenantSettings);
+router.get('/admin/settings', authenticateAdminOrStaff, tenantSettings);
 router.put('/admin/settings/schedules', authenticateAdmin, checkScheduleProps, updateSchedules);
 
 router.get('/admin/staff', authenticateAdmin, fetchStaff);

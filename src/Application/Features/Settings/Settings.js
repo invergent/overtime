@@ -5,12 +5,13 @@ const { SettingService } = services;
 
 class Settings {
   static async updateSchedules(req) {
-    const { body, tenantRef } = req;
+    const { body, tenantRef, path } = req;
     const scheduleType = body.emailSchedule ? 'emailSchedule' : 'overtimeWindowSchedule';
+    const updateCron = !path.includes('request-window');
 
     try {
       const [updated, settings] = await SettingService.updateSettings(tenantRef, body);
-      if (updated) {
+      if (updated && updateCron) {
         Cron.Scheduler.updateCronJob(tenantRef, scheduleType, settings[0]);
       }
       return [
@@ -19,7 +20,7 @@ class Settings {
         settings
       ];
     } catch (e) {
-      return [500, 'There was an error updating your email schedule ERR500UPDESH.'];
+      return [500, 'There was an error updating your schedule ERR500UPDSCH.'];
     }
   }
 }
