@@ -24,6 +24,6 @@ describe('Settings Unit Test', () => {
 
     expect(result).toHaveLength(2);
     expect(result[0]).toEqual(500);
-    expect(result[1]).toEqual('There was an error updating your email schedule ERR500UPDESH.');
+    expect(result[1]).toEqual('There was an error updating your schedule ERR500UPDSCH.');
   });
 });

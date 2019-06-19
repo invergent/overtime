@@ -41,18 +41,17 @@ class Scheduler {
 
   static updateCronJob(tenantRef, scheduleType, schedule) {
     Scheduler.stopJobIfRunning(tenantRef, scheduleType);
-    if (scheduleType.emailSchedule) {
-      ScheduledJobs[tenantRef].emailSchedule = Scheduler.scheduleAJob(tenantRef, scheduleType, schedule.emailSchedule);
-    } else if (scheduleType.overtimeWindowStart) {
-      ScheduledJobs[tenantRef].overtimeWindowStart = SettingService.updateOvertimeWindow(tenantRef, scheduleType, schedule.overtimeWindowStart);
+    if (scheduleType === 'emailSchedule') {
+      Scheduler.scheduleAJob(tenantRef, scheduleType, schedule.emailSchedule);
     } else {
-      ScheduledJobs[tenantRef].overtimeWindowEnd = SettingService.updateOvertimeWindow(tenantRef, scheduleType, schedule.overtimeWindowEnd);
+      Scheduler.scheduleAJob(tenantRef, 'overtimeWindowStart', schedule.overtimeWindowStart);
+      Scheduler.scheduleAJob(tenantRef, 'overtimeWindowEnd', schedule.overtimeWindowEnd);
     }
   }
 
   static scheduleAJob(tenantRef, scheduleType, cronTime) {
     // initialise tenant property
-    if (!ScheduledJobs[tenantRef]) ScheduledJobs[tenantRef] = {}; // clear jobs
+    if (!ScheduledJobs[tenantRef]) ScheduledJobs[tenantRef] = {};
 
     let job;
 
@@ -69,9 +68,14 @@ class Scheduler {
 
   static stopJobIfRunning(tenantRef, scheduleType) {
     const runningJobs = ScheduledJobs[tenantRef];
-
     if (!runningJobs) return;
-    runningJobs[scheduleType].stop();
+
+    if (scheduleType === 'emailSchedule') {
+      runningJobs[scheduleType].stop();
+    } else {
+      runningJobs.overtimeWindowStart.stop();
+      runningJobs.overtimeWindowEnd.stop();
+    }
   }
 
   static async updateTenantsStatistics() {
